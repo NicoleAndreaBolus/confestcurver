@@ -217,7 +217,9 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
     <div class="sidebar-section">Manage</div>
     <button class="sidebar-link" data-page="orgInvitations"><span class="icon">✉️</span><span>Invitations</span></button>
     <button class="sidebar-link" data-page="orgBusinesses"><span class="icon">🏢</span><span>Businesses</span></button>
+    <button class="sidebar-link" data-page="orgSponsors"><span class="icon">💼</span><span>Sponsor Invites</span></button>
     <button class="sidebar-link" data-page="orgApplications"><span class="icon">📋</span><span>Applications</span></button>
+    <button class="sidebar-link" data-page="orgAccommodations"><span class="icon">🏨</span><span>Accommodations</span></button>
     <div class="sidebar-section">Insights</div>
     <button class="sidebar-link" data-page="orgAnalytics"><span class="icon">📈</span><span>Analytics</span></button>
     <button class="sidebar-link" data-page="orgSettings"><span class="icon">⚙️</span><span>Settings</span></button>
@@ -281,6 +283,8 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
             <button class="btn-eco" style="justify-content:flex-start" onclick="showPage('orgBusinesses')">🏢 Browse Businesses</button>
             <button class="btn-gold" style="justify-content:flex-start" onclick="showPage('orgInvitations')">✉️ Send Invitations</button>
             <button class="btn-ghost" style="justify-content:flex-start" onclick="showPage('orgApplications')">📋 Review Applications</button>
+            <button class="btn-ghost" style="justify-content:flex-start" onclick="showPage('orgSponsors')">💼 Invite Sponsors</button>
+            <button class="btn-ghost" style="justify-content:flex-start" onclick="showPage('orgAccommodations')">🏨 Accommodations</button>
           </div>
         </div>
       </div>
@@ -428,6 +432,74 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
     </div>
 
   </div><!-- /.dashboard-content -->
+
+    <!-- ── SPONSOR INVITATIONS ── -->
+    <div class="dashboard-page" id="orgSponsors">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.875rem">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.25rem">💼 Sponsor Invitations</h2>
+          <p style="font-size:0.8rem;color:var(--sage)">Invite sponsors to your events. Premium sponsors will receive invitations in their portal.</p>
+        </div>
+        <button class="btn-gold" onclick="openModal('sendSponsorInviteModal')">＋ Invite Sponsor</button>
+      </div>
+
+      <div style="display:flex;gap:0.4rem;margin-bottom:1.2rem;flex-wrap:wrap" id="sponsorInvFilterTabs">
+        <button class="filter-tab active" data-status="all"      onclick="filterSponsorInvites('all',this)">All</button>
+        <button class="filter-tab" data-status="pending"         onclick="filterSponsorInvites('pending',this)">⏳ Pending</button>
+        <button class="filter-tab" data-status="accepted"        onclick="filterSponsorInvites('accepted',this)">✅ Accepted</button>
+        <button class="filter-tab" data-status="declined"        onclick="filterSponsorInvites('declined',this)">❌ Declined</button>
+        <button class="filter-tab" data-status="inquired"        onclick="filterSponsorInvites('inquired',this)">🤔 Inquired</button>
+      </div>
+
+      <div class="card-box" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead><tr><th>Company</th><th>Event</th><th>Tier</th><th>Amount</th><th>Sent</th><th>Response</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="sponsorInvTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Received enquiries / responses -->
+      <div id="sponsorInvResponses" style="margin-top:1.4rem"></div>
+    </div>
+
+    <!-- ── ACCOMMODATIONS ── -->
+    <div class="dashboard-page" id="orgAccommodations">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.875rem">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.25rem">🏨 Accommodation Management</h2>
+          <p style="font-size:0.8rem;color:var(--sage)">Manage hotel partnerships and link accommodation recommendations to your events.</p>
+        </div>
+        <a href="../pages/accommodations.html" class="btn-fire" style="text-decoration:none">🤖 Open AI Matching →</a>
+      </div>
+
+      <!-- Partnered hotels summary -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.875rem;margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-icon blue">🏨</div><div><div class="stat-num" id="orgStatHotels">4</div><div class="stat-label">Hotel Partners</div></div></div>
+        <div class="stat-card"><div class="stat-icon eco">🛏️</div><div><div class="stat-num" id="orgStatRooms">960</div><div class="stat-label">Total Partner Rooms</div></div></div>
+        <div class="stat-card"><div class="stat-icon gold">📧</div><div><div class="stat-num" id="orgStatHotelInvites">0</div><div class="stat-label">Hotel Invitations Sent</div></div></div>
+      </div>
+
+      <!-- Per-event hotel assignments -->
+      <div class="card-box" style="margin-bottom:1.4rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.875rem">
+          <h3 class="card-title-sm" style="margin-bottom:0">🎪 Assign Hotels to Events</h3>
+          <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+            <select id="accomEventPicker" class="form-select" style="width:auto;min-width:200px" onchange="renderAccomForEvent()">
+              <option value="">— Select an event —</option>
+            </select>
+            <a href="../pages/accommodations.html" class="btn-ghost btn-sm" style="text-decoration:none;display:inline-flex">🤖 AI Match</a>
+          </div>
+        </div>
+        <div id="accomEventDetail" style="font-size:0.82rem;color:var(--sage)">Select an event to view and manage its hotel recommendations.</div>
+      </div>
+
+      <!-- Partner hotels list -->
+      <div class="card-box">
+        <h3 class="card-title-sm">🏨 Partner Hotels</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem" id="partnerHotelsList"></div>
+      </div>
+    </div>
+
 </main>
 </div><!-- /.dashboard-layout -->
 
@@ -546,6 +618,52 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
   </div>
 </div>
 
+<!-- Sponsor Invite Modal -->
+<div class="modal-overlay" id="sendSponsorInviteModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">💼 Invite a Sponsor</h2>
+      <button class="modal-close" onclick="closeModal('sendSponsorInviteModal')">✕</button>
+    </div>
+    <div style="font-size:0.78rem;color:var(--sage);margin-bottom:1.25rem;padding:0.75rem;background:rgba(212,146,10,0.05);border-radius:8px;border:1px solid rgba(212,146,10,0.15)">
+      ℹ️ Invitations are delivered to Premium-tier sponsors via their Sponsor Portal. Include detailed requirements so sponsors can make an informed decision.
+    </div>
+    <div class="form-group"><label class="form-label">Company Name</label>
+      <input type="text" class="form-input" id="spInvCompany" placeholder="e.g. Kapampangan Corp.">
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Contact Person</label>
+        <input type="text" class="form-input" id="spInvContact" placeholder="Full name">
+      </div>
+      <div class="form-group"><label class="form-label">Contact Email</label>
+        <input type="email" class="form-input" id="spInvEmail" placeholder="sponsor@company.com">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Target Event</label>
+        <select class="form-select" id="spInvEventId"></select>
+      </div>
+      <div class="form-group"><label class="form-label">Sponsorship Tier Offered</label>
+        <select class="form-select" id="spInvTier">
+          <option value="platinum">🥇 Platinum</option>
+          <option value="gold" selected>🥈 Gold</option>
+          <option value="silver">🥉 Silver</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Suggested Sponsorship Amount (₱)</label>
+      <input type="number" class="form-input" id="spInvAmount" placeholder="e.g. 10000" min="500">
+    </div>
+    <div class="form-group"><label class="form-label">Requirements / What Sponsor Gets</label>
+      <textarea class="form-textarea" id="spInvRequirements" placeholder="e.g. Logo on event posters and banners, booth space (10×10ft), speaking slot, social media mentions…" style="min-height:90px"></textarea>
+    </div>
+    <div class="form-group"><label class="form-label">Additional Message</label>
+      <textarea class="form-textarea" id="spInvMessage" placeholder="Personal invitation message to the sponsor..." style="min-height:72px"></textarea>
+    </div>
+    <button class="btn-gold" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="sendSponsorInvitation()">💼 Send Sponsor Invitation →</button>
+  </div>
+</div>
+
 <!-- ══════════════════ SCRIPT ══════════════════ -->
 <script>
 // ── DATA STORE ──────────────────────────────────────────────
@@ -628,7 +746,8 @@ document.addEventListener('click', e => { if (e.target.classList.contains('modal
 const PAGE_TITLES = {
   orgOverview:'Overview', orgEvents:'My Events', orgAnnouncements:'Announcements',
   orgInvitations:'Invitations', orgBusinesses:'Businesses', orgApplications:'Applications',
-  orgAnalytics:'Analytics', orgSettings:'Settings'
+  orgAnalytics:'Analytics', orgSettings:'Settings', orgSponsors:'Sponsor Invitations',
+  orgAccommodations:'Accommodations'
 };
 function showPage(id) {
   document.querySelectorAll('.dashboard-page').forEach(p => p.classList.remove('active'));
@@ -638,13 +757,15 @@ function showPage(id) {
   const link = document.querySelector(`.sidebar-link[data-page="${id}"]`);
   if (link) link.classList.add('active');
   document.getElementById('pageTitle').textContent = PAGE_TITLES[id] || id;
-  if (id === 'orgOverview')     renderOverview();
-  if (id === 'orgEvents')       renderEventsTable();
+  if (id === 'orgOverview')      renderOverview();
+  if (id === 'orgEvents')        renderEventsTable();
   if (id === 'orgAnnouncements') renderAnnouncementsList();
-  if (id === 'orgInvitations')  renderInvitationsTable('all');
-  if (id === 'orgBusinesses')   renderBusinessGrid('all');
-  if (id === 'orgApplications') renderApplicationsList('all');
-  if (id === 'orgAnalytics')    renderAnalytics();
+  if (id === 'orgInvitations')   renderInvitationsTable('all');
+  if (id === 'orgBusinesses')    renderBusinessGrid('all');
+  if (id === 'orgApplications')  renderApplicationsList('all');
+  if (id === 'orgAnalytics')     renderAnalytics();
+  if (id === 'orgSponsors')      renderSponsorInvites('all');
+  if (id === 'orgAccommodations') renderAccommodations();
 }
 document.querySelectorAll('.sidebar-link[data-page]').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -664,10 +785,11 @@ function nextId(arr) { return arr.length ? Math.max(...arr.map(x=>x.id))+1 : 1; 
 // ── POPULATE EVENT SELECTS ────────────────────────────────────
 function populateEventSelects() {
   const all = [...PampangaDB.events, ...getOrgEvents()];
-  ['annEventId','invEventId'].forEach(sid => {
+  ['annEventId','invEventId','spInvEventId','accomEventPicker'].forEach(sid => {
     const sel = document.getElementById(sid);
     if (!sel) return;
-    sel.innerHTML = all.map(e => `<option value="${e.id}">${e.image} ${e.name}</option>`).join('');
+    const placeholder = sid === 'accomEventPicker' ? '<option value="">— Select an event —</option>' : '';
+    sel.innerHTML = placeholder + all.map(e => `<option value="${e.id}">${e.image} ${e.name}</option>`).join('');
   });
   const bizSel = document.getElementById('invBizId');
   if (bizSel) {
@@ -1114,6 +1236,199 @@ function renderAnalytics() {
   }
 }
 
+// ── SPONSOR INVITATIONS ───────────────────────────────────────
+function getSponsorInvites()   { return Storage.get('org_sponsor_invites') || []; }
+function saveSponsorInvites(d) { Storage.set('org_sponsor_invites', d); }
+
+const tierBadge = (t) => {
+  const m = { platinum:'🥇 Platinum', gold:'🥈 Gold', silver:'🥉 Silver' };
+  const cls = { platinum:'badge-accepted', gold:'badge-pending', silver:'badge-hotel' };
+  return `<span class="badge ${cls[t]||'badge-pending'}">${m[t]||t}</span>`;
+};
+
+function sendSponsorInvitation() {
+  const company = document.getElementById('spInvCompany').value.trim();
+  const contact = document.getElementById('spInvContact').value.trim();
+  const email   = document.getElementById('spInvEmail').value.trim();
+  const eventId = parseInt(document.getElementById('spInvEventId').value);
+  const tier    = document.getElementById('spInvTier').value;
+  const amount  = parseFloat(document.getElementById('spInvAmount').value) || 0;
+  const reqs    = document.getElementById('spInvRequirements').value.trim();
+  const message = document.getElementById('spInvMessage').value.trim();
+
+  if (!company) { showToast('Please enter the company name.','warning'); return; }
+  if (!eventId) { showToast('Please select an event.','warning'); return; }
+
+  const all = [...PampangaDB.events, ...getOrgEvents()];
+  const event = all.find(e=>e.id===eventId);
+  const invites = getSponsorInvites();
+  invites.push({
+    id: nextId(invites), company, contact, email, eventId,
+    eventName: event ? event.name : '?', tier, amount,
+    requirements: reqs, message, sentDate: new Date().toISOString(),
+    status: 'pending', response: ''
+  });
+  saveSponsorInvites(invites);
+  closeModal('sendSponsorInviteModal');
+  // reset
+  ['spInvCompany','spInvContact','spInvEmail','spInvAmount','spInvRequirements','spInvMessage'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  renderSponsorInvites('all');
+  renderOverview();
+  showToast(`💼 Sponsor invitation sent to ${company}!`, 'success');
+}
+
+let currentSponsorFilter = 'all';
+function filterSponsorInvites(status, btn) {
+  currentSponsorFilter = status;
+  document.querySelectorAll('#sponsorInvFilterTabs .filter-tab').forEach(t=>t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderSponsorInvites(status);
+}
+
+function renderSponsorInvites(status) {
+  currentSponsorFilter = status;
+  let invites = getSponsorInvites();
+  if (status !== 'all') invites = invites.filter(i=>i.status===status);
+  const tbody = document.getElementById('sponsorInvTableBody');
+  if (!tbody) return;
+  if (!invites.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--sage)">No sponsor invitations${status!=='all'?' with this status':''} yet. <button class="btn-gold btn-sm" onclick="openModal('sendSponsorInviteModal')">Invite a Sponsor →</button></td></tr>`;
+  } else {
+    tbody.innerHTML = invites.slice().reverse().map(inv => `<tr>
+      <td>
+        <div style="font-weight:600;font-size:0.82rem">${inv.company}</div>
+        ${inv.contact?`<div style="font-size:0.72rem;color:var(--sage)">${inv.contact}</div>`:''}
+        ${inv.email?`<div style="font-size:0.7rem;color:var(--sage)">${inv.email}</div>`:''}
+      </td>
+      <td style="font-size:0.78rem">${inv.eventName}</td>
+      <td>${tierBadge(inv.tier)}</td>
+      <td style="font-size:0.82rem;font-weight:700;color:var(--crimson)">${inv.amount?'₱'+Number(inv.amount).toLocaleString():'—'}</td>
+      <td style="font-size:0.75rem;color:var(--sage)">${formatDate(inv.sentDate)}</td>
+      <td style="font-size:0.75rem;color:var(--sage);max-width:140px;white-space:normal">${inv.response||'—'}</td>
+      <td>${statusBadge(inv.status)}</td>
+      <td style="display:flex;gap:0.35rem;flex-wrap:wrap">
+        ${inv.status==='pending'
+          ? `<button class="btn-success" onclick="updateSponsorInviteStatus(${inv.id},'accepted')">✅</button><button class="btn-danger" onclick="updateSponsorInviteStatus(${inv.id},'declined')">❌</button><button class="btn-gold btn-sm" onclick="updateSponsorInviteStatus(${inv.id},'inquired')">🤔</button>`
+          : `<span style="font-size:0.72rem;color:var(--sage)">Resolved</span>`}
+        <button class="btn-ghost btn-sm" onclick="removeSponsorInvite(${inv.id})" title="Delete" style="font-size:0.68rem;padding:0.25rem 0.5rem">🗑</button>
+      </td>
+    </tr>`).join('');
+  }
+  // summary
+  const all = getSponsorInvites();
+  const resp = document.getElementById('sponsorInvResponses');
+  if (resp && all.length) {
+    const accepted = all.filter(i=>i.status==='accepted');
+    const pending  = all.filter(i=>i.status==='pending');
+    const totalCommitted = accepted.reduce((s,i)=>s+Number(i.amount||0),0);
+    resp.innerHTML = `<div class="card-box" style="background:rgba(212,146,10,0.04);border-color:rgba(212,146,10,0.15)">
+      <h3 class="card-title-sm">📊 Sponsorship Summary</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.875rem">
+        <div style="text-align:center;padding:0.875rem;background:white;border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--crimson)">${all.length}</div>
+          <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage)">Total Sent</div>
+        </div>
+        <div style="text-align:center;padding:0.875rem;background:white;border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#16a34a">${accepted.length}</div>
+          <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage)">Accepted</div>
+        </div>
+        <div style="text-align:center;padding:0.875rem;background:white;border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--gold)">${pending.length}</div>
+          <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage)">Awaiting</div>
+        </div>
+        <div style="text-align:center;padding:0.875rem;background:white;border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--crimson)">₱${totalCommitted.toLocaleString()}</div>
+          <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--sage)">Committed</div>
+        </div>
+      </div>
+    </div>`;
+  } else if (resp) { resp.innerHTML = ''; }
+}
+
+function updateSponsorInviteStatus(id, status) {
+  const invites = getSponsorInvites();
+  const idx = invites.findIndex(i=>i.id===id);
+  if (idx !== -1) { invites[idx].status = status; invites[idx].response = `Status updated to ${status} on ${new Date().toLocaleDateString('en-PH')}`; }
+  saveSponsorInvites(invites);
+  renderSponsorInvites(currentSponsorFilter);
+  renderOverview();
+  showToast(`Sponsor invitation ${status}.`, status==='accepted'?'success':'info');
+}
+
+function removeSponsorInvite(id) {
+  const invites = getSponsorInvites().filter(i=>i.id!==id);
+  saveSponsorInvites(invites);
+  renderSponsorInvites(currentSponsorFilter);
+  showToast('Invitation removed.','info');
+}
+
+// ── ACCOMMODATIONS ────────────────────────────────────────────
+const partnerHotels = [
+  { id:1, name:"Marquee Mall Hotel",    stars:4, rooms:450, location:"San Fernando",   contact:"045-123-4567", amenities:["WiFi","Pool","Parking","Restaurant","Conference Room"], emoji:"🏨", status:"confirmed" },
+  { id:2, name:"Hotel Stotsenberg",    stars:4, rooms:200, location:"Clark",            contact:"045-234-5678", amenities:["WiFi","Pool","Parking","Restaurant","Meeting Rooms"],   emoji:"🏩", status:"confirmed" },
+  { id:3, name:"Quest Hotel Clark",    stars:4, rooms:300, location:"Clark Freeport",   contact:"045-567-8901", amenities:["WiFi","Pool","Gym","Parking","Conference Room"],       emoji:"🏨", status:"confirmed" },
+  { id:4, name:"Pampanga Suites",      stars:3, rooms:120, location:"San Fernando",    contact:"045-345-6789", amenities:["WiFi","Parking","Restaurant","Laundry"],               emoji:"🏩", status:"pending" }
+];
+
+function renderAccommodations() {
+  populateEventSelects(); // refresh picker
+  const hotelInvites = getInvitations().filter(i=>i.bizType==='hotel');
+  document.getElementById('orgStatHotelInvites').textContent = hotelInvites.length;
+  const list = document.getElementById('partnerHotelsList');
+  if (!list) return;
+  list.innerHTML = partnerHotels.map(h => `
+    <div style="border:1px solid rgba(212,146,10,0.12);border-radius:12px;padding:1.1rem;background:white;transition:all 0.2s" onmouseover="this.style.borderColor='rgba(212,146,10,0.3)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.12)'">
+      <div style="display:flex;align-items:center;gap:0.625rem;margin-bottom:0.625rem">
+        <span style="font-size:1.4rem">${h.emoji}</span>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700">${h.name}</div>
+          <div style="font-size:0.68rem;color:var(--sage)">${'⭐'.repeat(h.stars)} · ${h.location}</div>
+        </div>
+        <span class="badge badge-${h.status==='confirmed'?'accepted':'pending'}" style="margin-left:auto">${h.status==='confirmed'?'✅ Partner':'⏳ Pending'}</span>
+      </div>
+      <div style="display:flex;gap:1.5rem;font-size:0.75rem;margin-bottom:0.625rem">
+        <span>🛏️ <strong>${h.rooms}</strong> rooms</span>
+        <span>📞 ${h.contact}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.75rem">
+        ${h.amenities.map(a=>`<span style="background:rgba(212,146,10,0.07);color:var(--sage);padding:0.12rem 0.45rem;border-radius:4px;font-size:0.6rem;font-weight:700">${a}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <a href="tel:${h.contact}" class="btn-fire btn-sm" style="font-size:0.68rem">📞 Contact</a>
+        <a href="../pages/accommodations.html" class="btn-ghost btn-sm" style="font-size:0.68rem;text-decoration:none">🤖 AI Match</a>
+      </div>
+    </div>`).join('');
+}
+
+function renderAccomForEvent() {
+  const eventId = parseInt(document.getElementById('accomEventPicker').value);
+  const detail  = document.getElementById('accomEventDetail');
+  if (!eventId) { detail.textContent = 'Select an event to view and manage its hotel recommendations.'; return; }
+  const all   = [...PampangaDB.events, ...getOrgEvents()];
+  const event = all.find(e=>e.id===eventId);
+  const hotelInvites = getInvitations().filter(i=>i.bizType==='hotel' && i.eventId===eventId);
+  detail.innerHTML = `
+    <div style="display:flex;align-items:center;gap:0.875rem;margin-bottom:0.875rem">
+      <span style="font-size:1.5rem">${event.image}</span>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700">${event.name}</div>
+        <div style="font-size:0.75rem;color:var(--sage)">${event.date} · ${event.location} · Capacity: ${(event.capacity||0).toLocaleString()}</div>
+      </div>
+      <a href="../pages/accommodations.html" class="btn-fire btn-sm" style="margin-left:auto;text-decoration:none;font-size:0.7rem">🤖 AI Match Hotels</a>
+    </div>
+    <div style="display:flex;gap:0.875rem;flex-wrap:wrap;margin-bottom:0.875rem">
+      <div style="padding:0.625rem 1rem;background:rgba(212,146,10,0.06);border-radius:8px;font-size:0.75rem"><strong>${hotelInvites.length}</strong> hotel invitations sent</div>
+      <div style="padding:0.625rem 1rem;background:rgba(22,163,74,0.06);border-radius:8px;font-size:0.75rem"><strong>${hotelInvites.filter(i=>i.status==='accepted').length}</strong> accepted</div>
+      <div style="padding:0.625rem 1rem;background:rgba(212,146,10,0.06);border-radius:8px;font-size:0.75rem"><strong>${hotelInvites.filter(i=>i.status==='pending').length}</strong> pending</div>
+    </div>
+    ${hotelInvites.length
+      ? hotelInvites.map(inv=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid rgba(212,146,10,0.08);font-size:0.78rem"><span>🏨 ${inv.bizName}</span>${statusBadge(inv.status)}</div>`).join('')
+      : `<div style="font-size:0.8rem;color:var(--sage)">No hotels have been invited for this event yet. <a href="../pages/accommodations.html" style="color:var(--crimson)">Use AI Matching →</a></div>`}
+  `;
+}
+
 // ── SETTINGS ──────────────────────────────────────────────────
 function loadSettings() {
   const s = Storage.get('org_settings') || {};
@@ -1180,6 +1495,11 @@ window.updateAppStatus    = updateAppStatus;
 window.quickAccept        = quickAccept;
 window.quickReject        = quickReject;
 window.saveSettings       = saveSettings;
+window.sendSponsorInvitation  = sendSponsorInvitation;
+window.filterSponsorInvites   = filterSponsorInvites;
+window.updateSponsorInviteStatus = updateSponsorInviteStatus;
+window.removeSponsorInvite    = removeSponsorInvite;
+window.renderAccomForEvent    = renderAccomForEvent;
 </script>
 </body>
 </html>
