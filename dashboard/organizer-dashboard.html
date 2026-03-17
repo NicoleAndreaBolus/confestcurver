@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organizer Dashboard | Confestcurver</title>
+  <title>Organizer Dashboard | Pampanga Events</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎪</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -772,7 +772,7 @@ function saveEvent() {
   const desc     = document.getElementById('evtDesc').value.trim();
   const eco      = document.getElementById('evtEco').value === 'true';
   const local    = document.getElementById('evtLocal').value === 'true';
-  if (!name || !date || !location) { showToast('Please fill in Name, Date and Location.','warning'); return; }
+  if (!name || !date || !location) { showToast('Please fill in name, date, and location.','warning'); return; }
 
   const events = getOrgEvents();
   const editId = parseInt(document.getElementById('editEventId').value)||0;
