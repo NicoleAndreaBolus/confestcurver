@@ -870,10 +870,10 @@ body::before {
         </div>
         <div id="wasteGoalContainer" style="margin-bottom:1.5rem"></div>
         <div id="carbonCalcContainer" style="margin-bottom:1.5rem"></div>
-        <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-card);border:1px solid rgba(212,146,10,0.1)">
-          <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:1.25rem">🏪 Event Vendors</h2>
-          <div id="vendors" style="display:flex;flex-direction:column;gap:0.75rem"></div>
-        </div>
+        <div id="foodStallsContainer" style="margin-bottom:1.5rem"></div>
+        <div id="sponsorsContainer" style="margin-bottom:1.5rem"></div>
+        <div id="medicalContainer" style="margin-bottom:1.5rem"></div>
+        <div id="perksContainer" style="margin-bottom:0"></div>
       </div>
       <div style="position:sticky;top:90px">
         <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-lift);border:1.5px solid rgba(212,146,10,0.2);margin-bottom:1.25rem">
@@ -923,6 +923,70 @@ body::before {
   </div>
 </div>
 <style>@media(max-width:768px){.detail-grid{grid-template-columns:1fr!important}}</style>
+<!-- Sponsor Application Modal -->
+<div class="modal-overlay" id="sponsorModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header"><h2 class="modal-title">🏢 Apply as Sponsor</h2><button class="modal-close" onclick="closeModal('sponsorModal')">✕</button></div>
+    <div class="alert alert-info">Partner with us and reach thousands of festival-goers across Pampanga!</div>
+    <div class="form-group"><label class="form-label">Company Name</label><input type="text" class="form-input" id="sponsorCompany" placeholder="e.g. ABC Corporation"></div>
+    <div class="form-group"><label class="form-label">Industry</label>
+      <select class="form-select" id="sponsorIndustry">
+        <option value="">Select industry...</option>
+        <option>Food & Beverage</option><option>Tourism & Hospitality</option>
+        <option>Retail & Commerce</option><option>Technology</option>
+        <option>Arts & Culture</option><option>Government & NGO</option><option>Other</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+      <div class="form-group"><label class="form-label">Contact Person</label><input type="text" class="form-input" id="sponsorContact" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="sponsorEmail" placeholder="email@company.com"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Sponsorship Tier</label>
+      <select class="form-select" id="sponsorTier">
+        <option value="">Select tier...</option>
+        <option>🥇 Gold Sponsor — ₱50,000+</option>
+        <option>🥈 Silver Sponsor — ₱25,000+</option>
+        <option>🥉 Bronze Sponsor — ₱10,000+</option>
+        <option>🌟 Community Partner — In-kind</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Message (Optional)</label><textarea class="form-textarea" id="sponsorMessage" placeholder="Tell us about your sponsorship goals..."></textarea></div>
+    <button class="btn-fire" style="width:100%;justify-content:center;margin-top:0.25rem" onclick="submitSponsorForm()">Submit Application →</button>
+  </div>
+</div>
+<!-- Waste Management Team Application Modal -->
+<div class="modal-overlay" id="wasteTeamModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header"><h2 class="modal-title">♻️ Apply as Waste Management Team</h2><button class="modal-close" onclick="closeModal('wasteTeamModal')">✕</button></div>
+    <div class="alert alert-info" style="border-color:rgba(75,124,95,0.3);background:rgba(75,124,95,0.07);color:var(--moss)">🌿 Help us keep the festival clean and earn <strong>+100 Green Points</strong>!</div>
+    <div class="form-group"><label class="form-label">Team Name</label><input type="text" class="form-input" id="wasteTeamName" placeholder="e.g. Green Warriors PH"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+      <div class="form-group"><label class="form-label">Number of Members</label><input type="number" class="form-input" id="wasteTeamMembers" placeholder="e.g. 5" min="1" max="50"></div>
+      <div class="form-group"><label class="form-label">Contact Person</label><input type="text" class="form-input" id="wasteTeamContact" placeholder="Full name"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Contact Email</label><input type="email" class="form-input" id="wasteTeamEmail" placeholder="team@email.com"></div>
+    <div class="form-group"><label class="form-label">Prior Experience</label>
+      <select class="form-select" id="wasteTeamExperience">
+        <option value="">Select experience level...</option>
+        <option>First time volunteer</option>
+        <option>1–2 previous events</option>
+        <option>3–5 previous events</option>
+        <option>6+ events (experienced)</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Waste Focus Area</label>
+      <select class="form-select" id="wasteTeamFocus">
+        <option value="">Select focus area...</option>
+        <option>General waste collection</option>
+        <option>Recycling segregation</option>
+        <option>Composting & organics</option>
+        <option>Hazardous material handling</option>
+        <option>Crowd education & signage</option>
+      </select>
+    </div>
+    <button class="btn-eco" style="width:100%;justify-content:center;margin-top:0.25rem" onclick="submitWasteTeamForm()">Join Our Green Team →</button>
+  </div>
+</div>
 <footer class="footer">
   <div class="container">
     <div class="grid-4">
@@ -2320,6 +2384,373 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// ═══════════════════════════════════════════════════════
+// NEW FEATURES PATCH — Sponsors, Medical Teams, Perks, Food Stalls
+// ═══════════════════════════════════════════════════════
+
+// Extended event metadata: sponsors, medical teams, perks, detailed vendors
+const eventFeaturesMeta = {
+  1: {
+    sponsors: [
+      { name: "San Miguel Corporation", industry: "Food & Beverage", tier: "🥇 Gold", logo: "🏭", since: "2022" },
+      { name: "Pampanga Tourism Office", industry: "Government", tier: "🥈 Silver", logo: "🏛️", since: "2020" },
+      { name: "SM Prime Holdings", industry: "Retail & Commerce", tier: "🥉 Bronze", logo: "🏬", since: "2023" }
+    ],
+    medicalTeams: [
+      { name: "Dr. Maria Santos", role: "Chief Medical Officer", contact: "0917-111-2222", specialization: "Emergency Medicine" },
+      { name: "Nurse Ben dela Cruz", role: "Senior Nurse", contact: "0918-333-4444", specialization: "First Aid & Trauma" },
+      { name: "EMT Team Kapampangan", role: "Emergency Responders", contact: "0919-555-6666", specialization: "Pre-hospital Care" }
+    ],
+    medicalServices: ["🚑 On-site ambulance", "💊 First aid stations (4 locations)", "🏥 Med tent at main entrance", "📞 24/7 emergency hotline"],
+    emergencyInfo: "In case of emergency, call 0917-911-0000 or proceed to the Medical Tent near Gate 1.",
+    perks: [
+      { title: "Early Bird Discount", discount: "20% OFF", type: "discount", validUntil: "2025-11-30", howToClaim: "Use code PAROL20 at checkout", icon: "🎟️", color: "var(--crimson)" },
+      { title: "Eco Attendee Reward", discount: "+50 Green Points", type: "points", validUntil: "2025-12-17", howToClaim: "Bring reusable bag & earn points at eco stations", icon: "🌿", color: "var(--moss)" },
+      { title: "Group Booking Deal", discount: "15% OFF (5+ tickets)", type: "discount", validUntil: "2025-12-10", howToClaim: "Email confest.pampanga@gmail.com with group details", icon: "👥", color: "var(--gold)" },
+      { title: "Student Special", discount: "50% OFF", type: "discount", validUntil: "2025-12-17", howToClaim: "Present valid student ID at ticketing booth", icon: "🎓", color: "var(--ember)" }
+    ],
+    detailedVendors: [
+      { name: "Kapampangan Sweets Co.", description: "Authentic Kapampangan sweet treats and kakanin", specialty: "Tibok-Tibok, Turrones de Casuy", cuisine: "Kapampangan Desserts", priceRange: "₱", rating: 4.8, contact: "0917-123-4567", location: "Booth A-1", icon: "🍮" },
+      { name: "Aling Clara's Kitchen", description: "Traditional home-cooked Kapampangan recipes passed down for generations", specialty: "Sisig, Tocino, Morcon", cuisine: "Kapampangan", priceRange: "₱₱", rating: 4.9, contact: "0918-234-5678", location: "Booth A-2", icon: "🍽️" },
+      { name: "Pampanga Crafts", description: "Handcrafted festival souvenirs and local artisanal goods", specialty: "Giant Parols, Woven mats", cuisine: "Crafts & Souvenirs", priceRange: "₱₱", rating: 4.7, contact: "0919-345-6789", location: "Booth B-1", icon: "🏮" }
+    ]
+  },
+  2: {
+    sponsors: [
+      { name: "Jollibee Foods Corporation", industry: "Food & Beverage", tier: "🥇 Gold", logo: "🍔", since: "2021" },
+      { name: "Kulinarya Foundation PH", industry: "Arts & Culture", tier: "🥈 Silver", logo: "👨‍🍳", since: "2019" }
+    ],
+    medicalTeams: [
+      { name: "Dr. Jose Reyes", role: "Event Physician", contact: "0920-777-8888", specialization: "General Medicine" },
+      { name: "Red Cross Pampanga Chapter", role: "First Aid Team", contact: "045-123-0001", specialization: "Emergency Response" }
+    ],
+    medicalServices: ["💊 First aid station at main stage", "🚑 Standby ambulance", "📞 Emergency line: 045-911-1234"],
+    emergencyInfo: "Medical tent is located near the main entrance. Emergency number: 045-911-1234.",
+    perks: [
+      { title: "Foodie Pass", discount: "10% OFF all stalls", type: "discount", validUntil: "2025-10-20", howToClaim: "Show e-ticket to any vendor for discount", icon: "🍽️", color: "var(--ember)" },
+      { title: "Cook-Off Spectator", discount: "Free front-row seating", type: "freebie", validUntil: "2025-10-20", howToClaim: "Register at the information desk on arrival", icon: "👨‍🍳", color: "var(--gold)" },
+      { title: "Loyalty Stamp Card", discount: "Visit 5 stalls → free sisig", type: "loyalty", validUntil: "2025-10-20", howToClaim: "Pick up stamp card at the entrance", icon: "🥩", color: "var(--moss)" }
+    ],
+    detailedVendors: [
+      { name: "Aling Lucing's", description: "Birthplace of the original Pampanga sisig — a local legend since 1974", specialty: "Original Sisig, Tokwa't Baboy", cuisine: "Kapampangan", priceRange: "₱₱", rating: 5.0, contact: "0917-001-0001", location: "Main Stage Area", icon: "🥩" },
+      { name: "Sisig Central", description: "Modern takes on the classic sisig with creative fusion twists", specialty: "Seafood Sisig, Mushroom Sisig", cuisine: "Fusion Kapampangan", priceRange: "₱₱", rating: 4.6, contact: "0918-002-0002", location: "Booth C-3", icon: "🍳" },
+      { name: "Modern Kapampangan Kitchen", description: "Contemporary Kapampangan cuisine using traditional recipes with a fresh approach", specialty: "Kare-Kare, Morcon, Dinuguan", cuisine: "Kapampangan", priceRange: "₱₱₱", rating: 4.7, contact: "0919-003-0003", location: "Booth D-1", icon: "🍲" }
+    ]
+  },
+  3: {
+    sponsors: [
+      { name: "Diocese of San Fernando", industry: "Government & NGO", tier: "🌟 Community Partner", logo: "⛪", since: "1974" },
+      { name: "Apalit Local Government", industry: "Government", tier: "🥇 Gold", logo: "🏛️", since: "2000" }
+    ],
+    medicalTeams: [
+      { name: "Apalit Municipal Health Office", role: "Medical Team", contact: "045-456-7890", specialization: "Community Health" },
+      { name: "Philippine Coast Guard", role: "Water Safety Team", contact: "045-789-1234", specialization: "Water Rescue & Safety" }
+    ],
+    medicalServices: ["🚤 Coast Guard water patrol", "💊 Medical tent near riverbank", "🚑 Ambulance on standby", "📞 Emergency: 045-456-7890"],
+    emergencyInfo: "For water emergencies, signal the Coast Guard patrol boat. Land emergencies: Medical tent at Brgy. Hall.",
+    perks: [
+      { title: "Devotee Pass", discount: "Free Admission", type: "freebie", validUntil: "2025-06-23", howToClaim: "This is a free public religious event — all are welcome!", icon: "⛵", color: "var(--forest)" },
+      { title: "Eco Devotee Reward", discount: "+25 Green Points", type: "points", validUntil: "2025-06-23", howToClaim: "Use the eco disposal bins along the route", icon: "🌿", color: "var(--moss)" }
+    ],
+    detailedVendors: [
+      { name: "Local Trinket Shops", description: "Religious and cultural souvenirs, handmade beads and figurines", specialty: "Religious items, Rosaries, Figurines", cuisine: "Religious Souvenirs", priceRange: "₱", rating: 4.5, contact: "Ask at the river entrance", location: "Along parade route", icon: "📿" },
+      { name: "Traditional Food Stalls", description: "Local home-cooked Kapampangan street food and snacks", specialty: "Bibingka, Puto, Kakanin", cuisine: "Street Food", priceRange: "₱", rating: 4.6, contact: "Multiple stalls along route", location: "River embankment", icon: "🍡" }
+    ]
+  },
+  4: {
+    sponsors: [
+      { name: "Globe Telecom", industry: "Technology", tier: "🥇 Gold", logo: "📡", since: "2023" },
+      { name: "Red Bull Philippines", industry: "Food & Beverage", tier: "🥇 Gold", logo: "🐂", since: "2022" },
+      { name: "SM City Pampanga", industry: "Retail & Commerce", tier: "🥈 Silver", logo: "🏬", since: "2021" },
+      { name: "Pampanga Radio Network", industry: "Media", tier: "🥉 Bronze", logo: "📻", since: "2023" }
+    ],
+    medicalTeams: [
+      { name: "Dr. Luz Aquino", role: "Venue Physician", contact: "0920-444-5555", specialization: "Emergency Medicine" },
+      { name: "Event Medical Response Unit", role: "Paramedic Team", contact: "0921-666-7777", specialization: "Crowd Medical Care" },
+      { name: "Mental Health First Aid", role: "Wellness Team", contact: "0922-888-9999", specialization: "Psychological First Aid" }
+    ],
+    medicalServices: ["🚑 3 ambulances on standby", "💊 6 first aid stations throughout venue", "🧠 Mental health support tent", "📞 Emergency: 0920-911-0000", "♿ Accessibility support available"],
+    emergencyInfo: "Emergency response center is at the main stage back. For mental health support, visit the Wellness Tent near Gate 3.",
+    perks: [
+      { title: "VIP Upgrade", discount: "₱200 OFF VIP add-on", type: "discount", validUntil: "2025-04-10", howToClaim: "Use code PAMPANGA-VIP at online checkout", icon: "⭐", color: "var(--gold)" },
+      { title: "Early Arrival Perk", discount: "Free merchandise bag", type: "freebie", validUntil: "2025-04-15", howToClaim: "Arrive before 7:30 PM & show e-ticket", icon: "🎁", color: "var(--ember)" },
+      { title: "Globe Data Pass", discount: "500MB Free data", type: "freebie", validUntil: "2025-04-15", howToClaim: "Connect to Globe WiFi at venue, register with your ticket QR", icon: "📡", color: "var(--crimson)" }
+    ],
+    detailedVendors: [
+      { name: "Festival Merch Booth", description: "Official concert merchandise, limited edition memorabilia", specialty: "T-shirts, Caps, Posters, Lanyards", cuisine: "Official Merchandise", priceRange: "₱₱", rating: 4.5, contact: "0917-MERCH-01", location: "Main Entrance", icon: "👕" },
+      { name: "Food Village", description: "Curated selection of food stalls and dining options for concert-goers", specialty: "Burgers, Pizza, Local street food", cuisine: "Mixed / Street Food", priceRange: "₱₱", rating: 4.4, contact: "0918-FOOD-01", location: "East Wing", icon: "🍕" }
+    ]
+  },
+  5: {
+    sponsors: [
+      { name: "Kulinarya Pampanga Foundation", industry: "Arts & Culture", tier: "🥇 Gold", logo: "🍳", since: "2015" },
+      { name: "DOST Region III", industry: "Government & NGO", tier: "🥈 Silver", logo: "🔬", since: "2020" },
+      { name: "Angeles City LGU", industry: "Government", tier: "🥈 Silver", logo: "🏛️", since: "2018" }
+    ],
+    medicalTeams: [
+      { name: "Dr. Carla Manalo", role: "Food Safety Officer", contact: "0923-111-2222", specialization: "Food Safety & Hygiene" },
+      { name: "Convention Center Medical Bay", role: "On-site Clinic", contact: "045-321-6789", specialization: "General Medicine" }
+    ],
+    medicalServices: ["💊 Medical bay inside convention hall", "🧴 Sanitation stations throughout", "🚑 Ambulance at parking area", "📞 Emergency: 045-321-6789"],
+    emergencyInfo: "Medical bay is on the ground floor, Room 101. Food allergy emergency: inform any staff member immediately.",
+    perks: [
+      { title: "Chef's Table Experience", discount: "Free tasting session", type: "freebie", validUntil: "2025-08-10", howToClaim: "First 50 attendees per session — register at information desk", icon: "👨‍🍳", color: "var(--ember)" },
+      { title: "Recipe Book", discount: "Free souvenir book", type: "freebie", validUntil: "2025-08-10", howToClaim: "Claim at the exit upon showing your e-ticket", icon: "📖", color: "var(--gold)" },
+      { title: "Culinary Student Award", discount: "50% OFF for culinary students", type: "discount", validUntil: "2025-07-31", howToClaim: "Present culinary school ID at registration", icon: "🎓", color: "var(--moss)" }
+    ],
+    detailedVendors: [
+      { name: "Kapampangan Chefs Association", description: "Elite chefs showcasing the finest techniques of Kapampangan cuisine", specialty: "Gourmet Kare-Kare, Crispy Pata, Lechon", cuisine: "Kapampangan Fine Dining", priceRange: "₱₱₱", rating: 4.9, contact: "0924-CHEF-01", location: "Demo Kitchen Stage", icon: "👨‍🍳" },
+      { name: "Local Food Producers", description: "Artisanal food producers selling direct-from-farm Kapampangan ingredients and products", specialty: "Patis, Bagoong, Vinegar, Sauces", cuisine: "Artisanal / Condiments", priceRange: "₱₱", rating: 4.7, contact: "0925-PROD-01", location: "Producers Hall", icon: "🫙" }
+    ]
+  },
+  6: {
+    sponsors: [
+      { name: "National Commission for Culture and the Arts", industry: "Government & NGO", tier: "🥇 Gold", logo: "🎨", since: "2018" },
+      { name: "Pampanga Arts Council", industry: "Arts & Culture", tier: "🥈 Silver", logo: "🎭", since: "2017" },
+      { name: "Heritage Preservation Society", industry: "Arts & Culture", tier: "🌟 Community Partner", logo: "🏺", since: "2019" }
+    ],
+    medicalTeams: [
+      { name: "Heritage Park Security & Medical", role: "On-site Team", contact: "045-654-3210", specialization: "First Aid" },
+      { name: "BFP San Fernando Station", role: "Fire & Emergency", contact: "045-117-0001", specialization: "Fire Safety & Rescue" }
+    ],
+    medicalServices: ["💊 First aid tent near main stage", "🚒 BFP fire safety team on site", "📞 Emergency: 045-654-3210"],
+    emergencyInfo: "First aid tent is behind the main cultural stage. Fire exits are clearly marked throughout the park.",
+    perks: [
+      { title: "Heritage Discount", discount: "10% OFF admission", type: "discount", validUntil: "2025-09-05", howToClaim: "Show any heritage society membership card", icon: "🏺", color: "var(--ember)" },
+      { title: "Cultural Souvenir", discount: "Free craft activity", type: "freebie", validUntil: "2025-09-05", howToClaim: "Join the traditional crafts workshop — free for all attendees", icon: "🎨", color: "var(--gold)" },
+      { title: "Family Bundle", discount: "20% OFF family tickets (4+)", type: "discount", validUntil: "2025-09-01", howToClaim: "Book 4+ tickets together online for automatic discount", icon: "👨‍👩‍👧‍👦", color: "var(--forest)" }
+    ],
+    detailedVendors: [
+      { name: "Kapampangan Artisans Guild", description: "Master artisans demonstrating and selling traditional Kapampangan crafts", specialty: "Woven items, Clay pottery, Woodcarving", cuisine: "Traditional Crafts", priceRange: "₱₱", rating: 4.8, contact: "0926-ART-001", location: "Artisans Village", icon: "🧶" },
+      { name: "Heritage Crafts", description: "Preservation-focused artisan collective selling authentic heritage pieces", specialty: "Embroidered textiles, Painted fans, Carved santos", cuisine: "Heritage Arts", priceRange: "₱₱₱", rating: 4.9, contact: "0927-HER-001", location: "Heritage Hall", icon: "🏺" }
+    ]
+  }
+};
+
+// Apply extended features to events
+PampangaDB.events.forEach(e => {
+  const m = eventFeaturesMeta[e.id];
+  if (m) Object.assign(e, m);
+});
+
+// ─── RENDER FOOD STALLS ──────────────────────────────────
+function renderFoodStalls(containerId, event) {
+  const el = document.getElementById(containerId);
+  if (!el || !event.detailedVendors) return;
+  const vendors = event.detailedVendors;
+  const priceMap = { '₱': 'Budget-friendly', '₱₱': 'Mid-range', '₱₱₱': 'Premium' };
+  el.innerHTML = `
+    <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-card);border:1px solid rgba(212,146,10,0.1)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">🏪 Food Stalls & Vendors</h2>
+        <span style="background:rgba(212,146,10,0.1);color:var(--ember);padding:0.25rem 0.75rem;border-radius:4px;font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">${vendors.length} vendor${vendors.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        ${vendors.map(v => `
+          <div style="padding:1.1rem;background:var(--cream);border-radius:12px;border:1px solid rgba(212,146,10,0.1);transition:all 0.2s" onmouseover="this.style.boxShadow='0 6px 20px rgba(18,8,8,0.08)';this.style.borderColor='rgba(212,146,10,0.25)'" onmouseout="this.style.boxShadow='none';this.style.borderColor='rgba(212,146,10,0.1)'">
+            <div style="display:flex;gap:1rem;align-items:flex-start">
+              <div style="width:46px;height:46px;border-radius:12px;background:var(--g-fire);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;box-shadow:0 2px 8px rgba(196,30,58,0.25)">${v.icon}</div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.3rem">
+                  <div style="font-weight:700;font-size:0.95rem">${v.name}</div>
+                  <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
+                    <span style="color:var(--gold);font-size:0.8rem">★</span>
+                    <span style="font-weight:700;font-size:0.8rem">${v.rating}</span>
+                  </div>
+                </div>
+                <div style="font-size:0.8rem;color:var(--charcoal);line-height:1.6;margin-bottom:0.6rem">${v.description}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.6rem">
+                  <span style="background:rgba(212,146,10,0.1);color:var(--ember);padding:0.18rem 0.55rem;border-radius:4px;font-size:0.62rem;font-weight:700;letter-spacing:0.06em">🍴 ${v.specialty}</span>
+                  <span style="background:rgba(27,58,45,0.07);color:var(--moss);padding:0.18rem 0.55rem;border-radius:4px;font-size:0.62rem;font-weight:700;letter-spacing:0.06em">🌏 ${v.cuisine}</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;font-size:0.72rem;color:var(--sage)">
+                  <div style="display:flex;align-items:center;gap:0.3rem"><span>💰</span><span><strong style="color:var(--ink)">${v.priceRange}</strong> ${priceMap[v.priceRange]||''}</span></div>
+                  <div style="display:flex;align-items:center;gap:0.3rem"><span>📍</span><span>${v.location}</span></div>
+                  <div style="display:flex;align-items:center;gap:0.3rem"><span>📞</span><span>${v.contact}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── RENDER SPONSORS ─────────────────────────────────────
+function renderSponsors(containerId, event) {
+  const el = document.getElementById(containerId);
+  if (!el || !event.sponsors) return;
+  const tierColors = { '🥇 Gold': { bg: 'rgba(212,146,10,0.08)', border: 'rgba(212,146,10,0.25)', text: 'var(--gold)' }, '🥈 Silver': { bg: 'rgba(156,163,175,0.1)', border: 'rgba(156,163,175,0.3)', text: '#8B9BAF' }, '🥉 Bronze': { bg: 'rgba(180,100,60,0.08)', border: 'rgba(180,100,60,0.25)', text: '#B46C3C' }, '🌟 Community Partner': { bg: 'rgba(27,58,45,0.07)', border: 'rgba(75,124,95,0.2)', text: 'var(--moss)' } };
+  el.innerHTML = `
+    <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-card);border:1px solid rgba(212,146,10,0.1)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">🏢 Event Sponsors</h2>
+          <div style="font-size:0.75rem;color:var(--sage);margin-top:0.2rem">Partners who make this event possible</div>
+        </div>
+        <button class="btn-fire btn-sm" onclick="openModal('sponsorModal')">+ Apply as Sponsor</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        ${event.sponsors.map(s => {
+          const tc = tierColors[s.tier] || tierColors['🌟 Community Partner'];
+          return `
+          <div style="display:flex;align-items:center;gap:1rem;padding:1rem;background:${tc.bg};border-radius:12px;border:1px solid ${tc.border};transition:all 0.2s" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
+            <div style="width:44px;height:44px;border-radius:10px;background:white;border:1.5px solid ${tc.border};display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">${s.logo}</div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:0.9rem">${s.name}</div>
+              <div style="font-size:0.75rem;color:var(--sage);margin-top:0.1rem">${s.industry} · Partner since ${s.since}</div>
+            </div>
+            <span style="background:white;border:1px solid ${tc.border};color:${tc.text};padding:0.2rem 0.65rem;border-radius:4px;font-size:0.62rem;font-weight:800;letter-spacing:0.08em;white-space:nowrap">${s.tier}</span>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="margin-top:1rem;padding:0.875rem;background:rgba(196,30,58,0.04);border-radius:10px;border:1px dashed rgba(196,30,58,0.2);text-align:center">
+        <div style="font-size:0.78rem;color:var(--charcoal);margin-bottom:0.5rem">Interested in sponsoring this event? <strong>Join our community of partners!</strong></div>
+        <button class="btn-outline btn-sm" onclick="openModal('sponsorModal')">View Sponsorship Packages →</button>
+      </div>
+    </div>`;
+}
+
+// ─── RENDER MEDICAL TEAMS ────────────────────────────────
+function renderMedicalTeams(containerId, event) {
+  const el = document.getElementById(containerId);
+  if (!el || !event.medicalTeams) return;
+  el.innerHTML = `
+    <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-card);border:1px solid rgba(196,30,58,0.12)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">🏥 Medical Teams</h2>
+          <div style="font-size:0.75rem;color:var(--sage);margin-top:0.2rem">Your health & safety is our priority</div>
+        </div>
+        <span style="background:rgba(220,38,38,0.1);color:#dc2626;padding:0.25rem 0.75rem;border-radius:4px;font-size:0.65rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">⚕️ On-Site</span>
+      </div>
+      <div style="background:rgba(220,38,38,0.05);border:1px solid rgba(220,38,38,0.15);border-radius:10px;padding:0.875rem;margin-bottom:1rem">
+        <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#dc2626;margin-bottom:0.5rem">⚠️ Emergency Information</div>
+        <div style="font-size:0.8rem;color:var(--charcoal);line-height:1.6">${event.emergencyInfo}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem">
+        ${event.medicalTeams.map(t => `
+          <div style="display:flex;align-items:center;gap:1rem;padding:0.875rem;background:rgba(220,38,38,0.03);border-radius:10px;border:1px solid rgba(220,38,38,0.1)">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:white">⚕️</div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:0.88rem">${t.name}</div>
+              <div style="font-size:0.75rem;color:var(--sage)">${t.role} · ${t.specialization}</div>
+            </div>
+            <a href="tel:${t.contact.replace(/-/g,'')}" style="font-size:0.72rem;font-weight:700;color:#dc2626;text-decoration:none;background:rgba(220,38,38,0.08);padding:0.25rem 0.6rem;border-radius:6px;border:1px solid rgba(220,38,38,0.2)">📞 ${t.contact}</a>
+          </div>
+        `).join('')}
+      </div>
+      <div>
+        <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);margin-bottom:0.5rem">🏥 Available Services</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+          ${(event.medicalServices||[]).map(s => `<span style="background:rgba(27,58,45,0.07);color:var(--moss);padding:0.22rem 0.65rem;border-radius:4px;font-size:0.72rem;font-weight:600;border:1px solid rgba(75,124,95,0.15)">${s}</span>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+// ─── RENDER PERKS & DISCOUNTS ────────────────────────────
+function renderPerks(containerId, event) {
+  const el = document.getElementById(containerId);
+  if (!el || !event.perks) return;
+  el.innerHTML = `
+    <div style="background:white;border-radius:14px;padding:1.75rem;box-shadow:var(--shadow-card);border:1px solid rgba(212,146,10,0.12)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">🎁 Perks &amp; Discounts</h2>
+          <div style="font-size:0.75rem;color:var(--sage);margin-top:0.2rem">Exclusive offers for event attendees</div>
+        </div>
+        <span style="background:rgba(212,146,10,0.1);color:var(--gold);padding:0.25rem 0.75rem;border-radius:4px;font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">${event.perks.length} offer${event.perks.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.875rem">
+        ${event.perks.map(p => `
+          <div style="border-radius:12px;border:1px solid rgba(212,146,10,0.15);overflow:hidden;transition:all 0.2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(18,8,8,0.1)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+            <div style="background:linear-gradient(135deg,${p.color}15,${p.color}08);padding:1rem;border-bottom:1px solid rgba(212,146,10,0.1)">
+              <div style="font-size:1.5rem;margin-bottom:0.4rem">${p.icon}</div>
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.2rem">${p.title}</div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:${p.color}">${p.discount}</div>
+            </div>
+            <div style="padding:0.875rem">
+              <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);margin-bottom:0.3rem">How to claim</div>
+              <div style="font-size:0.75rem;color:var(--charcoal);line-height:1.5;margin-bottom:0.5rem">${p.howToClaim}</div>
+              <div style="font-size:0.65rem;color:var(--sage)">⏰ Valid until: <strong>${new Date(p.validUntil).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'})}</strong></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── FORM SUBMISSION HANDLERS ────────────────────────────
+function submitSponsorForm() {
+  const company = document.getElementById('sponsorCompany')?.value.trim();
+  const industry = document.getElementById('sponsorIndustry')?.value;
+  const contact = document.getElementById('sponsorContact')?.value.trim();
+  const email = document.getElementById('sponsorEmail')?.value.trim();
+  const tier = document.getElementById('sponsorTier')?.value;
+  if (!company || !industry || !contact || !email || !tier) {
+    showToast('Please fill in all required fields.', 'warning');
+    return;
+  }
+  const applications = Storage.get('pampanga_sponsor_applications') || [];
+  applications.push({ company, industry, contact, email, tier, eventId: parseInt(new URLSearchParams(window.location.search).get('id')) || 1, submittedAt: new Date().toISOString() });
+  Storage.set('pampanga_sponsor_applications', applications);
+  closeModal('sponsorModal');
+  showToast(`🎉 Thank you, ${company}! Your sponsorship application has been received.`, 'success');
+}
+window.submitSponsorForm = submitSponsorForm;
+
+function submitWasteTeamForm() {
+  const teamName = document.getElementById('wasteTeamName')?.value.trim();
+  const members = document.getElementById('wasteTeamMembers')?.value;
+  const contact = document.getElementById('wasteTeamContact')?.value.trim();
+  const email = document.getElementById('wasteTeamEmail')?.value.trim();
+  const experience = document.getElementById('wasteTeamExperience')?.value;
+  const focus = document.getElementById('wasteTeamFocus')?.value;
+  if (!teamName || !members || !contact || !email || !experience || !focus) {
+    showToast('Please fill in all required fields.', 'warning');
+    return;
+  }
+  const teams = Storage.get('pampanga_waste_teams') || [];
+  teams.push({ teamName, members, contact, email, experience, focus, eventId: parseInt(new URLSearchParams(window.location.search).get('id')) || 1, submittedAt: new Date().toISOString() });
+  Storage.set('pampanga_waste_teams', teams);
+  closeModal('wasteTeamModal');
+  PointsSystem.add(100, '♻️ Joined Waste Management Team');
+  showToast(`🌿 Welcome aboard, ${teamName}! +100 Green Points earned!`, 'success');
+}
+window.submitWasteTeamForm = submitWasteTeamForm;
+
+// ─── PATCH: Extend renderWasteGoalBar to include Apply button ──
+const _origRenderWasteGoalBar = renderWasteGoalBar;
+function renderWasteGoalBar(containerId, eventId) {
+  _origRenderWasteGoalBar(containerId, eventId);
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const applyDiv = document.createElement('div');
+  applyDiv.style.cssText = 'margin-top:1rem;padding:0.875rem;background:rgba(27,58,45,0.05);border-radius:10px;border:1px dashed rgba(75,124,95,0.3);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem';
+  applyDiv.innerHTML = `
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;color:var(--ink)">🙋 Want to help keep this event clean?</div>
+      <div style="font-size:0.72rem;color:var(--sage);margin-top:0.1rem">Join the Waste Management Team & earn Green Points!</div>
+    </div>
+    <button class="btn-eco btn-sm" onclick="openModal('wasteTeamModal')">Apply as Volunteer →</button>`;
+  el.querySelector('[style]')?.appendChild(applyDiv);
+}
+
+// Initialize new sections when event details load
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('eventDetailPage')) {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = parseInt(params.get('id')) || 1;
+    setTimeout(() => {
+      const event = PampangaDB.events.find(e => e.id === eventId) || PampangaDB.events[0];
+      renderFoodStalls('foodStallsContainer', event);
+      renderSponsors('sponsorsContainer', event);
+      renderMedicalTeams('medicalContainer', event);
+      renderPerks('perksContainer', event);
+    }, 350);
+  }
+});
 </script>
 
 </body>
