@@ -824,7 +824,7 @@ body::before {
       <div id="sidebarPlanBadge" style="margin-top:0.3rem;display:inline-flex;align-items:center;gap:0.3rem;font-size:0.58rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:4px;background:rgba(212,146,10,0.15);color:var(--amber);border:1px solid rgba(212,146,10,0.3)">🆓 Basic Plan</div>
     </div>
   </div>
-  <nav class="sidebar-nav"><div class="sidebar-section">Management</div><button class="sidebar-link" data-page="bizOverview"><span class="icon">📊</span><span>Analytics</span></button><button class="sidebar-link" data-page="bizFlashDeals"><span class="icon">⚡</span><span>Flash Deals</span></button><button class="sidebar-link" data-page="bizSavings"><span class="icon">💚</span><span>Eco Savings</span></button><button class="sidebar-link" data-page="bizSuki"><span class="icon">👥</span><span>Suki Analytics</span></button><button class="sidebar-link" data-page="bizPermits"><span class="icon">📋</span><span>Permits</span></button><button class="sidebar-link" data-page="bizEvents"><span class="icon">🎪</span><span>My Events</span></button><button class="sidebar-link" data-page="bizProducts"><span class="icon">🛍️</span><span>My Products</span></button><button class="sidebar-link" data-page="bizProfile"><span class="icon">🏢</span><span>Business Profile</span></button><button class="sidebar-link" data-page="bizBulk"><span class="icon">📦</span><span>Bulk Procurement</span></button><button class="sidebar-link" data-page="bizAI"><span class="icon">🤖</span><span>AI Insights</span></button><button class="sidebar-link" data-page="bizSubscription"><span class="icon">⭐</span><span>Subscription</span></button><div class="sidebar-section">Navigation</div><a class="sidebar-link" href="../index.html"><span class="icon">🌐</span><span>Public Site</span></a><a class="sidebar-link" href="../login.html"><span class="icon">🚪</span><span>Sign Out</span></a></nav>
+  <nav class="sidebar-nav"><div class="sidebar-section">Business</div><button class="sidebar-link" data-page="bizApply"><span class="icon">✅</span><span>Apply / Register</span></button><button class="sidebar-link" data-page="bizInvitations"><span class="icon">📧</span><span>Invitations <span id="invBadge" style="display:none;background:var(--lantern-glow);color:white;font-size:0.55rem;font-weight:800;padding:0.1rem 0.45rem;border-radius:8px;margin-left:0.25rem">0</span></span></button><button class="sidebar-link" data-page="bizEvents"><span class="icon">🎪</span><span>My Events</span></button><button class="sidebar-link" data-page="bizProducts"><span class="icon">📦</span><span>My Products</span></button><div class="sidebar-section">Management</div><button class="sidebar-link" data-page="bizOverview"><span class="icon">📊</span><span>Analytics</span></button><button class="sidebar-link" data-page="bizFlashDeals"><span class="icon">⚡</span><span>Flash Deals</span></button><button class="sidebar-link" data-page="bizSavings"><span class="icon">💚</span><span>Eco Savings</span></button><button class="sidebar-link" data-page="bizSuki"><span class="icon">👥</span><span>Suki Analytics</span></button><button class="sidebar-link" data-page="bizPermits"><span class="icon">📋</span><span>Permits</span></button><button class="sidebar-link" data-page="bizProfile"><span class="icon">🏢</span><span>Business Profile</span></button><button class="sidebar-link" data-page="bizBulk"><span class="icon">🛒</span><span>Bulk Procurement</span></button><button class="sidebar-link" data-page="bizAI"><span class="icon">🤖</span><span>AI Insights</span></button><button class="sidebar-link" data-page="bizSubscription"><span class="icon">⭐</span><span>Subscription</span></button><div class="sidebar-section">Navigation</div><a class="sidebar-link" href="../index.html"><span class="icon">🌐</span><span>Public Site</span></a><a class="sidebar-link" href="../login.html"><span class="icon">🚪</span><span>Sign Out</span></a></nav>
   <div class="sidebar-eco"><div style="font-size:0.58rem;color:var(--fern);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.3rem">🌿 Eco Pledge</div><p>This platform is carbon-neutral. Every ticket plants a tree in Pampanga.</p></div>
 </aside>
 <main class="dashboard-main">
@@ -844,7 +844,12 @@ body::before {
         <div class="stat-card"><div class="stat-icon fire">🎟️</div><div><div class="stat-num" id="bizTotalTickets">0</div><div class="stat-label">Tickets Sold</div></div></div>
         <div class="stat-card"><div class="stat-icon gold">🎪</div><div><div class="stat-num" id="bizTotalEvents">0</div><div class="stat-label">Events</div></div></div>
         <div class="stat-card"><div class="stat-icon eco">💰</div><div><div class="stat-num" id="bizRevenue">₱0</div><div class="stat-label">Revenue</div></div></div>
-        <div class="stat-card"><div class="stat-icon blue">🛍️</div><div><div class="stat-num" id="bizTotalProducts">0</div><div class="stat-label">Products</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue">📦</div><div><div class="stat-num" id="bizTotalProducts">0</div><div class="stat-label">Products</div></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.875rem;margin-bottom:1.75rem">
+        <div class="stat-card"><div class="stat-icon" style="background:rgba(196,30,58,0.1);color:var(--crimson)">📧</div><div><div class="stat-num" id="bizInvCount">0</div><div class="stat-label">Invitations</div></div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:rgba(75,124,95,0.1);color:var(--moss)">✅</div><div><div class="stat-num" id="bizAcceptedInv">0</div><div class="stat-label">Accepted Events</div></div></div>
+        <div class="stat-card"><div class="stat-icon" style="background:rgba(212,146,10,0.1);color:var(--amber)">⭐</div><div><div class="stat-num" id="bizPlanLabel">Basic</div><div class="stat-label">Subscription</div></div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4rem">
         <div style="background:white;border-radius:14px;padding:1.5rem;border:1px solid rgba(212,146,10,0.1);box-shadow:var(--shadow-card)">
@@ -855,7 +860,9 @@ body::before {
           <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:1.1rem">Quick Actions</h3>
           <div style="display:flex;flex-direction:column;gap:0.6rem">
             <button class="btn-fire" style="justify-content:flex-start" onclick="openModal('addEventModal')">🎪 Create New Event</button>
-            <button class="btn-gold" style="justify-content:flex-start" onclick="openModal('addProductModal')">🛍️ Add New Product</button>
+            <button class="btn-gold" style="justify-content:flex-start" onclick="openModal('addProductModal')">📦 Add New Product</button>
+            <button class="btn-eco" style="justify-content:flex-start" onclick="document.querySelector('[data-page=bizInvitations]').click()">📧 View Invitations</button>
+            <button class="btn-primary" style="justify-content:flex-start" onclick="document.querySelector('[data-page=bizApply]').click()">✅ Apply / Register Business</button>
             <a href="../marketplace.html" class="btn-ghost" style="justify-content:flex-start">📋 View Marketplace</a>
           </div>
           <div style="margin-top:1.25rem;padding:0.875rem;background:rgba(27,58,45,0.07);border-radius:10px;border:1px solid rgba(75,124,95,0.15)">
@@ -872,10 +879,85 @@ body::before {
       </div>
       <div style="background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(212,146,10,0.1);overflow-x:auto"><div id="bizEventsList"></div></div>
     </div>
+
+    <!-- 📧 INVITATIONS -->
+    <div class="dashboard-page" id="bizInvitations">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.3rem">📧 Invitations</h2>
+      <p style="font-size:0.82rem;color:var(--sage);margin-bottom:1.5rem">Manage event invitations from organizers. Accept to join an event, or decline with an optional reason.</p>
+
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem">
+        <button class="filter-tab active" data-inv-filter="all" onclick="filterInvitations('all',this)">All</button>
+        <button class="filter-tab" data-inv-filter="pending" onclick="filterInvitations('pending',this)">⏳ Pending</button>
+        <button class="filter-tab" data-inv-filter="accepted" onclick="filterInvitations('accepted',this)">✅ Accepted</button>
+        <button class="filter-tab" data-inv-filter="declined" onclick="filterInvitations('declined',this)">❌ Declined</button>
+      </div>
+
+      <div id="bizInvitationsList" style="display:flex;flex-direction:column;gap:1rem"></div>
+    </div>
+
+    <!-- ✅ APPLY AS BUSINESS -->
+    <div class="dashboard-page" id="bizApply">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.3rem">✅ Apply / Register as a Business</h2>
+      <p style="font-size:0.82rem;color:var(--sage);margin-bottom:1.75rem">Register your business to gain full access to product posting, invitations, and event participation. Choose your business type below.</p>
+
+      <!-- Application status (if submitted) -->
+      <div id="appStatusBanner" style="display:none;padding:1rem 1.4rem;border-radius:12px;margin-bottom:1.5rem"></div>
+
+      <!-- Business type selector -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem" id="bizTypeCards">
+        <div onclick="showApplicationForm('food')" style="cursor:pointer;background:white;border-radius:16px;padding:1.5rem;border:2px solid rgba(212,146,10,0.15);box-shadow:var(--shadow-card);text-align:center;transition:all 0.25s" onmouseover="this.style.borderColor='var(--ember)';this.style.boxShadow='0 8px 24px rgba(196,30,58,0.12)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.15)';this.style.boxShadow='var(--shadow-card)'">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">🍽️</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.35rem">Food Stall</div>
+          <p style="font-size:0.75rem;color:var(--sage);line-height:1.5">Restaurants, carinderias, food vendors &amp; caterers serving delicious Kapampangan cuisine</p>
+          <div style="margin-top:1rem"><span class="btn-fire btn-sm" style="pointer-events:none">Apply Now →</span></div>
+        </div>
+        <div onclick="showApplicationForm('hotel')" style="cursor:pointer;background:white;border-radius:16px;padding:1.5rem;border:2px solid rgba(212,146,10,0.15);box-shadow:var(--shadow-card);text-align:center;transition:all 0.25s" onmouseover="this.style.borderColor='var(--amber)';this.style.boxShadow='0 8px 24px rgba(212,146,10,0.12)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.15)';this.style.boxShadow='var(--shadow-card)'">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">🏨</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.35rem">Hotel / Accommodation</div>
+          <p style="font-size:0.75rem;color:var(--sage);line-height:1.5">Hotels, resorts, inns &amp; homestays providing accommodation for festival attendees</p>
+          <div style="margin-top:1rem"><span class="btn-gold btn-sm" style="pointer-events:none">Apply Now →</span></div>
+        </div>
+        <div onclick="showApplicationForm('waste')" style="cursor:pointer;background:white;border-radius:16px;padding:1.5rem;border:2px solid rgba(212,146,10,0.15);box-shadow:var(--shadow-card);text-align:center;transition:all 0.25s" onmouseover="this.style.borderColor='var(--fern)';this.style.boxShadow='0 8px 24px rgba(75,124,95,0.12)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.15)';this.style.boxShadow='var(--shadow-card)'">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">♻️</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.35rem">Waste Management Team</div>
+          <p style="font-size:0.75rem;color:var(--sage);line-height:1.5">Eco organizations, recycling teams &amp; sanitation groups supporting sustainable festivals</p>
+          <div style="margin-top:1rem"><span class="btn-eco btn-sm" style="pointer-events:none">Apply Now →</span></div>
+        </div>
+      </div>
+
+      <!-- Dynamic form area -->
+      <div id="bizApplicationForm" style="display:none"></div>
+
+      <!-- My Applications history -->
+      <div style="margin-top:2rem">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:1rem">📋 My Applications</h3>
+        <div id="myApplicationsList">
+          <div style="text-align:center;padding:2rem;color:var(--sage);font-size:0.82rem">No applications submitted yet. Choose a business type above to get started.</div>
+        </div>
+      </div>
+    </div>
     <div class="dashboard-page" id="bizProducts">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem">
-        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700">My Products</h2>
-        <button class="btn-primary" onclick="openModal('addProductModal')">+ Add Product</button>
+      <!-- Tier limit banner -->
+      <div id="productTierBanner" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.875rem 1.25rem;border-radius:12px;background:rgba(212,146,10,0.07);border:1.5px solid rgba(212,146,10,0.2);margin-bottom:1.25rem">
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <span id="tierBannerIcon" style="font-size:1.3rem">🆓</span>
+          <div>
+            <div id="tierBannerTitle" style="font-weight:700;font-size:0.9rem;color:var(--ink)">Basic Plan — Product Posting</div>
+            <div id="tierBannerDesc" style="font-size:0.72rem;color:var(--sage)">Registered: up to 10 products · 2-week posting window</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <div style="text-align:right">
+            <div id="tierBannerUsed" style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink)">0 / 10</div>
+            <div style="font-size:0.62rem;color:var(--sage)">Products used</div>
+          </div>
+          <button onclick="document.querySelector('[data-page=bizSubscription]').click()" class="btn-gold btn-sm">⭐ Upgrade</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700">📦 My Products</h2>
+        <button class="btn-primary" onclick="checkProductLimit()">+ Add Product</button>
       </div>
       <div style="background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(212,146,10,0.1);overflow-x:auto"><div id="bizProductsList"></div></div>
     </div>
@@ -1130,9 +1212,11 @@ body::before {
           </div>
           <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem">
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Public listing on Confest marketplace</div>
-            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Event & product creation</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Event &amp; product creation</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> <strong>10 products</strong> (registered) / <strong>3 products</strong> (unregistered)</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> <strong>2-week</strong> product posting window</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Receive &amp; respond to invitations</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Basic analytics dashboard</div>
-            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:var(--charcoal)"><span style="color:var(--moss);font-weight:700">✓</span> Flash Deals & Bulk Procurement</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(18,8,8,0.3)"><span>✕</span> <span>Ads shown on your listing</span></div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(18,8,8,0.3)"><span>✕</span> <span>No "Preferred Seller" badge</span></div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(18,8,8,0.3)"><span>✕</span> <span>AI Insights Reports locked</span></div>
@@ -1157,11 +1241,13 @@ body::before {
           </div>
           <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem">
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">✓</span> Everything in Basic</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">📦</span> <strong style="color:white">Unlimited</strong> product postings</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">📅</span> <strong style="color:white">1-month</strong> product posting window</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">⭐</span> <strong style="color:var(--amber)">"Preferred Seller"</strong> badge on listings</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">🚫</span> <strong style="color:white">Ad-free</strong> Dashboard experience</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">🤖</span> <strong style="color:white">AI Insights Reports</strong> (monthly)</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">📊</span> Weather × Sales forecasting</div>
-            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">📈</span> Advanced Suki & buyer analytics</div>
+            <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">📈</span> Advanced Suki &amp; buyer analytics</div>
             <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;color:rgba(200,221,208,0.85)"><span style="color:var(--amber);font-weight:700">⚡</span> Priority support</div>
           </div>
           <button id="btnSelectPremium" onclick="selectPlan('premium')" class="btn-fire" style="width:100%;justify-content:center">Upgrade to Premium →</button>
@@ -1188,46 +1274,61 @@ body::before {
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
             </tr>
             <tr style="background:rgba(212,146,10,0.015)">
+              <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Product Posting Limit</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">10 (reg.) / 3 (unreg.)</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">♾️ Unlimited</td>
+            </tr>
+            <tr>
+              <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Product Posting Window</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">2 weeks</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">1 month (30 days)</td>
+            </tr>
+            <tr style="background:rgba(212,146,10,0.015)">
+              <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Receive &amp; Manage Invitations</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
+              <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
+            </tr>
+            <tr>
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Events &amp; Products Management</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
             </tr>
-            <tr>
+            <tr style="background:rgba(212,146,10,0.015)">
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Flash Deals &amp; Bulk Procurement</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
             </tr>
-            <tr style="background:rgba(212,146,10,0.015)">
+            <tr>
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Basic Analytics</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅</td>
             </tr>
-            <tr>
+            <tr style="background:rgba(212,146,10,0.015)">
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Ads on Dashboard &amp; Listing</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">Shown</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--moss);border-bottom:1px solid rgba(212,146,10,0.06)">🚫 Removed</td>
             </tr>
-            <tr style="background:rgba(212,146,10,0.015)">
+            <tr>
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">"Preferred Seller" Badge</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:rgba(18,8,8,0.3);border-bottom:1px solid rgba(212,146,10,0.06)">—</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">⭐ Included</td>
             </tr>
-            <tr>
+            <tr style="background:rgba(212,146,10,0.015)">
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">AI Insights Reports (Monthly)</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:rgba(18,8,8,0.3);border-bottom:1px solid rgba(212,146,10,0.06)">🔒 Locked</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">🤖 Included</td>
             </tr>
-            <tr style="background:rgba(212,146,10,0.015)">
+            <tr>
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Weather × Sales Forecasting</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:rgba(18,8,8,0.3);border-bottom:1px solid rgba(212,146,10,0.06)">🔒 Locked</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">📊 Included</td>
             </tr>
-            <tr>
+            <tr style="background:rgba(212,146,10,0.015)">
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal);border-bottom:1px solid rgba(212,146,10,0.06)">Advanced Suki Analytics</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage);border-bottom:1px solid rgba(212,146,10,0.06)">Limited</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember);border-bottom:1px solid rgba(212,146,10,0.06)">✅ Full Access</td>
             </tr>
-            <tr style="background:rgba(212,146,10,0.015)">
+            <tr>
               <td style="padding:0.72rem 1.5rem;font-size:0.8rem;font-weight:600;color:var(--charcoal)">Priority Support</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;color:var(--sage)">Standard</td>
               <td style="padding:0.72rem 1rem;text-align:center;font-size:0.78rem;font-weight:700;color:var(--ember)">⚡ Priority</td>
@@ -1266,23 +1367,71 @@ body::before {
   </div>
 </div>
 <div class="modal-overlay" id="addProductModal">
-  <div class="modal" style="max-width:460px">
-    <div class="modal-header"><h2 class="modal-title">🛍️ Add New Product</h2><button class="modal-close" onclick="closeModal('addProductModal')">✕</button></div>
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header"><h2 class="modal-title">📦 Add New Product / Service</h2><button class="modal-close" onclick="closeModal('addProductModal')">✕</button></div>
     <form id="addProductForm">
       <div style="display:grid;grid-template-columns:1fr 75px;gap:0.75rem">
-        <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="form-input" id="prodName" required></div>
+        <div class="form-group"><label class="form-label">Product / Service Name</label><input type="text" class="form-input" id="prodName" placeholder="e.g. Tibok-Tibok, Deluxe Room" required></div>
         <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="prodEmoji" placeholder="🍮" style="text-align:center;font-size:1.2rem"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="prodCategory"><option>Kakanin</option><option>Meat Products</option><option>Baked Goods</option><option>Sweets</option><option>Crafts</option></select></div>
-        <div class="form-group"><label class="form-label">Price (₱)</label><input type="number" class="form-input" id="prodPrice" required min="1"></div>
+        <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="prodCategory"><option>Food &amp; Beverage</option><option>Kakanin</option><option>Meat Products</option><option>Baked Goods</option><option>Sweets &amp; Desserts</option><option>Beverages</option><option>Hotel Room</option><option>Service Package</option><option>Waste Collection</option><option>Crafts</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">Base Price (₱)</label><input type="number" class="form-input" id="prodPrice" required min="0" placeholder="0"></div>
       </div>
-      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="prodDesc" required></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Quantity Available</label><input type="number" class="form-input" id="prodQuantity" min="0" placeholder="e.g. 50"></div>
+        <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="prodStatus"><option value="active">Active</option><option value="inactive">Inactive</option><option value="sold_out">Sold Out</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="prodDesc" required placeholder="Describe your product or service..."></textarea></div>
+      <div class="form-group"><label class="form-label">Tags (comma-separated)</label><input type="text" class="form-input" id="prodTags" placeholder="e.g. new, bestseller, eco-friendly"></div>
       <div style="display:flex;gap:0.75rem">
         <button type="submit" class="btn-fire" style="flex:1;justify-content:center">Add Product</button>
         <button type="button" class="btn-ghost" onclick="closeModal('addProductModal')" style="flex:1;justify-content:center">Cancel</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div class="modal-overlay" id="editProductModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header"><h2 class="modal-title">✏️ Edit Product</h2><button class="modal-close" onclick="closeModal('editProductModal')">✕</button></div>
+    <form id="editProductForm">
+      <input type="hidden" id="editProdId">
+      <div style="display:grid;grid-template-columns:1fr 75px;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="form-input" id="editProdName" required></div>
+        <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="editProdEmoji" style="text-align:center;font-size:1.2rem"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="editProdCategory"><option>Food &amp; Beverage</option><option>Kakanin</option><option>Meat Products</option><option>Baked Goods</option><option>Sweets &amp; Desserts</option><option>Beverages</option><option>Hotel Room</option><option>Service Package</option><option>Waste Collection</option><option>Crafts</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">Base Price (₱)</label><input type="number" class="form-input" id="editProdPrice" required min="0"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Discount Price (₱) <span style="font-size:0.65rem;color:var(--sage)">(optional)</span></label><input type="number" class="form-input" id="editProdDiscount" min="0" placeholder="Leave blank for no discount"></div>
+        <div class="form-group"><label class="form-label">Quantity Available</label><input type="number" class="form-input" id="editProdQuantity" min="0"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="editProdStatus"><option value="active">Active</option><option value="inactive">Inactive</option><option value="sold_out">Sold Out</option></select></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="editProdDesc" required></textarea></div>
+      <div class="form-group"><label class="form-label">Tags (comma-separated)</label><input type="text" class="form-input" id="editProdTags" placeholder="e.g. new, bestseller, eco-friendly"></div>
+      <div style="display:flex;gap:0.75rem">
+        <button type="submit" class="btn-fire" style="flex:1;justify-content:center">Save Changes</button>
+        <button type="button" class="btn-ghost" onclick="closeModal('editProductModal')" style="flex:1;justify-content:center">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Decline Invitation Modal -->
+<div class="modal-overlay" id="declineInvModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header"><h2 class="modal-title">❌ Decline Invitation</h2><button class="modal-close" onclick="closeModal('declineInvModal')">✕</button></div>
+    <input type="hidden" id="declineInvId">
+    <p style="font-size:0.82rem;color:var(--sage);margin-bottom:1rem">Optionally provide a reason for declining this invitation.</p>
+    <div class="form-group"><label class="form-label">Reason (optional)</label><textarea class="form-textarea" id="declineReason" placeholder="e.g. Unavailable on that date, capacity issues..." style="min-height:80px"></textarea></div>
+    <div style="display:flex;gap:0.75rem">
+      <button onclick="confirmDeclineInv()" class="btn-danger" style="flex:1;justify-content:center">Decline Invitation</button>
+      <button onclick="closeModal('declineInvModal')" class="btn-ghost" style="flex:1;justify-content:center">Cancel</button>
+    </div>
   </div>
 </div>
 </div>
@@ -1395,6 +1544,15 @@ const PampangaDB = {
     { id: 3, name: "San Fernando Crafts", type: "Arts & Crafts", location: "San Fernando", contact: "0919-345-6789", verified: true, products: [4, 8] },
     { id: 4, name: "Heritage Bakers PH", type: "Bakery", location: "Mabalacat", contact: "0920-456-7890", verified: false, products: [5] }
   ],
+
+  businessInvitations: [
+    { id: 1, businessId: 1, businessName: "Kapampangan Sweets Co.", eventId: 1, eventName: "Kapampangan Food Festival 2025", organizerId: 10, organizer: "Dept. of Tourism – Pampanga", eventDate: "2025-08-15", location: "SM City Pampanga, San Fernando", requirements: "Provide at least 5 kakanin varieties. Booth size: 3×3m.", terms: { commission: "10% of gross sales", boothFee: "Free for featured vendors", compensation: "Certificate + event promotion" }, status: "pending", sentDate: "2025-06-01", respondDate: null, reason: "" },
+    { id: 2, businessId: 1, businessName: "Kapampangan Sweets Co.", eventId: 2, eventName: "Giant Lantern Festival Bazaar", organizerId: 11, organizer: "San Fernando City Tourism Office", eventDate: "2025-12-14", location: "City Hall Grounds, San Fernando", requirements: "Festival-themed products preferred. Eco-packaging required.", terms: { commission: "8% of sales", boothFee: "₱500/day", compensation: "Featured in festival program + social media" }, status: "pending", sentDate: "2025-06-10", respondDate: null, reason: "" },
+    { id: 3, businessId: 1, businessName: "Kapampangan Sweets Co.", eventId: 3, eventName: "Pampanga Eco Festival", organizerId: 12, organizer: "Green Pampanga Initiative", eventDate: "2025-09-20", location: "Nayong Pilipino, Angeles City", requirements: "All products must use biodegradable packaging. No single-use plastics.", terms: { commission: "5% of sales", boothFee: "Free – eco-certified vendors", compensation: "Green certification + priority placement" }, status: "accepted", sentDate: "2025-05-15", respondDate: "2025-05-18", reason: "" },
+    { id: 4, businessId: 1, businessName: "Kapampangan Sweets Co.", eventId: 4, eventName: "Clark International Food Expo", organizerId: 13, organizer: "Clark Development Corporation", eventDate: "2025-07-05", location: "Clark Freeport Zone, Pampanga", requirements: "International-quality packaging. Health certification required.", terms: { commission: "12% of gross sales", boothFee: "₱2,000 registration", compensation: "National exposure + export opportunity links" }, status: "declined", sentDate: "2025-04-20", respondDate: "2025-04-22", reason: "Booth fee exceeds current budget." }
+  ],
+
+  businessApplications: [],
 
   users: [
     { id: 1, name: "Juan dela Cruz", email: "juan@email.com", role: "user", tickets: [1, 3] },
@@ -2018,12 +2176,68 @@ function initUserDashboard() {
 // ===== BUSINESS DASHBOARD =====
 let bizEvents = JSON.parse(JSON.stringify(PampangaDB.events.slice(0, 3)));
 let bizProducts = JSON.parse(JSON.stringify(PampangaDB.products.slice(0, 4)));
+let bizInvitations = JSON.parse(JSON.stringify(PampangaDB.businessInvitations));
+let bizApplications = JSON.parse(JSON.stringify(PampangaDB.businessApplications));
+let bizPlan = Storage.get('biz_plan') || 'basic';
+let bizRegistered = Storage.get('biz_registered') !== false; // treat as registered by default for demo
+
+// Product limits per plan
+const PLAN_LIMITS = {
+  basic_registered:   { limit: 10, days: 14, label: 'Basic (Registered)',   icon: '🆓' },
+  basic_unregistered: { limit: 3,  days: 14, label: 'Basic (Unregistered)', icon: '🌱' },
+  premium:            { limit: Infinity, days: 30, label: 'Premium', icon: '⭐' }
+};
+
+function getBizPlanKey() {
+  if (bizPlan === 'premium') return 'premium';
+  return bizRegistered ? 'basic_registered' : 'basic_unregistered';
+}
+
+function getActiveProductLimit() {
+  return PLAN_LIMITS[getBizPlanKey()].limit;
+}
+
+function updateProductTierBanner() {
+  const planKey = getBizPlanKey();
+  const plan = PLAN_LIMITS[planKey];
+  const used = bizProducts.length;
+  const limit = plan.limit;
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+  setHtml('tierBannerIcon', plan.icon);
+  setEl('tierBannerTitle', plan.label + ' — Product Posting');
+  setEl('tierBannerDesc', `${plan.days}-day posting window · ${limit === Infinity ? 'Unlimited products' : 'Up to ' + limit + ' products'}`);
+  setEl('tierBannerUsed', used + ' / ' + (limit === Infinity ? '∞' : limit));
+  // color warning when near limit
+  const banner = document.getElementById('productTierBanner');
+  if (banner) {
+    if (limit !== Infinity && used >= limit) {
+      banner.style.background = 'rgba(196,30,58,0.07)';
+      banner.style.borderColor = 'rgba(196,30,58,0.3)';
+    } else {
+      banner.style.background = 'rgba(212,146,10,0.07)';
+      banner.style.borderColor = 'rgba(212,146,10,0.2)';
+    }
+  }
+}
+
+function checkProductLimit() {
+  const limit = getActiveProductLimit();
+  if (bizProducts.length >= limit) {
+    showToast(`Product limit reached (${limit}). Upgrade to Premium for unlimited products!`, 'error');
+    setTimeout(() => document.querySelector('[data-page=bizSubscription]').click(), 1200);
+    return;
+  }
+  openModal('addProductModal');
+}
 
 function initBusinessDashboard() {
   initDashboard();
 
   renderBizEvents();
   renderBizProducts();
+  renderBizInvitations('all');
+  renderMyApplications();
 
   // Analytics
   const totalTickets = bizEvents.reduce((a, e) => a + e.ticketsSold, 0);
@@ -2032,6 +2246,18 @@ function initBusinessDashboard() {
   setEl('bizTotalEvents', bizEvents.length);
   setEl('bizTotalProducts', bizProducts.length);
   setEl('bizRevenue', '₱' + (totalTickets * 150).toLocaleString());
+
+  // Invitation stats
+  const pendingInv = bizInvitations.filter(i => i.status === 'pending').length;
+  const acceptedInv = bizInvitations.filter(i => i.status === 'accepted').length;
+  setEl('bizInvCount', bizInvitations.length);
+  setEl('bizAcceptedInv', acceptedInv);
+  setEl('bizPlanLabel', bizPlan.charAt(0).toUpperCase() + bizPlan.slice(1));
+  // Invitation badge in sidebar
+  const badge = document.getElementById('invBadge');
+  if (badge) { badge.textContent = pendingInv; badge.style.display = pendingInv > 0 ? 'inline' : 'none'; }
+
+  updateProductTierBanner();
 
   // Event form
   const eventForm = document.getElementById('addEventForm');
@@ -2057,25 +2283,68 @@ function initBusinessDashboard() {
     });
   }
 
-  // Product form
+  // Add Product form
   const productForm = document.getElementById('addProductForm');
   if (productForm) {
     productForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const expDays = PLAN_LIMITS[getBizPlanKey()].days;
+      const expDate = new Date();
+      expDate.setDate(expDate.getDate() + expDays);
       const newProduct = {
         id: Date.now(),
         name: document.getElementById('prodName').value,
         seller: 'My Business',
+        basePrice: parseInt(document.getElementById('prodPrice').value) || 0,
         price: parseInt(document.getElementById('prodPrice').value) || 0,
-        image: document.getElementById('prodEmoji').value || '🛍️',
+        discountPrice: null,
+        image: document.getElementById('prodEmoji').value || '📦',
         category: document.getElementById('prodCategory').value,
-        description: document.getElementById('prodDesc').value
+        description: document.getElementById('prodDesc').value,
+        quantity: parseInt(document.getElementById('prodQuantity').value) || null,
+        status: document.getElementById('prodStatus').value,
+        tags: document.getElementById('prodTags').value.split(',').map(t => t.trim()).filter(Boolean),
+        views: 0,
+        postedDate: new Date().toISOString().split('T')[0],
+        expiryDate: expDate.toISOString().split('T')[0]
       };
       bizProducts.push(newProduct);
       renderBizProducts();
+      updateProductTierBanner();
+      setEl('bizTotalProducts', bizProducts.length);
       closeModal('addProductModal');
       productForm.reset();
-      showToast('Product added successfully!', 'success');
+      showToast('Product added! Expires ' + newProduct.expiryDate, 'success');
+    });
+  }
+
+  // Edit Product form
+  const editForm = document.getElementById('editProductForm');
+  if (editForm) {
+    editForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('editProdId').value);
+      const idx = bizProducts.findIndex(p => p.id === id);
+      if (idx === -1) return;
+      const basePrice = parseInt(document.getElementById('editProdPrice').value) || 0;
+      const discountVal = document.getElementById('editProdDiscount').value;
+      const discountPrice = discountVal ? parseInt(discountVal) : null;
+      bizProducts[idx] = {
+        ...bizProducts[idx],
+        name: document.getElementById('editProdName').value,
+        image: document.getElementById('editProdEmoji').value || bizProducts[idx].image,
+        category: document.getElementById('editProdCategory').value,
+        basePrice,
+        price: discountPrice !== null ? discountPrice : basePrice,
+        discountPrice,
+        quantity: parseInt(document.getElementById('editProdQuantity').value) || null,
+        status: document.getElementById('editProdStatus').value,
+        description: document.getElementById('editProdDesc').value,
+        tags: document.getElementById('editProdTags').value.split(',').map(t => t.trim()).filter(Boolean)
+      };
+      renderBizProducts();
+      closeModal('editProductModal');
+      showToast('Product updated successfully!', 'success');
     });
   }
 }
@@ -2104,27 +2373,292 @@ function renderBizEvents() {
   `;
 }
 
+function getStatusBadge(status) {
+  const map = { active: ['var(--moss)', '#e8f5ec', '✅ Active'], inactive: ['var(--sage)', '#f5f5f5', '⏸ Inactive'], sold_out: ['var(--crimson)', '#fdecea', '🚫 Sold Out'] };
+  const s = map[status] || map['inactive'];
+  return `<span style="color:${s[0]};background:${s[1]};padding:0.15rem 0.55rem;border-radius:4px;font-size:0.65rem;font-weight:800">${s[2]}</span>`;
+}
+
 function renderBizProducts() {
   const container = document.getElementById('bizProductsList');
   if (!container) return;
+  if (bizProducts.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--sage);font-size:0.85rem">No products yet. Click <strong>+ Add Product</strong> to get started.</div>`;
+    return;
+  }
   container.innerHTML = `
     <table class="data-table">
       <thead><tr>
-        <th>Product</th><th>Category</th><th>Price</th><th>Actions</th>
+        <th>Product</th><th>Category</th><th>Price</th><th>Qty</th><th>Status</th><th>Expires</th><th>Actions</th>
       </tr></thead>
       <tbody>
-        ${bizProducts.map(p => `
-          <tr>
-            <td><span style="font-size:1.3rem;margin-right:0.5rem">${p.image}</span><strong>${p.name}</strong></td>
-            <td>${p.category}</td>
-            <td style="font-weight:600;color:var(--crimson)">₱${p.price}</td>
-            <td><button class="btn-outline btn-sm" onclick="editBizProduct(${p.id})">Edit</button>
-                <button class="btn-danger btn-sm" onclick="deleteBizProduct(${p.id})" style="margin-left:0.3rem">Delete</button></td>
-          </tr>
-        `).join('')}
+        ${bizProducts.map(p => {
+          const discountLabel = p.discountPrice != null ? `<br><span style="font-size:0.65rem;color:var(--sage);text-decoration:line-through">₱${p.basePrice}</span> <span style="font-size:0.65rem;color:var(--moss);font-weight:800">-${Math.round((1 - p.discountPrice/p.basePrice)*100)}% off</span>` : '';
+          return `<tr>
+            <td><span style="font-size:1.2rem;margin-right:0.4rem">${p.image || '📦'}</span><strong>${p.name}</strong>${p.tags && p.tags.length ? `<br><span style="font-size:0.62rem;color:var(--amber)">${p.tags.join(', ')}</span>` : ''}</td>
+            <td style="font-size:0.8rem">${p.category}</td>
+            <td style="font-weight:600;color:var(--crimson)">₱${p.price || p.basePrice}${discountLabel}</td>
+            <td style="font-size:0.8rem;color:var(--charcoal)">${p.quantity != null ? p.quantity : '—'}</td>
+            <td>${getStatusBadge(p.status || 'active')}</td>
+            <td style="font-size:0.75rem;color:var(--sage)">${p.expiryDate ? p.expiryDate : '—'}</td>
+            <td style="white-space:nowrap">
+              <button class="btn-outline btn-sm" onclick="editBizProduct(${p.id})">Edit</button>
+              <button class="btn-danger btn-sm" onclick="deleteBizProduct(${p.id})" style="margin-left:0.3rem">Delete</button>
+            </td>
+          </tr>`;
+        }).join('')}
       </tbody>
     </table>
   `;
+}
+
+// ===== INVITATIONS =====
+let currentInvFilter = 'all';
+
+function filterInvitations(filter, btn) {
+  currentInvFilter = filter;
+  document.querySelectorAll('[data-inv-filter]').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderBizInvitations(filter);
+}
+
+function renderBizInvitations(filter) {
+  const container = document.getElementById('bizInvitationsList');
+  if (!container) return;
+  const list = filter === 'all' ? bizInvitations : bizInvitations.filter(i => i.status === filter);
+  if (list.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--sage);font-size:0.85rem">No ${filter === 'all' ? '' : filter} invitations found.</div>`;
+    return;
+  }
+  const statusColor = { pending: '#f59e0b', accepted: 'var(--moss)', declined: 'var(--crimson)' };
+  const statusLabel = { pending: '⏳ Pending', accepted: '✅ Accepted', declined: '❌ Declined' };
+  container.innerHTML = list.map(inv => `
+    <div style="background:white;border-radius:14px;border:1px solid rgba(212,146,10,0.12);box-shadow:var(--shadow-card);overflow:hidden">
+      <div style="padding:1.25rem 1.4rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between">
+        <div style="flex:1;min-width:220px">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem">
+            <span style="font-size:1.1rem">🎪</span>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)">${inv.eventName}</h3>
+            <span style="background:${statusColor[inv.status]}22;color:${statusColor[inv.status]};font-size:0.62rem;font-weight:800;padding:0.15rem 0.55rem;border-radius:4px;border:1px solid ${statusColor[inv.status]}44">${statusLabel[inv.status]}</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--sage);margin-bottom:0.5rem">👤 ${inv.organizer} &nbsp;·&nbsp; 📅 ${inv.eventDate} &nbsp;·&nbsp; 📍 ${inv.location}</div>
+          <div style="font-size:0.78rem;color:var(--charcoal);line-height:1.6;margin-bottom:0.5rem"><strong>Requirements:</strong> ${inv.requirements}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;font-size:0.75rem">
+            ${inv.terms.commission ? `<span style="background:rgba(212,146,10,0.08);color:var(--amber);padding:0.2rem 0.6rem;border-radius:5px;border:1px solid rgba(212,146,10,0.2)">💰 ${inv.terms.commission}</span>` : ''}
+            ${inv.terms.boothFee ? `<span style="background:rgba(75,124,95,0.08);color:var(--fern);padding:0.2rem 0.6rem;border-radius:5px;border:1px solid rgba(75,124,95,0.2)">🏪 ${inv.terms.boothFee}</span>` : ''}
+            ${inv.terms.compensation ? `<span style="background:rgba(27,58,45,0.07);color:var(--moss);padding:0.2rem 0.6rem;border-radius:5px;border:1px solid rgba(75,124,95,0.15)">🎁 ${inv.terms.compensation}</span>` : ''}
+          </div>
+          ${inv.status === 'declined' && inv.reason ? `<div style="margin-top:0.5rem;font-size:0.75rem;color:var(--crimson);font-style:italic">Reason: ${inv.reason}</div>` : ''}
+          ${inv.respondDate ? `<div style="margin-top:0.35rem;font-size:0.72rem;color:var(--sage)">Responded: ${inv.respondDate}</div>` : `<div style="margin-top:0.35rem;font-size:0.72rem;color:var(--sage)">Sent: ${inv.sentDate}</div>`}
+        </div>
+        ${inv.status === 'pending' ? `
+        <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end">
+          <button onclick="acceptInvitation(${inv.id})" class="btn-eco btn-sm">✅ Accept</button>
+          <button onclick="openDeclineModal(${inv.id})" class="btn-danger btn-sm">❌ Decline</button>
+        </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function acceptInvitation(id) {
+  const inv = bizInvitations.find(i => i.id === id);
+  if (!inv) return;
+  inv.status = 'accepted';
+  inv.respondDate = new Date().toISOString().split('T')[0];
+  renderBizInvitations(currentInvFilter);
+  // update sidebar badge
+  const pendingCount = bizInvitations.filter(i => i.status === 'pending').length;
+  const badge = document.getElementById('invBadge');
+  if (badge) { badge.textContent = pendingCount; badge.style.display = pendingCount > 0 ? 'inline' : 'none'; }
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('bizAcceptedInv', bizInvitations.filter(i => i.status === 'accepted').length);
+  showToast('Invitation accepted! You\'ve joined ' + inv.eventName, 'success');
+}
+
+function openDeclineModal(id) {
+  document.getElementById('declineInvId').value = id;
+  document.getElementById('declineReason').value = '';
+  openModal('declineInvModal');
+}
+
+function confirmDeclineInv() {
+  const id = parseInt(document.getElementById('declineInvId').value);
+  const reason = document.getElementById('declineReason').value.trim();
+  const inv = bizInvitations.find(i => i.id === id);
+  if (!inv) return;
+  inv.status = 'declined';
+  inv.reason = reason;
+  inv.respondDate = new Date().toISOString().split('T')[0];
+  closeModal('declineInvModal');
+  renderBizInvitations(currentInvFilter);
+  const pendingCount = bizInvitations.filter(i => i.status === 'pending').length;
+  const badge = document.getElementById('invBadge');
+  if (badge) { badge.textContent = pendingCount; badge.style.display = pendingCount > 0 ? 'inline' : 'none'; }
+  showToast('Invitation declined.', 'info');
+}
+
+// ===== APPLY AS BUSINESS =====
+const APPLICATION_FORMS = {
+  food: {
+    icon: '🍽️', title: 'Food Stall Application', btnClass: 'btn-fire',
+    fields: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Business Name</label><input type="text" class="form-input" name="businessName" required placeholder="e.g. Aling Maria's Kakanin"></div>
+        <div class="form-group"><label class="form-label">Owner Name</label><input type="text" class="form-input" name="ownerName" required></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Contact Number</label><input type="tel" class="form-input" name="phone" required placeholder="09XX-XXX-XXXX"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" name="email" required></div>
+      </div>
+      <div class="form-group"><label class="form-label">Business Location</label><input type="text" class="form-input" name="location" required placeholder="City/Municipality, Pampanga"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Type of Cuisine</label><select class="form-select" name="cuisine"><option>Filipino</option><option>Asian</option><option>Fast Food</option><option>Desserts & Kakanin</option><option>Beverages</option><option>Street Food</option><option>Mixed / Fusion</option></select></div>
+        <div class="form-group"><label class="form-label">Years in Operation</label><input type="number" class="form-input" name="yearsOp" min="0" placeholder="e.g. 5"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Health / Food Safety Certifications</label><input type="text" class="form-input" name="certifications" placeholder="e.g. DOH cert, PhilSAFE, HACCP (optional)"></div>
+      <div class="form-group"><label class="form-label">Sample Menu Items</label><textarea class="form-textarea" name="sampleMenu" placeholder="e.g. Tibok-Tibok ₱180, Tocino ₱350... (optional)" style="min-height:60px"></textarea></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" name="description" required placeholder="Tell us about your food business..."></textarea></div>
+    `
+  },
+  hotel: {
+    icon: '🏨', title: 'Hotel / Accommodation Application', btnClass: 'btn-gold',
+    fields: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Hotel / Property Name</label><input type="text" class="form-input" name="businessName" required placeholder="e.g. Royce Hotel Pampanga"></div>
+        <div class="form-group"><label class="form-label">Owner / Manager Name</label><input type="text" class="form-input" name="ownerName" required></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Contact Number</label><input type="tel" class="form-input" name="phone" required placeholder="09XX-XXX-XXXX"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" name="email" required></div>
+      </div>
+      <div class="form-group"><label class="form-label">Address / Location</label><input type="text" class="form-input" name="location" required placeholder="Full address, City, Pampanga"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Number of Rooms</label><input type="number" class="form-input" name="numRooms" min="1" required></div>
+        <div class="form-group"><label class="form-label">Star Rating</label><select class="form-select" name="starRating"><option>1 Star</option><option>2 Stars</option><option>3 Stars</option><option>4 Stars</option><option>5 Stars</option><option>Budget / Unrated</option></select></div>
+        <div class="form-group"><label class="form-label">Check-in Time</label><input type="time" class="form-input" name="checkIn" value="14:00"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Room Categories Available</label><input type="text" class="form-input" name="roomCategories" placeholder="e.g. Standard, Deluxe, Suite, Family Room"></div>
+      <div class="form-group"><label class="form-label">Amenities</label><input type="text" class="form-input" name="amenities" placeholder="e.g. Pool, WiFi, Restaurant, Parking, Gym"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" name="description" required placeholder="Tell us about your property and what makes it special..."></textarea></div>
+    `
+  },
+  waste: {
+    icon: '♻️', title: 'Waste Management Team Application', btnClass: 'btn-eco',
+    fields: `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Organization / Team Name</label><input type="text" class="form-input" name="businessName" required placeholder="e.g. Green Pampanga Warriors"></div>
+        <div class="form-group"><label class="form-label">Team Leader Name</label><input type="text" class="form-input" name="ownerName" required></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Contact Number</label><input type="tel" class="form-input" name="phone" required placeholder="09XX-XXX-XXXX"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" name="email" required></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Location / Service Area</label><input type="text" class="form-input" name="location" required placeholder="e.g. San Fernando, Angeles City"></div>
+        <div class="form-group"><label class="form-label">Team Size</label><input type="number" class="form-input" name="teamSize" min="1" required placeholder="Number of members"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Types of Waste Managed</label><input type="text" class="form-input" name="wasteTypes" placeholder="e.g. Organic, Plastic, Metal, Paper, E-waste"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Years of Experience</label><input type="number" class="form-input" name="yearsOp" min="0" placeholder="e.g. 3"></div>
+        <div class="form-group"><label class="form-label">Equipment / Certifications</label><input type="text" class="form-input" name="certifications" placeholder="e.g. DENR accredited, segregation trucks"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Sustainability Practices</label><textarea class="form-textarea" name="sustainability" placeholder="e.g. Zero-waste events, community composting, plastic baling..." style="min-height:60px"></textarea></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" name="description" required placeholder="Tell us about your team and mission..."></textarea></div>
+    `
+  }
+};
+
+function showApplicationForm(type) {
+  const form = APPLICATION_FORMS[type];
+  if (!form) return;
+  const container = document.getElementById('bizApplicationForm');
+  const typeCards = document.getElementById('bizTypeCards');
+  if (container) {
+    container.style.display = 'block';
+    container.innerHTML = `
+      <div style="background:white;border-radius:16px;padding:1.75rem;border:1px solid rgba(212,146,10,0.12);box-shadow:var(--shadow-card)">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(212,146,10,0.1)">
+          <span style="font-size:1.75rem">${form.icon}</span>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700">${form.title}</h3>
+            <p style="font-size:0.75rem;color:var(--sage)">Fill in all required fields. Approved businesses get Basic plan access immediately.</p>
+          </div>
+        </div>
+        <form id="bizAppForm" onsubmit="submitApplication(event, '${type}')">
+          ${form.fields}
+          <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
+            <button type="submit" class="${form.btnClass}" style="flex:1;justify-content:center">${form.icon} Submit Application</button>
+            <button type="button" class="btn-ghost" onclick="hideApplicationForm()" style="flex:1;justify-content:center">Cancel</button>
+          </div>
+        </form>
+      </div>
+    `;
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function hideApplicationForm() {
+  const container = document.getElementById('bizApplicationForm');
+  if (container) { container.style.display = 'none'; container.innerHTML = ''; }
+}
+
+function submitApplication(e, type) {
+  e.preventDefault();
+  const form = e.target;
+  const data = {};
+  new FormData(form).forEach((v, k) => data[k] = v);
+  const application = {
+    id: Date.now(),
+    businessType: type,
+    ...data,
+    status: 'pending',
+    submittedDate: new Date().toISOString().split('T')[0],
+    reviewDate: null,
+    feedback: ''
+  };
+  bizApplications.push(application);
+  hideApplicationForm();
+  renderMyApplications();
+  // Show status banner
+  const banner = document.getElementById('appStatusBanner');
+  if (banner) {
+    banner.style.display = 'block';
+    banner.style.background = 'rgba(75,124,95,0.07)';
+    banner.style.border = '1px solid rgba(75,124,95,0.2)';
+    banner.style.color = 'var(--charcoal)';
+    banner.innerHTML = `<strong style="color:var(--moss)">✅ Application submitted!</strong> Your ${APPLICATION_FORMS[type].title} is now under review. You will be notified once processed (usually within 3 business days).`;
+  }
+  showToast('Application submitted successfully!', 'success');
+}
+
+function renderMyApplications() {
+  const container = document.getElementById('myApplicationsList');
+  if (!container) return;
+  if (bizApplications.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--sage);font-size:0.82rem">No applications submitted yet. Choose a business type above to get started.</div>`;
+    return;
+  }
+  const statusMap = {
+    pending:  { color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', label: '⏳ Under Review' },
+    approved: { color: 'var(--moss)', bg: 'rgba(75,124,95,0.08)', label: '✅ Approved' },
+    rejected: { color: 'var(--crimson)', bg: 'rgba(196,30,58,0.07)', label: '❌ Rejected' }
+  };
+  const typeIcon = { food: '🍽️', hotel: '🏨', waste: '♻️' };
+  container.innerHTML = bizApplications.map(app => {
+    const s = statusMap[app.status] || statusMap.pending;
+    return `
+      <div style="background:white;border-radius:12px;border:1px solid rgba(212,146,10,0.1);padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow-card)">
+        <span style="font-size:1.5rem">${typeIcon[app.businessType] || '🏢'}</span>
+        <div style="flex:1;min-width:180px">
+          <div style="font-weight:700;font-size:0.9rem;color:var(--ink)">${app.businessName || 'Unnamed Business'}</div>
+          <div style="font-size:0.75rem;color:var(--sage)">${APPLICATION_FORMS[app.businessType]?.title || app.businessType} · Submitted ${app.submittedDate}</div>
+          ${app.feedback ? `<div style="font-size:0.72rem;color:var(--charcoal);margin-top:0.3rem;font-style:italic">Feedback: ${app.feedback}</div>` : ''}
+        </div>
+        <span style="background:${s.bg};color:${s.color};font-size:0.65rem;font-weight:800;padding:0.2rem 0.7rem;border-radius:5px;border:1px solid ${s.color}33">${s.label}</span>
+      </div>
+    `;
+  }).join('');
 }
 
 function deleteBizEvent(id) {
@@ -2135,15 +2669,42 @@ function deleteBizEvent(id) {
 function deleteBizProduct(id) {
   bizProducts = bizProducts.filter(p => p.id !== id);
   renderBizProducts();
+  updateProductTierBanner();
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('bizTotalProducts', bizProducts.length);
   showToast('Product deleted.', 'info');
 }
 function editBizEvent(id) { showToast('Edit mode coming soon!', 'info'); }
-function editBizProduct(id) { showToast('Edit mode coming soon!', 'info'); }
+function editBizProduct(id) {
+  const p = bizProducts.find(pr => pr.id === id);
+  if (!p) return;
+  document.getElementById('editProdId').value = p.id;
+  document.getElementById('editProdName').value = p.name;
+  document.getElementById('editProdEmoji').value = p.image || '';
+  const catSel = document.getElementById('editProdCategory');
+  if (catSel) { for (let o of catSel.options) { if (o.value === p.category || o.text === p.category) { o.selected = true; break; } } }
+  document.getElementById('editProdPrice').value = p.basePrice || p.price || '';
+  document.getElementById('editProdDiscount').value = p.discountPrice != null ? p.discountPrice : '';
+  document.getElementById('editProdQuantity').value = p.quantity != null ? p.quantity : '';
+  const statusSel = document.getElementById('editProdStatus');
+  if (statusSel) { for (let o of statusSel.options) { if (o.value === (p.status || 'active')) { o.selected = true; break; } } }
+  document.getElementById('editProdDesc').value = p.description || '';
+  document.getElementById('editProdTags').value = p.tags ? p.tags.join(', ') : '';
+  openModal('editProductModal');
+}
 
 window.deleteBizEvent = deleteBizEvent;
 window.deleteBizProduct = deleteBizProduct;
 window.editBizEvent = editBizEvent;
 window.editBizProduct = editBizProduct;
+window.acceptInvitation = acceptInvitation;
+window.openDeclineModal = openDeclineModal;
+window.confirmDeclineInv = confirmDeclineInv;
+window.filterInvitations = filterInvitations;
+window.showApplicationForm = showApplicationForm;
+window.hideApplicationForm = hideApplicationForm;
+window.submitApplication = submitApplication;
+window.checkProductLimit = checkProductLimit;
 
 // ===== ADMIN DASHBOARD =====
 let adminUsers = JSON.parse(JSON.stringify(PampangaDB.users));
@@ -3046,6 +3607,8 @@ function selectPlan(plan) {
   if (plan === currentPlan) { showToast('You are already on the ' + (plan === 'basic' ? 'Basic' : 'Premium') + ' plan.', 'info'); return; }
   if (plan === 'premium') {
     currentPlan = 'premium';
+    bizPlan = 'premium';
+    Storage.set('biz_plan', 'premium');
     // Update banner
     document.getElementById('currentPlanIcon').textContent = '⭐';
     document.getElementById('currentPlanName').textContent = 'Premium';
@@ -3059,10 +3622,15 @@ function selectPlan(plan) {
     // Update buttons
     document.getElementById('btnSelectPremium').textContent = '✓ Current Plan'; document.getElementById('btnSelectPremium').classList.replace('btn-fire','btn-eco');
     document.getElementById('btnSelectBasic').textContent = 'Downgrade to Basic'; document.getElementById('btnSelectBasic').classList.remove('btn-ghost'); document.getElementById('btnSelectBasic').classList.add('btn-outline');
-    showToast('🎉 Upgraded to Premium! AI Insights & Preferred Seller badge are now active.', 'success');
+    showToast('🎉 Upgraded to Premium! Unlimited products & 1-month posting window unlocked.', 'success');
     const psBadge = document.getElementById('preferredSellerBadge'); if (psBadge) psBadge.style.display = 'inline-flex';
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setEl('bizPlanLabel', 'Premium');
+    updateProductTierBanner();
   } else {
     currentPlan = 'basic';
+    bizPlan = 'basic';
+    Storage.set('biz_plan', 'basic');
     document.getElementById('currentPlanIcon').textContent = '🆓';
     document.getElementById('currentPlanName').textContent = 'Basic (Free)';
     document.getElementById('currentPlanDesc').textContent = 'Public listing with ads';
@@ -3075,6 +3643,9 @@ function selectPlan(plan) {
     document.getElementById('btnSelectPremium').textContent = 'Upgrade to Premium →'; document.getElementById('btnSelectPremium').classList.replace('btn-eco','btn-fire');
     showToast('Downgraded to Basic plan. Ads will resume on your listing.', 'info');
     const psBadge = document.getElementById('preferredSellerBadge'); if (psBadge) psBadge.style.display = 'none';
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setEl('bizPlanLabel', 'Basic');
+    updateProductTierBanner();
   }
 }
 window.selectPlan = selectPlan;
