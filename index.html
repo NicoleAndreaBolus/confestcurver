@@ -216,20 +216,154 @@ body::before {
 }
 
 /* ─── HERO ─── */
+/* ── HERO: Full-screen video like Panagbenga ───────────────────
+   Video fills the entire viewport, NO text on top of it.
+   Text content lives in .hero-text-band below the video.       */
 .hero {
-  min-height: 92vh;
-  background: var(--g-split);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #0a0404;
 }
-/* Diagonal divider */
+/* Subtle bottom fade so video blends into the text band */
 .hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.7) 70%, #0f0808 100%);
+  z-index: 2; pointer-events: none;
+}
+
+/* ── HERO TEXT BAND ────────────────────────────────────────────
+   Dark banner that sits directly below the video.
+   Holds headline, description, CTAs, stats, eco tracker.       */
+.hero-text-band {
+  background: var(--g-split);
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 5rem;
+}
+.hero-text-band::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--lantern-pattern);
+  opacity: 0.4; pointer-events: none;
+}
+.hero-text-band::after {
   content: '';
   position: absolute; bottom: -1px; left: 0; right: 0;
   height: 100px;
   background: var(--parchment);
   clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
 }
+.hero-text-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── HERO OVERLAY CONTENT (shown on gradient, hides on video) ── */
+/* Wrapper fills the whole hero and centres its child */
+.hero-overlay-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  pointer-events: auto;
+}
+.hero-overlay-wrapper.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-overlay-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: center;
+  color: white;
+}
+
+
+/* Video toggle button — fixed bottom right, always visible */
+.video-toggle-btn {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  z-index: 1001;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(10,4,4,0.75);
+  border: 1px solid rgba(212,146,10,0.35);
+  border-radius: 50px;
+  padding: 0.5rem 1rem 0.5rem 0.6rem;
+  cursor: pointer;
+  color: rgba(251,244,232,0.85);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.video-toggle-btn:hover {
+  border-color: var(--gold); color: var(--amber);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+}
+.video-toggle-btn .vt-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--crimson), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; flex-shrink: 0; transition: transform 0.3s;
+}
+.video-toggle-btn:hover .vt-icon { transform: scale(1.1); }
+.video-toggle-btn.video-on { border-color: rgba(75,124,95,0.5); color: var(--fern); }
+.video-toggle-btn.video-on .vt-icon { background: linear-gradient(135deg, var(--moss), var(--fern)); }
+.video-toggle-btn .vt-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--amber); margin-left: 2px;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.video-toggle-btn.video-on .vt-dot { background: var(--fern); }
+
+/* ── VIDEO BACKGROUND ─────────────────────────────────────────
+   To swap the video: see the <video> tag around line 892
+   ──────────────────────────────────────────────────────────── */
+.hero-video-wrap {
+  position: absolute; inset: 0; z-index: 1;
+  opacity: 0; pointer-events: none;
+  transition: opacity 1s ease;
+}
+.hero-video-wrap.active { opacity: 1; }
+.hero-video-wrap video {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 177.78vh; height: 100%;
+  min-width: 100%; min-height: 56.25vw;
+  object-fit: cover;
+  /* ★ No blur, no filter — clean full video like Panagbenga */
+  filter: none;
+  pointer-events: none;
+}
+/* Gradient fallback when video is off */
+.hero-bg-gradient {
+  position: absolute; inset: 0; z-index: 0;
+  background: var(--g-split);
+  transition: opacity 1s ease;
+}
+.hero-video-wrap.active ~ .hero-bg-gradient { opacity: 0.15; }
+
 /* Radial glows */
 .hero-glow-fire {
   position: absolute; width: 600px; height: 600px;
@@ -253,7 +387,7 @@ body::before {
   position: absolute; right: 8%; top: 15%;
   width: 220px; height: 280px; pointer-events: none; opacity: 0.12;
 }
-.hero-content {
+.hero-content, .hero-text-inner {
   position: relative; z-index: 2;
   max-width: 1200px; margin: 0 auto;
   padding: 4rem 2rem 7rem;
@@ -823,7 +957,7 @@ body::before {
 @media(max-width:768px) {
   .nav-links{display:none} .nav-mobile-toggle{display:block}
   .grid-3,.grid-2{grid-template-columns:1fr} .grid-4{grid-template-columns:repeat(2,1fr)}
-  .hero h1{font-size:2.5rem} .hero-content{grid-template-columns:1fr!important}
+  .hero h1{font-size:2.5rem} .hero-content{grid-template-columns:1fr!important} .hero-text-inner{grid-template-columns:1fr!important}
   .hero-right{display:none}
   .sidebar{transform:translateX(-100%);transition:transform 0.3s} .sidebar.open{transform:translateX(0)}
   .dashboard-main{margin-left:0} .section{padding:3rem 0}
@@ -867,11 +1001,9 @@ body::before {
   <div class="nav-links">
     <a href="events.html">Events</a>
     <a href="marketplace.html">Marketplace</a>
-    <a href="dashboard/sponsor-dashboard.html">🏢 Sponsor Portal</a>
-    <a href="dashboard/organizer-dashboard.html">🎪 Organizer Dashboard</a>
     <button onclick="toggleCart()" title="View Cart" style="position:relative;background:rgba(212,146,10,0.1);border:1px solid rgba(212,146,10,0.25);border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s" onmouseover="this.style.background='rgba(212,146,10,0.2)'" onmouseout="this.style.background='rgba(212,146,10,0.1)'">🛒<span id="cartBadge1" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--crimson);color:white;font-size:0.55rem;font-weight:800;min-width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-family:'Instrument Sans',sans-serif">0</span></button>
     <a href="login.html" class="btn-nav-outline">Log In</a>
-    <a href="register.html" class="btn-nav-primary">🏮 Sign Up</a>
+    <a href="register.html" class="btn-nav-primary">Sign Up</a>
   </div>
   <button class="nav-mobile-toggle" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">☰</button>
 </nav>
@@ -879,15 +1011,29 @@ body::before {
   <a href="index.html">Home</a>
   <a href="events.html">Events</a>
   <a href="marketplace.html">Marketplace</a>
-  <a href="dashboard/sponsor-dashboard.html">🏢 Sponsor Portal</a>
-  <a href="dashboard/organizer-dashboard.html">🎪 Organizer Dashboard</a>
   <a href="login.html">Log In</a>
   <a href="register.html">Sign Up</a>
 </div>
-<section class="hero">
-  <div class="hero-glow-fire"></div>
-  <div class="hero-glow-eco"></div>
-  <svg class="hero-lantern-deco" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- ═══════════════════════════════════════════════════
+     HERO — Full-screen video (Panagbenga style)
+     Video fills 100vh, NO text on top of it.
+     ═══════════════════════════════════════════════════ -->
+<section class="hero" id="heroSection">
+
+  <!-- Gradient fallback shown when video is off -->
+  <div class="hero-bg-gradient"></div>
+
+  <!-- ★★★ VIDEO: change src to your local file path ★★★ -->
+  <div class="hero-video-wrap" id="heroVideoWrap">
+    <video id="heroBgVideo" autoplay muted loop playsinline>
+      <source src="videos/your-video.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Glows (visible only on gradient mode) -->
+  <div class="hero-glow-fire" id="heroGlowFire"></div>
+  <div class="hero-glow-eco"  id="heroGlowEco"></div>
+  <svg class="hero-lantern-deco" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg" id="heroLanternDeco">
     <ellipse cx="110" cy="155" rx="70" ry="90" fill="rgba(196,30,58,1)" opacity="0.9"/>
     <rect x="95" y="40" width="30" height="40" rx="6" fill="rgba(212,146,10,1)"/>
     <line x1="110" y1="245" x2="110" y2="275" stroke="rgba(212,146,10,1)" stroke-width="4"/>
@@ -897,7 +1043,69 @@ body::before {
     <line x1="40" y1="155" x2="180" y2="155" stroke="rgba(212,146,10,0.5)" stroke-width="1"/>
     <line x1="40" y1="200" x2="180" y2="200" stroke="rgba(212,146,10,0.5)" stroke-width="1"/>
   </svg>
-  <div class="hero-content" style="color:white">
+
+  <!-- ── OVERLAY TEXT: visible on gradient, fades out when video plays ── -->
+  <div class="hero-overlay-wrapper" id="heroOverlayContent">
+  <div class="hero-overlay-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="pulse"></span> Heart of Luzon · Sustainable Tourism</div>
+      <h1>
+        <span class="fire-text">Celebrate</span>
+        <span style="display:block">Pampanga</span>
+        <span class="eco-text">sustainably.</span>
+      </h1>
+      <p class="hero-desc">Explore vibrant festivals, buy <strong>digital eco-tickets</strong>, discover authentic pasalubong, and support <strong>local Kapampangan businesses</strong> that protect our planet.</p>
+      <div class="hero-ctas">
+        <a href="events.html" class="btn-fire">Browse Events</a>
+        <a href="marketplace.html" class="btn-eco">Eco Marketplace</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Events</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">200+</div><div class="hero-stat-l">Businesses</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">5K+</div><div class="hero-stat-l">Tourists</div></div>
+        <div class="hero-stat"><div class="hero-stat-n" style="font-size:1.1rem;font-family:'Instrument Sans',sans-serif;letter-spacing:-0.01em">0 kg</div><div class="hero-stat-l">Paper Waste</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-title">🌿 Live Eco Impact Tracker</div>
+      <div class="eco-ticker">
+        <span class="eco-ticker-label">LIVE</span>
+        <div class="eco-ticker-scroll">
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+        </div>
+      </div>
+      <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);margin-bottom:0.75rem">This Week's Events</div>
+      <div id="heroEventsListOverlay" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+      <a href="events.html" style="display:flex;align-items:center;justify-content:center;margin-top:1rem;gap:0.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--fern)'">View All Events →</a>
+    </div>
+  </div>
+  </div><!-- /hero-overlay-wrapper -->
+
+  <!-- Video toggle button — bottom right -->
+  <button class="video-toggle-btn" id="videoToggleBtn" onclick="toggleHeroVideo()" title="Toggle video background">
+    <span class="vt-icon" id="vtIcon">&#9654;</span>
+    <span id="vtLabel">Play Video</span>
+    <span class="vt-dot"></span>
+  </button>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO TEXT BAND — Headline, CTAs, Stats, Eco Tracker
+     Sits below the full-screen video, no clash.
+     ═══════════════════════════════════════════════════ -->
+<section class="hero-text-band" style="display:none" aria-hidden="true">
+  <div class="hero-glow-fire" style="top:-200px;right:-50px;opacity:0.5"></div>
+  <div class="hero-text-inner" style="color:white">
     <div class="hero-left">
       <div class="hero-eyebrow anim d1"><span class="pulse"></span> Heart of Luzon · Sustainable Tourism</div>
       <h1>
@@ -907,8 +1115,8 @@ body::before {
       </h1>
       <p class="hero-desc anim d4">Explore vibrant festivals, buy <strong>digital eco-tickets</strong>, discover authentic pasalubong, and support <strong>local Kapampangan businesses</strong> that protect our planet.</p>
       <div class="hero-ctas anim d5">
-        <a href="events.html" class="btn-fire">🎪 Browse Events</a>
-        <a href="marketplace.html" class="btn-eco">🌿 Eco Marketplace</a>
+        <a href="events.html" class="btn-fire">Browse Events</a>
+        <a href="marketplace.html" class="btn-eco">Eco Marketplace</a>
       </div>
       <div class="hero-stats anim d5">
         <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Events</div></div>
@@ -918,7 +1126,7 @@ body::before {
       </div>
     </div>
     <div class="hero-right anim d3">
-      <div class="hero-right-title">🌿 Live Eco Impact Tracker</div>
+      <div class="hero-right-title">Live Eco Impact Tracker</div>
       <div class="eco-ticker">
         <span class="eco-ticker-label">LIVE</span>
         <div class="eco-ticker-scroll" id="ecoTicker">
@@ -946,7 +1154,7 @@ body::before {
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
       <div>
-        <div class="section-label">📅 What's On</div>
+        <div class="section-label">What's On</div>
         <h2 class="section-title">Upcoming <span class="fire italic">Events</span></h2>
         <p class="section-sub">From giant lantern festivals to culinary fiestas — Pampanga always celebrates.</p>
       </div>
@@ -962,7 +1170,7 @@ body::before {
   <div class="container" style="position:relative">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
       <div>
-        <div class="section-label eco">🌏 Climate & Economy</div>
+        <div class="section-label eco">Climate & Economy</div>
         <h2 class="section-title light">Festivals That <span class="fire italic">Heal</span> the Planet</h2>
         <p class="section-sub light" style="margin-bottom:2rem">Pampanga's tourism economy faces real threats from climate change — flooding, drought, extreme heat. Our platform channels festival spending directly into local green initiatives.</p>
         <div style="display:flex;flex-direction:column;gap:0.875rem">
@@ -1013,7 +1221,7 @@ body::before {
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
       <div>
-        <div class="section-label eco">🛍️ Pasalubong Corner</div>
+        <div class="section-label eco">Pasalubong Corner</div>
         <h2 class="section-title">Local <span class="fire italic">Products</span></h2>
         <p class="section-sub">Every purchase keeps money local. Authentic Kapampangan flavors & crafts.</p>
       </div>
@@ -1027,7 +1235,7 @@ body::before {
 <section class="section section-dark lantern-pattern">
   <div class="container">
     <div style="text-align:center;margin-bottom:3rem">
-      <div class="section-label" style="color:var(--amber);justify-content:center;display:flex">✨ Platform Benefits</div>
+      <div class="section-label" style="color:var(--amber);justify-content:center;display:flex">Platform Benefits</div>
       <h2 class="section-title light" style="text-align:center">Why <span class="fire italic">Confest Platform?</span></h2>
     </div>
     <div class="grid-3">
@@ -1055,7 +1263,7 @@ body::before {
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start" id="calGrid">
       <div>
-        <div class="section-label">📆 Plan Your Visit</div>
+        <div class="section-label">Plan Your Visit</div>
         <h2 class="section-title">Event <span class="fire italic">Calendar</span></h2>
         <p class="section-sub" style="margin-bottom:2rem">Gold dots mark eco-certified events. Click any date to discover what's on.</p>
         <div style="display:flex;flex-direction:column;gap:0.6rem" id="calEventList"></div>
@@ -1069,11 +1277,11 @@ body::before {
 <section style="background:var(--g-ember);padding:5rem 0;position:relative;overflow:hidden">
   <div style="position:absolute;inset:0;opacity:0.07" class="lantern-pattern"></div>
   <div class="container" style="text-align:center;position:relative">
-    <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,220,140,0.75);margin-bottom:1rem">🌿 Join the Movement</div>
+    <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,220,140,0.75);margin-bottom:1rem">Join the Movement</div>
     <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);color:white;margin-bottom:1rem;font-weight:900;line-height:1.1">Celebrate Pampanga.<br><em>Protect the Planet.</em></h2>
     <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;margin-bottom:2.25rem;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.7">Every event you attend, every pasalubong you buy strengthens the local economy and funds climate adaptation programs.</p>
     <div style="display:flex;gap:0.875rem;justify-content:center;flex-wrap:wrap">
-      <a href="register.html" style="background:white;color:var(--ember);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s;box-shadow:0 4px 20px rgba(18,8,8,0.2)" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🏮 Create Free Account</a>
+      <a href="register.html" style="background:white;color:var(--ember);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s;box-shadow:0 4px 20px rgba(18,8,8,0.2)" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">Create Free Account</a>
       <a href="events.html" style="background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.3);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">Browse Events →</a>
     </div>
   </div>
@@ -2142,10 +2350,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hero.insertBefore(p, hero.firstChild);
     }
   }
-  // Hero event list
-  const heroList = document.getElementById('heroEventsList');
-  if (heroList) {
-    heroList.innerHTML = PampangaDB.events.slice(0,3).map(e => `
+  // Hero event list — populate both the text-band list AND the overlay list
+  const eventsHTML = PampangaDB.events.slice(0,3).map(e => `
       <a href="event-details.html?id=${e.id}" style="display:flex;gap:0.65rem;align-items:center;padding:0.6rem 0.75rem;background:rgba(255,255,255,0.06);border:1px solid rgba(212,146,10,0.15);border-radius:8px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
         <span style="font-size:1.3rem">${e.image}</span>
         <div style="flex:1;min-width:0">
@@ -2154,7 +2360,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <span style="font-size:0.7rem;font-weight:700;color:var(--amber);flex-shrink:0">${e.price===0?'FREE':'₱'+e.price}</span>
       </a>`).join('');
-  }
+  const heroList = document.getElementById('heroEventsList');
+  if (heroList) heroList.innerHTML = eventsHTML;
+  const heroListOverlay = document.getElementById('heroEventsListOverlay');
+  if (heroListOverlay) heroListOverlay.innerHTML = eventsHTML;
   // Main events grid
   const homeGrid = document.getElementById('homeEventsGrid');
   if (homeGrid) {
@@ -2651,5 +2860,56 @@ function removeItem(i) {
 
 document.addEventListener('DOMContentLoaded', updateBadge);
 window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); if(document.getElementById('cartOverlay').classList.contains('open')) renderCart(); }});
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIDEO TOGGLE — plays/pauses the full-screen hero video
+     ★ To change video: search "your-video.mp4" in this file
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var videoOn = false;
+
+  window.toggleHeroVideo = function() {
+    videoOn = !videoOn;
+    var wrap    = document.getElementById('heroVideoWrap');
+    var video   = document.getElementById('heroBgVideo');
+    var btn     = document.getElementById('videoToggleBtn');
+    var icon    = document.getElementById('vtIcon');
+    var label   = document.getElementById('vtLabel');
+    var gFire   = document.getElementById('heroGlowFire');
+    var gEco    = document.getElementById('heroGlowEco');
+    var lantern = document.getElementById('heroLanternDeco');
+    var bgGrad  = document.querySelector('.hero-bg-gradient');
+
+    var overlay = document.getElementById('heroOverlayContent');
+
+    if (videoOn) {
+      wrap.classList.add('active');
+      btn.classList.add('video-on');
+      icon.innerHTML = '&#9646;&#9646;';
+      label.textContent = 'Pause Video';
+      if (video) video.play();
+      // Fade OUT: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.add('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
+      });
+      if (bgGrad) { bgGrad.style.transition = 'opacity 1s'; bgGrad.style.opacity = '0'; }
+    } else {
+      wrap.classList.remove('active');
+      btn.classList.remove('video-on');
+      icon.innerHTML = '&#9654;';
+      label.textContent = 'Play Video';
+      if (video) video.pause();
+      // Fade IN: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.remove('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) el.style.opacity = '';
+      });
+      if (bgGrad) bgGrad.style.opacity = '';
+    }
+  };
+})();
 </script>
 </body></html>
