@@ -569,6 +569,7 @@ body::before {
 .particle {
   position: absolute; border-radius: 50% 50% 40% 40%;
   animation: float-up linear infinite; opacity: 0; pointer-events: none;
+  z-index: 2;
 }
 @keyframes float-up {
   0%   { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
@@ -2993,6 +2994,9 @@ window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); i
       if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
     });
     if (els.bgGrad) { els.bgGrad.style.transition = 'opacity 1s'; els.bgGrad.style.opacity = '0'; }
+    document.querySelectorAll('.hero .particle').forEach(function(p) {
+      p.style.transition = 'opacity 0.8s'; p.style.animationPlayState = 'paused'; p.style.opacity = '0';
+    });
   }
 
   function hideVideo(els) {
@@ -3004,6 +3008,9 @@ window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); i
       if (el) el.style.opacity = '';
     });
     if (els.bgGrad) els.bgGrad.style.opacity = '';
+    document.querySelectorAll('.hero .particle').forEach(function(p) {
+      p.style.animationPlayState = ''; p.style.opacity = '';
+    });
   }
 
   // ── IDLE DIM: dim buttons 3s after video locks on ──────────────
