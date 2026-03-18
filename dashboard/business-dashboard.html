@@ -828,7 +828,7 @@ body::before {
       <div id="sidebarPlanBadge" style="margin-top:0.3rem;display:inline-flex;align-items:center;gap:0.3rem;font-size:0.58rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:4px;background:rgba(212,146,10,0.15);color:var(--amber);border:1px solid rgba(212,146,10,0.3)">🆓 Basic Plan</div>
     </div>
   </div>
-  <nav class="sidebar-nav"><div class="sidebar-section">Business</div><button class="sidebar-link" data-page="bizApply"><span class="icon">✅</span><span>Apply / Register</span></button><button class="sidebar-link" data-page="bizInvitations"><span class="icon">📧</span><span>Invitations <span id="invBadge" style="display:none;background:var(--lantern-glow);color:white;font-size:0.55rem;font-weight:800;padding:0.1rem 0.45rem;border-radius:8px;margin-left:0.25rem">0</span></span></button><button class="sidebar-link" data-page="bizEvents"><span class="icon">🎪</span><span>My Events</span></button><button class="sidebar-link" data-page="bizProducts"><span class="icon">📦</span><span>My Products</span></button><div class="sidebar-section">Management</div><button class="sidebar-link" data-page="bizOverview"><span class="icon">📊</span><span>Analytics</span></button><button class="sidebar-link" data-page="bizFlashDeals"><span class="icon">⚡</span><span>Flash Deals</span></button><button class="sidebar-link" data-page="bizSavings"><span class="icon">💚</span><span>Eco Savings</span></button><button class="sidebar-link" data-page="bizSuki"><span class="icon">👥</span><span>Suki Analytics</span></button><button class="sidebar-link" data-page="bizPermits"><span class="icon">📋</span><span>Permits</span></button><button class="sidebar-link" data-page="bizProfile"><span class="icon">🏢</span><span>Business Profile</span></button><button class="sidebar-link" data-page="bizBulk"><span class="icon">🛒</span><span>Bulk Procurement</span></button><button class="sidebar-link" data-page="bizAI"><span class="icon">🤖</span><span>AI Insights</span></button><button class="sidebar-link" data-page="bizSubscription"><span class="icon">⭐</span><span>Subscription</span></button><div class="sidebar-section">Navigation</div><a class="sidebar-link" href="../index.html"><span class="icon">🌐</span><span>Public Site</span></a><a class="sidebar-link" href="../login.html"><span class="icon">🚪</span><span>Sign Out</span></a></nav>
+  <nav class="sidebar-nav"><div class="sidebar-section">Business</div><button class="sidebar-link" data-page="bizApply"><span class="icon">✅</span><span>Apply / Register</span></button><button class="sidebar-link" data-page="bizInvitations"><span class="icon">📧</span><span>Invitations <span id="invBadge" style="display:none;background:var(--lantern-glow);color:white;font-size:0.55rem;font-weight:800;padding:0.1rem 0.45rem;border-radius:8px;margin-left:0.25rem">0</span></span></button><button class="sidebar-link" data-page="bizAnnouncements"><span class="icon">🔔</span><span>Announcements <span id="annBadge" style="display:none;background:var(--lantern-glow);color:white;font-size:0.55rem;font-weight:800;padding:0.1rem 0.45rem;border-radius:8px;margin-left:0.25rem">0</span></span></button><button class="sidebar-link" data-page="bizEvents"><span class="icon">🎪</span><span>My Events</span></button><button class="sidebar-link" data-page="bizProducts"><span class="icon">📦</span><span>My Products</span></button><div class="sidebar-section">Management</div><button class="sidebar-link" data-page="bizOverview"><span class="icon">📊</span><span>Analytics</span></button><button class="sidebar-link" data-page="bizFlashDeals"><span class="icon">⚡</span><span>Flash Deals</span></button><button class="sidebar-link" data-page="bizSavings"><span class="icon">💚</span><span>Eco Savings</span></button><button class="sidebar-link" data-page="bizSuki"><span class="icon">👥</span><span>Suki Analytics</span></button><button class="sidebar-link" data-page="bizPermits"><span class="icon">📋</span><span>Permits</span></button><button class="sidebar-link" data-page="bizProfile"><span class="icon">🏢</span><span>Business Profile</span></button><button class="sidebar-link" data-page="bizBulk"><span class="icon">🛒</span><span>Bulk Procurement</span></button><button class="sidebar-link" data-page="bizAI"><span class="icon">🤖</span><span>AI Insights</span></button><button class="sidebar-link" data-page="bizSubscription"><span class="icon">⭐</span><span>Subscription</span></button><div class="sidebar-section">Navigation</div><a class="sidebar-link" href="../index.html"><span class="icon">🌐</span><span>Public Site</span></a><a class="sidebar-link" href="../login.html"><span class="icon">🚪</span><span>Sign Out</span></a></nav>
   <div class="sidebar-eco"><div style="font-size:0.58rem;color:var(--fern);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.3rem">🌿 Eco Pledge</div><p>This platform is carbon-neutral. Every ticket plants a tree in Pampanga.</p></div>
 </aside>
 <main class="dashboard-main">
@@ -898,6 +898,25 @@ body::before {
       </div>
 
       <div id="bizInvitationsList" style="display:flex;flex-direction:column;gap:1rem"></div>
+    </div>
+
+    <!-- 🔔 ANNOUNCEMENTS -->
+    <div class="dashboard-page" id="bizAnnouncements">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.3rem">🔔 Announcements &amp; Invitations</h2>
+      <p style="font-size:0.82rem;color:var(--sage);margin-bottom:1.5rem">Browse open business calls and apply directly. Track your submitted applications.</p>
+      <!-- Sub-tabs -->
+      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:1.4rem" id="bizAnnTabs">
+        <button class="filter-tab active" data-bizanntab="open" onclick="setBizAnnTab('open')">🟢 Open Calls</button>
+        <button class="filter-tab" data-bizanntab="myapps" onclick="setBizAnnTab('myapps')">📋 My Applications</button>
+      </div>
+      <!-- Open calls section -->
+      <div id="bizAnnTab_open">
+        <div id="bizOpenAnnList" style="display:flex;flex-direction:column;gap:0.875rem"></div>
+      </div>
+      <!-- My applications section -->
+      <div id="bizAnnTab_myapps" style="display:none">
+        <div id="bizMyAppsList" style="display:flex;flex-direction:column;gap:0.875rem"></div>
+      </div>
     </div>
 
     <!-- ✅ APPLY AS BUSINESS -->
@@ -2119,6 +2138,7 @@ function initDashboard() {
       link.classList.add('active');
       if (pageTitle) pageTitle.textContent = link.querySelector('span:last-child')?.textContent || pageId;
     }
+    if (pageId === 'bizAnnouncements') renderBizAnnouncements();
   }
 
   links.forEach(link => {
@@ -2242,6 +2262,7 @@ function initBusinessDashboard() {
   renderBizProducts();
   renderBizInvitations('all');
   renderMyApplications();
+  updateAnnBadge();
 
   // Analytics
   const totalTickets = bizEvents.reduce((a, e) => a + e.ticketsSold, 0);
@@ -2424,6 +2445,181 @@ function filterInvitations(filter, btn) {
   document.querySelectorAll('[data-inv-filter]').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   renderBizInvitations(filter);
+}
+
+// ── BIZ ANNOUNCEMENTS ─────────────────────────────────────────
+const BIZ_SAMPLE_ANNOUNCEMENTS = [
+  {
+    id: 1, eventId: 2, eventName: "Sisig Food Festival",
+    organizerId: 1, organizerName: "Kulinarya Pampanga",
+    title: "Calling All Food Vendors!",
+    content: "We're organizing the Sisig Food Festival 2025 and are looking for authentic Kapampangan food vendors. Join us to showcase your best dishes to thousands of festival-goers!",
+    businessTypesNeeded: ["Food", "Restaurant"],
+    status: "Open for Applications",
+    createdAt: "2026-03-18", deadline: "2026-04-01",
+    applicantBusinessIds: [3, 5], invitedBusinessIds: [2], acceptedBusinessIds: [2],
+    bannerEmoji: "🍽️", featured: true
+  },
+  {
+    id: 2, eventId: 1, eventName: "Ligligan Parul Sampernandu",
+    organizerId: 1, organizerName: "Pampanga Tourism Office",
+    title: "Seeking Waste Management Partners",
+    content: "The Giant Lantern Festival expects 5,000+ attendees. We need certified waste management teams to handle sorting, composting, and eco-friendly disposal throughout the event.",
+    businessTypesNeeded: ["Waste Management"],
+    status: "Open for Applications",
+    createdAt: "2026-03-15", deadline: "2026-03-30",
+    applicantBusinessIds: [6], invitedBusinessIds: [], acceptedBusinessIds: [],
+    bannerEmoji: "♻️", featured: false
+  },
+  {
+    id: 3, eventId: 5, eventName: "Kulinarya Pampanga Festival",
+    organizerId: 2, organizerName: "Kulinarya Pampanga",
+    title: "Hotel & Accommodation Partners Needed",
+    content: "We are partnering with local hotels to offer discounted packages for Kulinarya Pampanga Festival attendees. Partner hotels get featured in our official event program and website.",
+    businessTypesNeeded: ["Hotel", "Accommodation"],
+    status: "Invitations Sent",
+    createdAt: "2026-03-10", deadline: "2026-03-25",
+    applicantBusinessIds: [], invitedBusinessIds: [9, 10], acceptedBusinessIds: [9],
+    bannerEmoji: "🏨", featured: true
+  },
+  {
+    id: 4, eventId: 6, eventName: "Sinukwan Folk Arts Festival",
+    organizerId: 3, organizerName: "Pampanga Arts Council",
+    title: "Craft Stall Vendors & Artisans",
+    content: "Sinukwan Folk Arts Festival invites local artisans, crafters, and souvenir makers to set up stalls. Priority given to traditional Kapampangan crafts and eco-friendly products.",
+    businessTypesNeeded: ["Arts & Crafts", "Food"],
+    status: "Closed",
+    createdAt: "2026-02-28", deadline: "2026-03-15",
+    applicantBusinessIds: [1, 3, 4], invitedBusinessIds: [1], acceptedBusinessIds: [1, 3],
+    bannerEmoji: "🎨", featured: false
+  }
+];
+
+function getBizPubAnns()   { try { return JSON.parse(localStorage.getItem('pub_announcements')) || BIZ_SAMPLE_ANNOUNCEMENTS; } catch { return BIZ_SAMPLE_ANNOUNCEMENTS; } }
+function getBizPubApps()   { try { return JSON.parse(localStorage.getItem('pub_applications'))  || []; } catch { return []; } }
+function saveBizPubAnns(d) { localStorage.setItem('pub_announcements', JSON.stringify(d)); }
+function saveBizPubApps(d) { localStorage.setItem('pub_applications', JSON.stringify(d)); }
+
+let currentBizAnnTab = 'open';
+
+function setBizAnnTab(tab) {
+  currentBizAnnTab = tab;
+  document.querySelectorAll('#bizAnnTabs .filter-tab').forEach(t => t.classList.toggle('active', t.dataset.bizanntab === tab));
+  document.getElementById('bizAnnTab_open').style.display   = tab === 'open'   ? '' : 'none';
+  document.getElementById('bizAnnTab_myapps').style.display = tab === 'myapps' ? '' : 'none';
+  if (tab === 'open')   renderBizOpenAnns();
+  if (tab === 'myapps') renderBizMyApps();
+}
+window.setBizAnnTab = setBizAnnTab;
+
+function renderBizAnnouncements() {
+  renderBizOpenAnns();
+  updateAnnBadge();
+}
+
+function updateAnnBadge() {
+  const openCount = getBizPubAnns().filter(a => a.status === 'Open for Applications').length;
+  const badge = document.getElementById('annBadge');
+  if (badge) {
+    badge.textContent = openCount;
+    badge.style.display = openCount > 0 ? 'inline' : 'none';
+  }
+}
+
+function renderBizOpenAnns() {
+  const container = document.getElementById('bizOpenAnnList');
+  if (!container) return;
+  const user = Storage.get('pampanga_user') || {};
+  const userId = user.id || 0;
+  const anns = getBizPubAnns().filter(a => a.status === 'Open for Applications');
+  const apps = getBizPubApps();
+
+  if (!anns.length) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--sage);font-size:0.85rem">No open announcements at this time.</div>';
+    return;
+  }
+  container.innerHTML = anns.map(a => {
+    const applied = a.applicantBusinessIds.includes(userId) || apps.some(ap => ap.annId === a.id && ap.businessId === userId);
+    return `
+    <div style="background:white;border-radius:14px;border:1px solid rgba(212,146,10,0.12);box-shadow:var(--shadow-card);overflow:hidden">
+      <div style="padding:1.25rem">
+        <div style="display:flex;align-items:flex-start;gap:0.875rem;margin-bottom:0.875rem">
+          <span style="font-size:1.8rem;flex-shrink:0">${a.bannerEmoji}</span>
+          <div style="flex:1">
+            <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;color:var(--sage);margin-bottom:0.2rem">${a.eventName} · BY ${a.organizerName}</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)">${a.title}</h3>
+          </div>
+          <span style="background:rgba(27,58,45,0.12);color:var(--moss);border:1px solid rgba(107,158,122,0.25);font-size:0.6rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:20px;white-space:nowrap;flex-shrink:0">${a.status}</span>
+        </div>
+        <p style="font-size:0.8rem;color:var(--charcoal);line-height:1.6;margin-bottom:0.875rem;opacity:0.8">${a.content.length>120?a.content.slice(0,120)+'…':a.content}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem">${a.businessTypesNeeded.map(t=>`<span style="font-size:0.6rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:0.18rem 0.5rem;border-radius:4px;background:rgba(196,30,58,0.08);color:var(--crimson);border:1px solid rgba(196,30,58,0.2)">${t}</span>`).join('')}</div>
+        <div style="font-size:0.72rem;color:var(--sage)">📅 Deadline: ${fmtBizDate(a.deadline)} · 📊 ${a.applicantBusinessIds.length} application${a.applicantBusinessIds.length!==1?'s':''}</div>
+      </div>
+      <div style="padding:0.875rem 1.25rem;background:rgba(251,244,232,0.6);border-top:1px solid rgba(212,146,10,0.08);display:flex;justify-content:flex-end">
+        ${applied
+          ? '<span style="font-size:0.78rem;color:var(--moss);font-weight:700">✅ Applied</span>'
+          : `<button onclick="bizApplyToAnn(${a.id})" style="background:linear-gradient(135deg,#8B0000,#C41E3A,#D4920A);color:white;border:none;padding:0.45rem 1rem;border-radius:7px;font-family:\'Instrument Sans\',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 12px rgba(196,30,58,0.25)">Apply Now →</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderBizMyApps() {
+  const container = document.getElementById('bizMyAppsList');
+  if (!container) return;
+  const user   = Storage.get('pampanga_user') || {};
+  const userId = user.id || 0;
+  const apps   = getBizPubApps().filter(a => a.businessId === userId);
+  const anns   = getBizPubAnns();
+  if (!apps.length) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--sage);font-size:0.85rem">No applications yet. Browse Open Calls to apply.</div>';
+    return;
+  }
+  container.innerHTML = apps.map(app => {
+    const ann = anns.find(a => a.id === app.annId);
+    if (!ann) return '';
+    const accepted = ann.acceptedBusinessIds.includes(userId);
+    const statusLabel = accepted ? '✅ Accepted' : '⏳ Under Review';
+    const statusColor = accepted ? 'var(--moss)' : '#f59e0b';
+    return `
+    <div style="background:white;border-radius:14px;border:1px solid rgba(212,146,10,0.12);box-shadow:var(--shadow-card);padding:1.25rem">
+      <div style="display:flex;align-items:flex-start;gap:0.75rem">
+        <span style="font-size:1.5rem">${ann.bannerEmoji}</span>
+        <div style="flex:1">
+          <h4 style="font-weight:700;font-size:0.92rem;color:var(--ink);margin-bottom:0.25rem">${ann.title}</h4>
+          <div style="font-size:0.72rem;color:var(--sage);margin-bottom:0.5rem">${ann.eventName} · ${ann.organizerName}</div>
+          <div style="font-size:0.72rem;color:var(--sage)">Applied: ${fmtBizDate(app.appliedAt)} · Deadline: ${fmtBizDate(ann.deadline)}</div>
+        </div>
+        <span style="font-size:0.72rem;font-weight:700;color:${statusColor};white-space:nowrap">${statusLabel}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function bizApplyToAnn(id) {
+  const anns   = getBizPubAnns();
+  const ann    = anns.find(a => a.id === id);
+  if (!ann || ann.status === 'Closed') { showToast('This announcement is closed.', 'error'); return; }
+  const user   = Storage.get('pampanga_user') || {};
+  const userId = user.id || 0;
+  if (!ann.applicantBusinessIds.includes(userId)) {
+    ann.applicantBusinessIds.push(userId);
+    saveBizPubAnns(anns);
+  }
+  const apps = getBizPubApps();
+  if (!apps.some(a => a.annId === id && a.businessId === userId)) {
+    apps.push({ id: Date.now(), annId: id, businessId: userId, appliedAt: new Date().toISOString(), status: 'pending' });
+    saveBizPubApps(apps);
+  }
+  showToast('✅ Application submitted! Organizer will review soon.', 'success');
+  renderBizOpenAnns();
+}
+window.bizApplyToAnn = bizApplyToAnn;
+
+function fmtBizDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }); }
+  catch { return d; }
 }
 
 function renderBizInvitations(filter) {

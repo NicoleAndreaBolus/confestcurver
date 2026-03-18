@@ -317,11 +317,32 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 
     <!-- ── ANNOUNCEMENTS ── -->
     <div class="dashboard-page" id="orgAnnouncements">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem;flex-wrap:wrap;gap:0.875rem">
-        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700">Announcements</h2>
-        <button class="btn-eco" onclick="openModal('postAnnouncementModal')">📢 Post Announcement</button>
+      <!-- Tab switcher -->
+      <div style="display:flex;gap:0.3rem;margin-bottom:1.4rem;flex-wrap:wrap" id="annTypeTabs">
+        <button class="filter-tab active" data-anntype="businessCalls" onclick="switchAnnTab('businessCalls')">📢 Business Calls</button>
+        <button class="filter-tab" data-anntype="eventAnnouncements" onclick="switchAnnTab('eventAnnouncements')">🔔 Event Announcements</button>
       </div>
-      <div id="announcementsList" style="display:flex;flex-direction:column;gap:1rem"></div>
+
+      <!-- Business Calls sub-panel -->
+      <div id="annTab_businessCalls">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.875rem">
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700">Public Business Calls</h3>
+            <div style="font-size:0.72rem;color:var(--sage);margin-top:0.2rem">Post open calls for vendors, sponsors, hotels & waste management partners</div>
+          </div>
+          <button class="btn-eco" onclick="openModal('createPublicAnnModal')">＋ Create Business Call</button>
+        </div>
+        <div id="publicAnnList" style="display:flex;flex-direction:column;gap:0.875rem"></div>
+      </div>
+
+      <!-- Event Announcements sub-panel -->
+      <div id="annTab_eventAnnouncements" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.875rem">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700">Internal Event Announcements</h3>
+          <button class="btn-eco" onclick="openModal('postAnnouncementModal')">📢 Post Announcement</button>
+        </div>
+        <div id="announcementsList" style="display:flex;flex-direction:column;gap:1rem"></div>
+      </div>
     </div>
 
     <!-- ── INVITATIONS ── -->
@@ -583,6 +604,58 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
   </div>
 </div>
 
+<!-- Create Public Announcement Modal -->
+<div class="modal-overlay" id="createPublicAnnModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h2 class="modal-title">📢 Create Business Call</h2>
+      <button class="modal-close" onclick="closeModal('createPublicAnnModal')">✕</button>
+    </div>
+    <input type="hidden" id="pubAnnEditId" value="">
+    <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="pubAnnTitle" placeholder="e.g. Calling All Food Vendors!"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Target Event *</label>
+        <select class="form-select" id="pubAnnEventId"></select>
+      </div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select class="form-select" id="pubAnnStatus">
+          <option value="Open for Applications">Open for Applications</option>
+          <option value="Invitations Sent">Invitations Sent</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Content / Description *</label><textarea class="form-textarea" id="pubAnnContent" rows="4" placeholder="Describe what you're looking for, requirements, benefits…"></textarea></div>
+    <div class="form-group">
+      <label class="form-label">Business Types Needed</label>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:0.4rem">
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer"><input type="checkbox" name="pubAnnType" value="Food"> 🍽️ Food</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer"><input type="checkbox" name="pubAnnType" value="Waste Management"> ♻️ Waste Management</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer"><input type="checkbox" name="pubAnnType" value="Hotel"> 🏨 Hotel</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer"><input type="checkbox" name="pubAnnType" value="Sponsor"> 🏢 Sponsor</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer"><input type="checkbox" name="pubAnnType" value="Arts & Crafts"> 🎨 Arts &amp; Crafts</label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Application Deadline</label><input type="date" class="form-input" id="pubAnnDeadline"></div>
+      <div class="form-group"><label class="form-label">Banner Emoji</label><input class="form-input" id="pubAnnEmoji" value="📢" maxlength="4" style="font-size:1.5rem;text-align:center"></div>
+    </div>
+    <div class="form-group"><label style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;cursor:pointer"><input type="checkbox" id="pubAnnFeatured"> Mark as Featured</label></div>
+    <button class="btn-eco" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="savePublicAnnouncement()">Save Business Call →</button>
+  </div>
+</div>
+
+<!-- View Applications Modal -->
+<div class="modal-overlay" id="viewAnnApplicationsModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h2 class="modal-title" id="viewAnnAppsTitle">📋 Applications</h2>
+      <button class="modal-close" onclick="closeModal('viewAnnApplicationsModal')">✕</button>
+    </div>
+    <div id="viewAnnAppsContent"></div>
+  </div>
+</div>
+
 <!-- Send Invitation Modal -->
 <div class="modal-overlay" id="sendInviteModal">
   <div class="modal">
@@ -714,6 +787,11 @@ function saveOrgEvents(d) { Storage.set('org_events', d); }
 function getAnnouncements()   { return Storage.get('org_announcements') || []; }
 function saveAnnouncements(d) { Storage.set('org_announcements', d); }
 
+function getPubAnnouncements()   { return Storage.get('pub_announcements') || []; }
+function savePubAnnouncements(d) { Storage.set('pub_announcements', d); }
+
+function getPubApplications()   { return Storage.get('pub_applications') || []; }
+
 function getInvitations()   { return Storage.get('org_invitations') || []; }
 function saveInvitations(d) { Storage.set('org_invitations', d); }
 
@@ -751,7 +829,7 @@ document.addEventListener('click', e => { if (e.target.classList.contains('modal
 
 // ── PAGE NAV ──────────────────────────────────────────────────
 const PAGE_TITLES = {
-  orgOverview:'Overview', orgEvents:'My Events', orgAnnouncements:'Announcements',
+  orgOverview:'Overview', orgEvents:'My Events', orgAnnouncements:'Announcements & Business Calls',
   orgInvitations:'Invitations', orgBusinesses:'Businesses', orgApplications:'Applications',
   orgAnalytics:'Analytics', orgSettings:'Settings', orgSponsors:'Sponsor Invitations',
   orgAccommodations:'Accommodations'
@@ -766,7 +844,7 @@ function showPage(id) {
   document.getElementById('pageTitle').textContent = PAGE_TITLES[id] || id;
   if (id === 'orgOverview')      renderOverview();
   if (id === 'orgEvents')        renderEventsTable();
-  if (id === 'orgAnnouncements') renderAnnouncementsList();
+  if (id === 'orgAnnouncements') { renderAnnouncementsList(); renderPublicAnnList(); }
   if (id === 'orgInvitations')   renderInvitationsTable('all');
   if (id === 'orgBusinesses')    renderBusinessGrid('all');
   if (id === 'orgApplications')  renderApplicationsList('all');
@@ -792,7 +870,7 @@ function nextId(arr) { return arr.length ? Math.max(...arr.map(x=>x.id))+1 : 1; 
 // ── POPULATE EVENT SELECTS ────────────────────────────────────
 function populateEventSelects() {
   const all = [...PampangaDB.events, ...getOrgEvents()];
-  ['annEventId','invEventId','spInvEventId','accomEventPicker'].forEach(sid => {
+  ['annEventId','invEventId','spInvEventId','accomEventPicker','pubAnnEventId'].forEach(sid => {
     const sel = document.getElementById(sid);
     if (!sel) return;
     const placeholder = sid === 'accomEventPicker' ? '<option value="">— Select an event —</option>' : '';
@@ -1000,6 +1078,188 @@ function deleteAnnouncement(id) {
   renderOverview();
   showToast('Announcement deleted.', 'info');
 }
+
+// ── PUBLIC ANNOUNCEMENTS ─────────────────────────────────────
+let currentAnnTab = 'businessCalls';
+
+function switchAnnTab(tab) {
+  currentAnnTab = tab;
+  document.querySelectorAll('#annTypeTabs .filter-tab').forEach(t => t.classList.toggle('active', t.dataset.anntype === tab));
+  document.getElementById('annTab_businessCalls').style.display       = tab === 'businessCalls' ? '' : 'none';
+  document.getElementById('annTab_eventAnnouncements').style.display  = tab === 'eventAnnouncements' ? '' : 'none';
+  if (tab === 'businessCalls') renderPublicAnnList();
+  if (tab === 'eventAnnouncements') renderAnnouncementsList();
+}
+window.switchAnnTab = switchAnnTab;
+
+function renderPublicAnnList() {
+  const anns = getPubAnnouncements();
+  const apps = getPubApplications();
+  const container = document.getElementById('publicAnnList');
+  if (!container) return;
+  if (!anns.length) {
+    container.innerHTML = '<div class="alert alert-info">ℹ️ No business calls yet. Click "Create Business Call" to post one.</div>';
+    return;
+  }
+  const statusStyle = s => {
+    if (s === 'Open for Applications') return 'background:rgba(27,58,45,0.12);color:var(--moss);border:1px solid rgba(107,158,122,0.25)';
+    if (s === 'Invitations Sent') return 'background:rgba(212,146,10,0.15);color:#7A5500;border:1px solid rgba(212,146,10,0.3)';
+    return 'background:rgba(42,21,21,0.07);color:rgba(42,21,21,0.45);border:1px solid rgba(42,21,21,0.1)';
+  };
+  container.innerHTML = anns.slice().reverse().map(a => {
+    const appCount = apps.filter(x => x.annId === a.id).length + a.applicantBusinessIds.length;
+    return `
+    <div class="card-box" style="padding:1.25rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.75rem">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;margin-bottom:0.4rem">
+            <span style="font-size:1.3rem">${a.bannerEmoji}</span>
+            <strong style="font-size:0.95rem">${a.title}</strong>
+            <span style="${statusStyle(a.status)};font-size:0.6rem;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:20px">${a.status}</span>
+            ${a.featured ? '<span style="background:rgba(212,146,10,0.15);color:#7A5500;font-size:0.58rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.5rem;border-radius:4px;border:1px solid rgba(212,146,10,0.25)">⭐ FEATURED</span>' : ''}
+          </div>
+          <div style="font-size:0.75rem;color:var(--sage);margin-bottom:0.5rem">🎪 ${a.eventName} · 📅 Deadline: ${formatDate(a.deadline)} · 📊 ${appCount} application${appCount!==1?'s':''}</div>
+          <div style="font-size:0.8rem;color:var(--charcoal);opacity:0.8">${a.content.slice(0,120)}${a.content.length>120?'…':''}</div>
+        </div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;align-items:flex-start">
+          <button class="btn-gold btn-sm" onclick="editPublicAnn(${a.id})">✏️ Edit</button>
+          <button class="btn-eco btn-sm" onclick="openViewApps(${a.id})">👥 Applications (${appCount})</button>
+          ${a.status !== 'Closed' ? `<button class="btn-danger btn-sm" onclick="closePublicAnn(${a.id})">🔒 Close</button>` : ''}
+          <button class="btn-danger btn-sm" onclick="deletePublicAnn(${a.id})">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+window.renderPublicAnnList = renderPublicAnnList;
+
+function savePublicAnnouncement() {
+  const title    = document.getElementById('pubAnnTitle').value.trim();
+  const eventId  = parseInt(document.getElementById('pubAnnEventId').value);
+  const status   = document.getElementById('pubAnnStatus').value;
+  const content  = document.getElementById('pubAnnContent').value.trim();
+  const deadline = document.getElementById('pubAnnDeadline').value;
+  const emoji    = document.getElementById('pubAnnEmoji').value.trim() || '📢';
+  const featured = document.getElementById('pubAnnFeatured').checked;
+  const editId   = document.getElementById('pubAnnEditId').value;
+  const types    = Array.from(document.querySelectorAll('input[name="pubAnnType"]:checked')).map(c => c.value);
+  if (!title) { showToast('Please enter a title.', 'error'); return; }
+  if (!content) { showToast('Please enter a description.', 'error'); return; }
+  const all    = [...PampangaDB.events, ...getOrgEvents()];
+  const ev     = all.find(e => e.id === eventId) || { name: 'Unknown Event' };
+  const anns   = getPubAnnouncements();
+  if (editId) {
+    const idx = anns.findIndex(a => a.id === parseInt(editId));
+    if (idx > -1) {
+      anns[idx] = { ...anns[idx], title, eventId, eventName: ev.name, status, content, deadline, bannerEmoji: emoji, featured, businessTypesNeeded: types };
+    }
+  } else {
+    anns.push({
+      id: anns.length ? Math.max(...anns.map(a => a.id)) + 1 : 1,
+      eventId, eventName: ev.name,
+      organizerId: 1, organizerName: 'Organizer',
+      title, content, businessTypesNeeded: types, status,
+      createdAt: new Date().toISOString().split('T')[0],
+      deadline, applicantBusinessIds: [], invitedBusinessIds: [], acceptedBusinessIds: [],
+      bannerEmoji: emoji, featured
+    });
+  }
+  savePubAnnouncements(anns);
+  closeModal('createPublicAnnModal');
+  renderPublicAnnList();
+  showToast(`📢 Business call "${title}" saved!`, 'success');
+  document.getElementById('pubAnnEditId').value = '';
+}
+window.savePublicAnnouncement = savePublicAnnouncement;
+
+function editPublicAnn(id) {
+  const ann = getPubAnnouncements().find(a => a.id === id);
+  if (!ann) return;
+  populateEventSelects();
+  document.getElementById('pubAnnEditId').value   = id;
+  document.getElementById('pubAnnTitle').value    = ann.title;
+  document.getElementById('pubAnnEventId').value  = ann.eventId;
+  document.getElementById('pubAnnStatus').value   = ann.status;
+  document.getElementById('pubAnnContent').value  = ann.content;
+  document.getElementById('pubAnnDeadline').value = ann.deadline;
+  document.getElementById('pubAnnEmoji').value    = ann.bannerEmoji;
+  document.getElementById('pubAnnFeatured').checked = ann.featured;
+  document.querySelectorAll('input[name="pubAnnType"]').forEach(cb => {
+    cb.checked = ann.businessTypesNeeded.includes(cb.value);
+  });
+  openModal('createPublicAnnModal');
+}
+window.editPublicAnn = editPublicAnn;
+
+function closePublicAnn(id) {
+  const anns = getPubAnnouncements();
+  const ann  = anns.find(a => a.id === id);
+  if (ann) { ann.status = 'Closed'; savePubAnnouncements(anns); renderPublicAnnList(); showToast('Announcement closed.', 'info'); }
+}
+window.closePublicAnn = closePublicAnn;
+
+function deletePublicAnn(id) {
+  if (!confirm('Delete this business call?')) return;
+  savePubAnnouncements(getPubAnnouncements().filter(a => a.id !== id));
+  renderPublicAnnList();
+  showToast('Business call deleted.', 'info');
+}
+window.deletePublicAnn = deletePublicAnn;
+
+function openViewApps(id) {
+  const ann  = getPubAnnouncements().find(a => a.id === id);
+  if (!ann) return;
+  const apps = getPubApplications().filter(a => a.annId === id);
+  document.getElementById('viewAnnAppsTitle').textContent = `📋 Applications — ${ann.title}`;
+  const allApplicantIds = [...new Set([...ann.applicantBusinessIds, ...apps.map(a => a.businessId)])];
+  if (!allApplicantIds.length) {
+    document.getElementById('viewAnnAppsContent').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--sage);font-size:0.85rem">No applications yet.</div>';
+  } else {
+    document.getElementById('viewAnnAppsContent').innerHTML = `
+      <div style="font-size:0.78rem;color:var(--sage);margin-bottom:1rem">${allApplicantIds.length} applicant(s) · Deadline: ${formatDate(ann.deadline)}</div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">
+        ${allApplicantIds.map(bizId => {
+          const biz  = extendedBusinesses.find(b => b.id === bizId);
+          const name = biz ? biz.name : `Business #${bizId}`;
+          const type = biz ? typeLabel(biz.type) : '—';
+          const accepted = ann.acceptedBusinessIds.includes(bizId);
+          return `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;padding:0.75rem;background:rgba(251,244,232,0.5);border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
+            <div><div style="font-weight:700;font-size:0.88rem">${name}</div><div style="font-size:0.7rem;color:var(--sage)">${type}</div></div>
+            <div style="display:flex;gap:0.4rem">
+              ${accepted
+                ? '<span style="font-size:0.72rem;font-weight:700;color:var(--moss)">✅ Accepted</span>'
+                : `<button class="btn-eco btn-sm" onclick="acceptAnnApplicant(${id},${bizId})">Accept</button>
+                   <button class="btn-danger btn-sm" onclick="rejectAnnApplicant(${id},${bizId})">Reject</button>`}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+  openModal('viewAnnApplicationsModal');
+}
+window.openViewApps = openViewApps;
+
+function acceptAnnApplicant(annId, bizId) {
+  const anns = getPubAnnouncements();
+  const ann  = anns.find(a => a.id === annId);
+  if (!ann) return;
+  if (!ann.acceptedBusinessIds.includes(bizId)) ann.acceptedBusinessIds.push(bizId);
+  savePubAnnouncements(anns);
+  openViewApps(annId);
+  showToast('Applicant accepted!', 'success');
+}
+window.acceptAnnApplicant = acceptAnnApplicant;
+
+function rejectAnnApplicant(annId, bizId) {
+  const anns = getPubAnnouncements();
+  const ann  = anns.find(a => a.id === annId);
+  if (!ann) return;
+  ann.applicantBusinessIds = ann.applicantBusinessIds.filter(id => id !== bizId);
+  savePubAnnouncements(anns);
+  openViewApps(annId);
+  showToast('Applicant removed.', 'info');
+}
+window.rejectAnnApplicant = rejectAnnApplicant;
 
 // ── INVITATIONS ────────────────────────────────────────────────
 let currentInviteFilter = 'all';
