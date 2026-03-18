@@ -969,9 +969,14 @@ body::before {
     <div style="padding:1rem;background:rgba(212,146,10,0.06);border-radius:10px;border:1px dashed rgba(212,146,10,0.28)">
       <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--sage);font-weight:800;margin-bottom:0.6rem">🔑 Demo Accounts</div>
       <div style="display:flex;flex-direction:column;gap:0.35rem">
-        <button onclick="demoLogin('user')"     style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">👤 Tourist — </a></button>
-        <button onclick="demoLogin('business')" style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🏪 Business — </a></button>
-        <button onclick="demoLogin('admin')"    style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🛡️ Admin — </a></button>
+        <button onclick="demoLogin('user')"       style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">👤 Tourist — juan@email.com</button>
+        <button onclick="demoLogin('business')"   style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🏪 Business — maria@email.com</button>
+        <button onclick="demoLogin('admin')"      style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🛡️ Admin — admin@pampanga.gov</button>
+        <button onclick="demoLogin('organizer')"  style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🎪 Organizer — alex@events.ph</button>
+        <button onclick="demoLogin('sponsor')"    style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">💼 Sponsor — sofia@sponsors.ph</button>
+        <button onclick="demoLogin('hotel')"      style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🏨 Hotel Manager — diego@hotelph.com</button>
+        <button onclick="demoLogin('waste')"      style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">♻️ Waste Team — eco@wastemgmt.ph</button>
+        <button onclick="demoLogin('food')"       style="background:white;border:1px solid rgba(212,146,10,0.18);border-radius:7px;padding:0.4rem 0.75rem;cursor:pointer;font-size:0.75rem;text-align:left;font-family:'Instrument Sans',sans-serif;color:var(--ink);transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.18)'">🍽️ Food Stall — rosa@foodstall.ph</button>
       </div>
     </div>
   </div>
@@ -2002,13 +2007,24 @@ function handleLogin(e){
   },900);
 }
 function demoLogin(role){
-  const acc={user:{name:'Juan dela Cruz',email:'juan@email.com',role:'user'},business:{name:'Maria Santos',email:'maria@email.com',role:'business'},admin:{name:'Admin User',email:'admin@pampanga.gov',role:'admin'}};
+  const acc={
+    user:     {name:'Juan dela Cruz',  email:'juan@email.com',       role:'user'},
+    business: {name:'Maria Santos',    email:'maria@email.com',      role:'business'},
+    admin:    {name:'Admin User',      email:'admin@pampanga.gov',   role:'admin'},
+    organizer:{name:'Alex Rodriguez',  email:'alex@events.ph',       role:'organizer'},
+    sponsor:  {name:'Sofia Reyes',     email:'sofia@sponsors.ph',    role:'sponsor'},
+    hotel:    {name:'Diego Mendoza',   email:'diego@hotelph.com',    role:'business', businessType:'hotel'},
+    waste:    {name:'Eco Warriors Team',email:'eco@wastemgmt.ph',    role:'business', businessType:'waste'},
+    food:     {name:'Rosa Fernandez',  email:'rosa@foodstall.ph',    role:'business', businessType:'food'}
+  };
   const a=acc[role];
   Storage.set('pampanga_user',a);
   showToast('Signing in as '+a.name+'...','success');
   setTimeout(()=>{
     if(role==='admin') window.location.href='dashboard/admin-dashboard.html';
-    else if(role==='business') window.location.href='dashboard/business-dashboard.html';
+    else if(role==='organizer') window.location.href='dashboard/organizer-dashboard.html';
+    else if(role==='sponsor') window.location.href='dashboard/sponsor-dashboard.html';
+    else if(role==='business'||role==='hotel'||role==='waste'||role==='food') window.location.href='dashboard/business-dashboard.html';
     else window.location.href='dashboard/user-dashboard.html';
   },700);
 }
