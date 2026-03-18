@@ -230,9 +230,9 @@ body::before {
 .hero::after {
   content: '';
   position: absolute; bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.7) 70%, #0f0808 100%);
-  z-index: 2; pointer-events: none;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.5) 100%);
+  z-index: 4; pointer-events: none;
 }
 
 /* ── HERO TEXT BAND ────────────────────────────────────────────
@@ -276,6 +276,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* push content up slightly so stats bar clears the buttons */
+  padding-bottom: 5rem;
   opacity: 1;
   transition: opacity 0.8s ease;
   pointer-events: auto;
@@ -289,20 +291,35 @@ body::before {
   max-width: 1200px;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 4rem;
+  grid-template-columns: 1fr 360px;
+  gap: 3rem;
   align-items: center;
   color: white;
 }
+.hero-overlay-content h1 {
+  font-size: clamp(2.4rem, 5vw, 4.2rem) !important;
+  margin-bottom: 1rem !important;
+  line-height: 1 !important;
+}
+.hero-overlay-content .hero-desc {
+  font-size: 0.9rem !important;
+  margin-bottom: 1.25rem !important;
+  line-height: 1.65 !important;
+}
+.hero-overlay-content .hero-ctas { margin-bottom: 1.5rem !important; }
+.hero-overlay-content .hero-eyebrow { margin-bottom: 1rem !important; }
+.hero-overlay-content .hero-stat { padding: 0.65rem 0.75rem !important; }
+.hero-overlay-content .hero-stat-n { font-size: 1.2rem !important; }
+.hero-overlay-content .hero-right { padding: 1.25rem !important; }
 
 
-/* Video toggle button — fixed bottom right, always visible */
+/* ── VIDEO CONTROLS — strictly inside .hero (position:absolute) ── */
 .video-toggle-btn {
-  position: fixed;
-  bottom: 2rem; right: 2rem;
-  z-index: 1001;
+  position: absolute;
+  bottom: 2.5rem; right: 2rem;
+  z-index: 10;
   display: flex; align-items: center; gap: 0.5rem;
-  background: rgba(10,4,4,0.75);
+  background: rgba(10,4,4,0.78);
   border: 1px solid rgba(212,146,10,0.35);
   border-radius: 50px;
   padding: 0.5rem 1rem 0.5rem 0.6rem;
@@ -312,7 +329,7 @@ body::before {
   font-size: 0.7rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   backdrop-filter: blur(12px);
-  transition: all 0.25s;
+  transition: opacity 0.4s ease, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 .video-toggle-btn:hover {
@@ -335,6 +352,66 @@ body::before {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 .video-toggle-btn.video-on .vt-dot { background: var(--fern); }
+/* Dim when video is playing and idle — brightens on hover */
+.video-toggle-btn.idle { opacity: 0.3; }
+.video-toggle-btn.idle:hover { opacity: 1; }
+
+/* Mute button — left of play button, hidden until video locked on */
+.mute-toggle-btn {
+  position: absolute;
+  bottom: 2.5rem; right: 13rem;
+  z-index: 10;
+  display: none;
+  align-items: center; gap: 0.5rem;
+  background: rgba(10,4,4,0.78);
+  border: 1px solid rgba(212,146,10,0.35);
+  border-radius: 50px;
+  padding: 0.5rem 1rem 0.5rem 0.6rem;
+  cursor: pointer;
+  color: rgba(251,244,232,0.85);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: opacity 0.4s ease, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.mute-toggle-btn.visible { display: flex; }
+.mute-toggle-btn:hover { border-color: var(--gold); color: var(--amber); transform: translateY(-2px); }
+.mute-toggle-btn .mt-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, #1B3A2D, #4A7C5F);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; flex-shrink: 0; transition: transform 0.3s;
+}
+.mute-toggle-btn:hover .mt-icon { transform: scale(1.1); }
+.mute-toggle-btn.unmuted { border-color: rgba(212,146,10,0.5); color: var(--amber); }
+.mute-toggle-btn.unmuted .mt-icon { background: linear-gradient(135deg, var(--ember), var(--gold)); }
+.mute-toggle-btn.idle { opacity: 0.3; }
+.mute-toggle-btn.idle:hover { opacity: 1; }
+
+/* Countdown ring — absolute inside hero, around the play button */
+.vt-countdown-ring {
+  position: absolute;
+  bottom: 2.05rem; right: 1.55rem;
+  width: 52px; height: 52px;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+.vt-countdown-ring.hidden { opacity: 0; }
+.vt-countdown-ring circle {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 145;
+  stroke-dashoffset: 145;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset linear;
+}
 
 /* ── VIDEO BACKGROUND ─────────────────────────────────────────
    To swap the video: see the <video> tag around line 892
@@ -1096,6 +1173,17 @@ body::before {
     <span id="vtLabel">Play Video</span>
     <span class="vt-dot"></span>
   </button>
+
+  <!-- Mute toggle — appears only when video is playing -->
+  <button class="mute-toggle-btn" id="muteToggleBtn" onclick="toggleMute()" title="Toggle mute">
+    <span class="mt-icon" id="mtIcon">🔇</span>
+    <span id="mtLabel">Unmute</span>
+  </button>
+
+  <!-- Countdown ring — sits around the play button, inside hero -->
+  <svg class="vt-countdown-ring" id="vtCountdownRing" viewBox="0 0 52 52">
+    <circle id="vtRingCircle" cx="26" cy="26" r="23"/>
+  </svg>
 
 </section>
 
@@ -2868,47 +2956,195 @@ window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); i
      ═══════════════════════════════════════════════════════════ -->
 <script>
 (function() {
-  var videoOn = false;
+  // ── STATE ──────────────────────────────────────────────────────
+  var videoLocked = false;   // true = user clicked to lock video ON
+  var autoTimer   = null;    // auto-play countdown handle
+  var idleTimer   = null;    // idle-dim timer handle
 
-  window.toggleHeroVideo = function() {
-    videoOn = !videoOn;
-    var wrap    = document.getElementById('heroVideoWrap');
-    var video   = document.getElementById('heroBgVideo');
+  // ★ Change AUTO_DELAY (ms) to adjust how long text shows before video plays
+  var AUTO_DELAY  = 6000;    // 6 seconds
+
+  // ── HELPERS ────────────────────────────────────────────────────
+  function getEls() {
+    return {
+      wrap    : document.getElementById('heroVideoWrap'),
+      video   : document.getElementById('heroBgVideo'),
+      btn     : document.getElementById('videoToggleBtn'),
+      icon    : document.getElementById('vtIcon'),
+      label   : document.getElementById('vtLabel'),
+      overlay : document.getElementById('heroOverlayContent'),
+      muteBtn : document.getElementById('muteToggleBtn'),
+      mtIcon  : document.getElementById('mtIcon'),
+      mtLabel : document.getElementById('mtLabel'),
+      gFire   : document.getElementById('heroGlowFire'),
+      gEco    : document.getElementById('heroGlowEco'),
+      lantern : document.getElementById('heroLanternDeco'),
+      bgGrad  : document.querySelector('.hero-bg-gradient'),
+      ringEl  : document.getElementById('vtCountdownRing')
+    };
+  }
+
+  function showVideo(els) {
+    if (!els.wrap) return;
+    els.wrap.classList.add('active');
+    if (els.video) { els.video.muted = true; els.video.play(); }
+    if (els.overlay) els.overlay.classList.add('hidden');
+    [els.gFire, els.gEco, els.lantern].forEach(function(el) {
+      if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
+    });
+    if (els.bgGrad) { els.bgGrad.style.transition = 'opacity 1s'; els.bgGrad.style.opacity = '0'; }
+  }
+
+  function hideVideo(els) {
+    if (!els.wrap) return;
+    els.wrap.classList.remove('active');
+    if (els.video) { els.video.pause(); els.video.muted = true; }
+    if (els.overlay) els.overlay.classList.remove('hidden');
+    [els.gFire, els.gEco, els.lantern].forEach(function(el) {
+      if (el) el.style.opacity = '';
+    });
+    if (els.bgGrad) els.bgGrad.style.opacity = '';
+  }
+
+  // ── IDLE DIM: dim buttons 3s after video locks on ──────────────
+  function startIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function() {
+      var btn     = document.getElementById('videoToggleBtn');
+      var muteBtn = document.getElementById('muteToggleBtn');
+      if (videoLocked) {
+        if (btn)     btn.classList.add('idle');
+        if (muteBtn) muteBtn.classList.add('idle');
+      }
+    }, 3000);
+  }
+
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
     var btn     = document.getElementById('videoToggleBtn');
-    var icon    = document.getElementById('vtIcon');
-    var label   = document.getElementById('vtLabel');
-    var gFire   = document.getElementById('heroGlowFire');
-    var gEco    = document.getElementById('heroGlowEco');
-    var lantern = document.getElementById('heroLanternDeco');
-    var bgGrad  = document.querySelector('.hero-bg-gradient');
+    var muteBtn = document.getElementById('muteToggleBtn');
+    if (btn)     btn.classList.remove('idle');
+    if (muteBtn) muteBtn.classList.remove('idle');
+    if (videoLocked) startIdleTimer();
+  }
 
-    var overlay = document.getElementById('heroOverlayContent');
-
-    if (videoOn) {
-      wrap.classList.add('active');
-      btn.classList.add('video-on');
-      icon.innerHTML = '&#9646;&#9646;';
-      label.textContent = 'Pause Video';
-      if (video) video.play();
-      // Fade OUT: text overlay, glows, lantern, gradient
-      if (overlay) overlay.classList.add('hidden');
-      [gFire, gEco, lantern].forEach(function(el) {
-        if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
-      });
-      if (bgGrad) { bgGrad.style.transition = 'opacity 1s'; bgGrad.style.opacity = '0'; }
-    } else {
-      wrap.classList.remove('active');
-      btn.classList.remove('video-on');
-      icon.innerHTML = '&#9654;';
-      label.textContent = 'Play Video';
-      if (video) video.pause();
-      // Fade IN: text overlay, glows, lantern, gradient
-      if (overlay) overlay.classList.remove('hidden');
-      [gFire, gEco, lantern].forEach(function(el) {
-        if (el) el.style.opacity = '';
-      });
-      if (bgGrad) bgGrad.style.opacity = '';
+  // ── LOCK ON/OFF ────────────────────────────────────────────────
+  function setLockedOn(els) {
+    videoLocked = true;
+    if (els.btn) {
+      els.btn.classList.add('video-on');
+      els.btn.classList.remove('idle');
     }
+    if (els.icon)  els.icon.innerHTML    = '&#9646;&#9646;';
+    if (els.label) els.label.textContent = 'Gradient BG';
+    if (els.muteBtn) {
+      els.muteBtn.classList.add('visible');
+      els.muteBtn.classList.remove('unmuted', 'idle');
+      if (els.mtIcon)  els.mtIcon.textContent  = '🔇';
+      if (els.mtLabel) els.mtLabel.textContent = 'Unmute';
+    }
+    if (els.ringEl) els.ringEl.classList.add('hidden');
+    showVideo(els);
+    startIdleTimer();
+  }
+
+  function setLockedOff(els) {
+    videoLocked = false;
+    clearTimeout(idleTimer);
+    if (els.btn) {
+      els.btn.classList.remove('video-on', 'idle');
+      els.icon.innerHTML    = '&#9654;';
+      els.label.textContent = 'Play Video';
+    }
+    if (els.muteBtn) els.muteBtn.classList.remove('visible', 'unmuted', 'idle');
+    hideVideo(els);
+  }
+
+  // ── AUTO-PLAY COUNTDOWN ────────────────────────────────────────
+  function startAutoPlay() {
+    var ring   = document.getElementById('vtRingCircle');
+    var ringEl = document.getElementById('vtCountdownRing');
+    if (ring) {
+      ring.style.transition = 'stroke-dashoffset ' + (AUTO_DELAY / 1000) + 's linear';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() { ring.style.strokeDashoffset = '0'; });
+      });
+    }
+    autoTimer = setTimeout(function() {
+      if (!videoLocked) {
+        if (ringEl) ringEl.classList.add('hidden');
+        setLockedOn(getEls());
+      }
+    }, AUTO_DELAY);
+  }
+
+  function cancelAutoPlay() {
+    clearTimeout(autoTimer); autoTimer = null;
+    var ring   = document.getElementById('vtRingCircle');
+    var ringEl = document.getElementById('vtCountdownRing');
+    if (ring)   { ring.style.transition = 'none'; ring.style.strokeDashoffset = '145'; }
+    if (ringEl) ringEl.classList.add('hidden');
+  }
+
+  // Start auto-play after a short paint delay
+  setTimeout(startAutoPlay, 300);
+
+  // ── SCROLL: stop video when hero scrolls out of view ───────────
+  window.addEventListener('scroll', function() {
+    if (!videoLocked) return;
+    var hero = document.getElementById('heroSection');
+    if (hero && hero.getBoundingClientRect().bottom <= 0) {
+      setLockedOff(getEls());
+    }
+  }, { passive: true });
+
+  // ── HOVER on play button: preview video (only when not locked) ──
+  setTimeout(function() {
+    var btn = document.getElementById('videoToggleBtn');
+    if (!btn) return;
+    btn.addEventListener('mouseenter', function() {
+      resetIdleTimer(); // always reset idle on hover
+      if (videoLocked) return;
+      cancelAutoPlay();
+      showVideo(getEls());
+    });
+    btn.addEventListener('mouseleave', function() {
+      if (videoLocked) { startIdleTimer(); return; }
+      hideVideo(getEls());
+    });
+    // Mute button also resets idle
+    var muteBtn = document.getElementById('muteToggleBtn');
+    if (muteBtn) {
+      muteBtn.addEventListener('mouseenter', resetIdleTimer);
+      muteBtn.addEventListener('mouseleave', function() {
+        if (videoLocked) startIdleTimer();
+      });
+    }
+  }, 300);
+
+  // ── CLICK: toggle lock ─────────────────────────────────────────
+  window.toggleHeroVideo = function() {
+    cancelAutoPlay();
+    var els = getEls();
+    if (!videoLocked) setLockedOn(els);
+    else              setLockedOff(els);
+  };
+
+  // ── MUTE TOGGLE ────────────────────────────────────────────────
+  window.toggleMute = function() {
+    var els = getEls();
+    if (!els.video) return;
+    els.video.muted = !els.video.muted;
+    if (els.video.muted) {
+      if (els.muteBtn) els.muteBtn.classList.remove('unmuted');
+      if (els.mtIcon)  els.mtIcon.textContent  = '🔇';
+      if (els.mtLabel) els.mtLabel.textContent = 'Unmute';
+    } else {
+      if (els.muteBtn) els.muteBtn.classList.add('unmuted');
+      if (els.mtIcon)  els.mtIcon.textContent  = '🔊';
+      if (els.mtLabel) els.mtLabel.textContent = 'Mute';
+    }
+    resetIdleTimer();
   };
 })();
 </script>
