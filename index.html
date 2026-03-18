@@ -230,9 +230,9 @@ body::before {
 .hero::after {
   content: '';
   position: absolute; bottom: 0; left: 0; right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.5) 100%);
-  z-index: 4; pointer-events: none;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.7) 70%, #0f0808 100%);
+  z-index: 2; pointer-events: none;
 }
 
 /* ── HERO TEXT BAND ────────────────────────────────────────────
@@ -276,8 +276,6 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* push content up slightly so stats bar clears the buttons */
-  padding-bottom: 5rem;
   opacity: 1;
   transition: opacity 0.8s ease;
   pointer-events: auto;
@@ -291,35 +289,20 @@ body::before {
   max-width: 1200px;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 3rem;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
   align-items: center;
   color: white;
 }
-.hero-overlay-content h1 {
-  font-size: clamp(2.4rem, 5vw, 4.2rem) !important;
-  margin-bottom: 1rem !important;
-  line-height: 1 !important;
-}
-.hero-overlay-content .hero-desc {
-  font-size: 0.9rem !important;
-  margin-bottom: 1.25rem !important;
-  line-height: 1.65 !important;
-}
-.hero-overlay-content .hero-ctas { margin-bottom: 1.5rem !important; }
-.hero-overlay-content .hero-eyebrow { margin-bottom: 1rem !important; }
-.hero-overlay-content .hero-stat { padding: 0.65rem 0.75rem !important; }
-.hero-overlay-content .hero-stat-n { font-size: 1.2rem !important; }
-.hero-overlay-content .hero-right { padding: 1.25rem !important; }
 
 
-/* ── VIDEO CONTROLS — strictly inside .hero (position:absolute) ── */
+/* Video toggle button — fixed bottom right, always visible */
 .video-toggle-btn {
-  position: absolute;
-  bottom: 2.5rem; right: 2rem;
-  z-index: 10;
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  z-index: 1001;
   display: flex; align-items: center; gap: 0.5rem;
-  background: rgba(10,4,4,0.78);
+  background: rgba(10,4,4,0.75);
   border: 1px solid rgba(212,146,10,0.35);
   border-radius: 50px;
   padding: 0.5rem 1rem 0.5rem 0.6rem;
@@ -329,7 +312,7 @@ body::before {
   font-size: 0.7rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   backdrop-filter: blur(12px);
-  transition: opacity 0.4s ease, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+  transition: all 0.25s;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 .video-toggle-btn:hover {
@@ -352,66 +335,6 @@ body::before {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 .video-toggle-btn.video-on .vt-dot { background: var(--fern); }
-/* Dim when video is playing and idle — brightens on hover */
-.video-toggle-btn.idle { opacity: 0.3; }
-.video-toggle-btn.idle:hover { opacity: 1; }
-
-/* Mute button — left of play button, hidden until video locked on */
-.mute-toggle-btn {
-  position: absolute;
-  bottom: 2.5rem; right: 13rem;
-  z-index: 10;
-  display: none;
-  align-items: center; gap: 0.5rem;
-  background: rgba(10,4,4,0.78);
-  border: 1px solid rgba(212,146,10,0.35);
-  border-radius: 50px;
-  padding: 0.5rem 1rem 0.5rem 0.6rem;
-  cursor: pointer;
-  color: rgba(251,244,232,0.85);
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  backdrop-filter: blur(12px);
-  transition: opacity 0.4s ease, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
-.mute-toggle-btn.visible { display: flex; }
-.mute-toggle-btn:hover { border-color: var(--gold); color: var(--amber); transform: translateY(-2px); }
-.mute-toggle-btn .mt-icon {
-  width: 28px; height: 28px; border-radius: 50%;
-  background: linear-gradient(135deg, #1B3A2D, #4A7C5F);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.85rem; flex-shrink: 0; transition: transform 0.3s;
-}
-.mute-toggle-btn:hover .mt-icon { transform: scale(1.1); }
-.mute-toggle-btn.unmuted { border-color: rgba(212,146,10,0.5); color: var(--amber); }
-.mute-toggle-btn.unmuted .mt-icon { background: linear-gradient(135deg, var(--ember), var(--gold)); }
-.mute-toggle-btn.idle { opacity: 0.3; }
-.mute-toggle-btn.idle:hover { opacity: 1; }
-
-/* Countdown ring — absolute inside hero, around the play button */
-.vt-countdown-ring {
-  position: absolute;
-  bottom: 2.05rem; right: 1.55rem;
-  width: 52px; height: 52px;
-  z-index: 9;
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.5s;
-}
-.vt-countdown-ring.hidden { opacity: 0; }
-.vt-countdown-ring circle {
-  fill: none;
-  stroke: var(--amber);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-dasharray: 145;
-  stroke-dashoffset: 145;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-  transition: stroke-dashoffset linear;
-}
 
 /* ── VIDEO BACKGROUND ─────────────────────────────────────────
    To swap the video: see the <video> tag around line 892
@@ -569,7 +492,6 @@ body::before {
 .particle {
   position: absolute; border-radius: 50% 50% 40% 40%;
   animation: float-up linear infinite; opacity: 0; pointer-events: none;
-  z-index: 2;
 }
 @keyframes float-up {
   0%   { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
@@ -638,6 +560,24 @@ body::before {
   height: 195px; display: flex; align-items: center; justify-content: center;
   font-size: 4rem; position: relative; overflow: hidden;
 }
+.card-banner-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-banner-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .card-banner-shimmer {
   position: absolute; inset: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 70%);
@@ -702,15 +642,23 @@ body::before {
 }
 .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
 .product-img {
-  height: 170px; display: flex; align-items: center; justify-content: center;
-  font-size: 3.2rem; position: relative;
+  height: 170px; position: relative; overflow: hidden;
   background: linear-gradient(135deg, rgba(196,30,58,0.05) 0%, rgba(212,146,10,0.07) 50%, rgba(27,58,45,0.05) 100%);
+}
+.product-photo {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.product-photo-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem; font-weight: 700; color: var(--ink);
+  background: linear-gradient(135deg, rgba(196,30,58,0.08) 0%, rgba(212,146,10,0.12) 50%, rgba(27,58,45,0.08) 100%);
 }
 .product-img .origin-badge {
   position: absolute; bottom: 8px; left: 8px;
   background: var(--g-eco); color: white;
   font-size: 0.55rem; font-weight: 800; letter-spacing: 0.1em;
-  padding: 0.2rem 0.55rem; border-radius: 4px;
+  padding: 0.2rem 0.55rem; border-radius: 4px; z-index: 2;
 }
 .product-body { padding: 1rem; }
 .product-cat {
@@ -1082,7 +1030,7 @@ body::before {
     <a href="marketplace.html">Marketplace</a>
     <button onclick="toggleCart()" title="View Cart" style="position:relative;background:rgba(212,146,10,0.1);border:1px solid rgba(212,146,10,0.25);border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s" onmouseover="this.style.background='rgba(212,146,10,0.2)'" onmouseout="this.style.background='rgba(212,146,10,0.1)'">🛒<span id="cartBadge1" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--crimson);color:white;font-size:0.55rem;font-weight:800;min-width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-family:'Instrument Sans',sans-serif">0</span></button>
     <a href="login.html" class="btn-nav-outline">Log In</a>
-    <a href="register.html" class="btn-nav-primary">Sign Up</a>
+    <a href="register.html" class="btn-nav-primary">🏮 Sign Up</a>
   </div>
   <button class="nav-mobile-toggle" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">☰</button>
 </nav>
@@ -1136,8 +1084,8 @@ body::before {
       </h1>
       <p class="hero-desc">Explore vibrant festivals, buy <strong>digital eco-tickets</strong>, discover authentic pasalubong, and support <strong>local Kapampangan businesses</strong> that protect our planet.</p>
       <div class="hero-ctas">
-        <a href="events.html" class="btn-fire">Browse Events</a>
-        <a href="marketplace.html" class="btn-eco">Eco Marketplace</a>
+        <a href="events.html" class="btn-fire">🎪 Browse Events</a>
+        <a href="marketplace.html" class="btn-eco">🌿 Eco Marketplace</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Events</div></div>
@@ -1176,17 +1124,6 @@ body::before {
     <span id="vtLabel">Play Video</span>
     <span class="vt-dot"></span>
   </button>
-
-  <!-- Mute toggle — appears only when video is playing -->
-  <button class="mute-toggle-btn" id="muteToggleBtn" onclick="toggleMute()" title="Toggle mute">
-    <span class="mt-icon" id="mtIcon">🔇</span>
-    <span id="mtLabel">Unmute</span>
-  </button>
-
-  <!-- Countdown ring — sits around the play button, inside hero -->
-  <svg class="vt-countdown-ring" id="vtCountdownRing" viewBox="0 0 52 52">
-    <circle id="vtRingCircle" cx="26" cy="26" r="23"/>
-  </svg>
 
 </section>
 
@@ -1245,7 +1182,7 @@ body::before {
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
       <div>
-        <div class="section-label">What's On</div>
+        <div class="section-label">📅 What's On</div>
         <h2 class="section-title">Upcoming <span class="fire italic">Events</span></h2>
         <p class="section-sub">From giant lantern festivals to culinary fiestas — Pampanga always celebrates.</p>
       </div>
@@ -1261,7 +1198,7 @@ body::before {
   <div class="container" style="position:relative">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
       <div>
-        <div class="section-label eco">Climate & Economy</div>
+        <div class="section-label eco">🌏 Climate & Economy</div>
         <h2 class="section-title light">Festivals That <span class="fire italic">Heal</span> the Planet</h2>
         <p class="section-sub light" style="margin-bottom:2rem">Pampanga's tourism economy faces real threats from climate change — flooding, drought, extreme heat. Our platform channels festival spending directly into local green initiatives.</p>
         <div style="display:flex;flex-direction:column;gap:0.875rem">
@@ -1312,7 +1249,7 @@ body::before {
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
       <div>
-        <div class="section-label eco">Pasalubong Corner</div>
+        <div class="section-label eco">🛍️ Pasalubong Corner</div>
         <h2 class="section-title">Local <span class="fire italic">Products</span></h2>
         <p class="section-sub">Every purchase keeps money local. Authentic Kapampangan flavors & crafts.</p>
       </div>
@@ -1354,7 +1291,7 @@ body::before {
   <div class="container">
     <div style="display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start" id="calGrid">
       <div>
-        <div class="section-label">Plan Your Visit</div>
+        <div class="section-label">📆 Plan Your Visit</div>
         <h2 class="section-title">Event <span class="fire italic">Calendar</span></h2>
         <p class="section-sub" style="margin-bottom:2rem">Gold dots mark eco-certified events. Click any date to discover what's on.</p>
         <div style="display:flex;flex-direction:column;gap:0.6rem" id="calEventList"></div>
@@ -1368,31 +1305,15 @@ body::before {
 <section style="background:var(--g-ember);padding:5rem 0;position:relative;overflow:hidden">
   <div style="position:absolute;inset:0;opacity:0.07" class="lantern-pattern"></div>
   <div class="container" style="text-align:center;position:relative">
-    <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,220,140,0.75);margin-bottom:1rem">Join the Movement</div>
+    <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,220,140,0.75);margin-bottom:1rem">🌿 Join the Movement</div>
     <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);color:white;margin-bottom:1rem;font-weight:900;line-height:1.1">Celebrate Pampanga.<br><em>Protect the Planet.</em></h2>
     <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;margin-bottom:2.25rem;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.7">Every event you attend, every pasalubong you buy strengthens the local economy and funds climate adaptation programs.</p>
     <div style="display:flex;gap:0.875rem;justify-content:center;flex-wrap:wrap">
-      <a href="register.html" style="background:white;color:var(--ember);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s;box-shadow:0 4px 20px rgba(18,8,8,0.2)" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">Create Free Account</a>
+      <a href="register.html" style="background:white;color:var(--ember);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s;box-shadow:0 4px 20px rgba(18,8,8,0.2)" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🏮 Create Free Account</a>
       <a href="events.html" style="background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.3);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">Browse Events →</a>
     </div>
   </div>
 </section>
-
-<!-- ── LATEST ANNOUNCEMENTS ── -->
-<section style="background:var(--bone);padding:4rem 0">
-  <div style="max-width:1200px;margin:0 auto;padding:0 1.5rem">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:1.75rem">
-      <div>
-        <div style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.65rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:0.875rem;color:var(--crimson)"><span style="display:inline-block;width:20px;height:1.5px;background:currentColor;border-radius:2px"></span>🔔 Business Calls</div>
-        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;line-height:1.1;color:var(--ink)">Latest <em style="font-style:italic;background:linear-gradient(135deg,#8B0000,#C41E3A,#D4920A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Announcements</em></h2>
-        <p style="font-size:0.88rem;color:var(--sage);margin-top:0.5rem">Open calls for food vendors, waste management teams, hotels &amp; sponsors</p>
-      </div>
-      <a href="announcements.html" style="background:var(--ink);color:var(--amber);border:1.5px solid rgba(212,146,10,0.3);padding:0.55rem 1.25rem;border-radius:8px;font-family:'Instrument Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s">View All →</a>
-    </div>
-    <div id="homeAnnGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem"></div>
-  </div>
-</section>
-
 <footer class="footer">
   <div class="container">
     <div class="grid-4">
@@ -1408,7 +1329,6 @@ body::before {
         <div class="footer-head">Explore</div>
         <ul class="footer-links">
           <li><a href="events.html">All Events</a></li>
-          <li><a href="announcements.html">Announcements</a></li>
           <li><a href="marketplace.html">Marketplace</a></li>
           <li><a href="marketplace.html#businesses">Local Businesses</a></li>
         </ul>
@@ -1428,7 +1348,7 @@ body::before {
         <ul class="footer-links">
           <li><a href="#">📍 San Fernando, Pampanga</a></li>
           <li><a href="#">📞 (045) 123-4567</a></li>
-          <li><a href="#">✉️ <span class="__cf_email__" data-cfemail="debdb1b0b8bbadaaf0aebfb3aebfb0b9bf9eb9b3bfb7b2f0bdb1b3">[email&#160;protected]</span></a></li>
+          <li><a href="#">✉️ info@pampangaevents.gov.ph</a></li>
         </ul>
         <div style="margin-top:1rem;background:rgba(27,58,45,0.2);border:1px solid rgba(75,124,95,0.15);border-radius:8px;padding:0.75rem">
           <div style="font-size:0.6rem;color:var(--fern);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem">🌿 Climate Pledge</div>
@@ -1442,7 +1362,7 @@ body::before {
     </div>
   </div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>// ===== PAMPANGA PLATFORM - CORE APP =====
+<script>// ===== PAMPANGA PLATFORM - CORE APP =====
 
 // ===== DATA STORE =====
 const PampangaDB = {
@@ -1450,7 +1370,7 @@ const PampangaDB = {
     {
       id: 1, name: "Ligligan Parul Sampernandu", category: "Festival",
       date: "2025-12-17", time: "6:00 PM", location: "Bacolor, Pampanga",
-      price: 150, image: "🏮", organizer: "Pampanga Tourism Office",
+      price: 150, image: "https://media.assettype.com/sunstar/import/uploads/images/2020/12/17/260559.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Pampanga Tourism Office",
       description: "The Giant Lantern Festival is one of the most spectacular events in the Philippines. Eleven barangays of San Fernando compete with their magnificent giant lanterns known as 'parols'.",
       ticketsSold: 1240, capacity: 5000, eco: true, local: true,
       vendors: ["Kapampangan Sweets", "Aling Clara's Kitchen", "Pampanga Crafts"],
@@ -1464,7 +1384,7 @@ const PampangaDB = {
     {
       id: 2, name: "Sisig Food Festival", category: "Food",
       date: "2025-10-20", time: "9:00 AM", location: "Pampanga Capitol Grounds",
-      price: 100, image: "🍽️", organizer: "Kulinarya Pampanga",
+      price: 100, image: "https://cdn.coconuts.co/coconuts/wp-content/uploads/2016/11/giant_sisig.jpg", organizer: "Kulinarya Pampanga",
       description: "Celebrate Pampanga's famous culinary heritage with the Sisig Food Festival. Sample different variations of sisig from the best restaurants and street food vendors in the province.",
       ticketsSold: 890, capacity: 3000, eco: false, local: true,
       vendors: ["Aling Lucing's", "Sisig Central", "Modern Kapampangan Kitchen"],
@@ -1478,7 +1398,7 @@ const PampangaDB = {
     {
       id: 3, name: "Apung Iru Fluvial Parade", category: "Cultural",
       date: "2025-06-23", time: "5:00 AM", location: "Candaba River, Pampanga",
-      price: 0, image: "⛵", organizer: "Diocese of San Fernando",
+      price: 0, image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOEvFk1bcDmFkX-tVIbgcgGBvc_tjXIGI5_e1ym_LEp-J3ibS-YYuyKtTveWvHoRLfMnnKxGO86tokJxGM970QWwYrDDVRs8MZumLUnonKRWnAvkoouTP0mjr6I6a5JE6r48MLNOcagGBy/s1600/582160_489558221069832_1084470689_n.jpg", organizer: "Diocese of San Fernando",
       description: "The Fluvial Parade of Apung Iru (St. Peter the Apostle) is a centuries-old religious tradition in Apalit. Devotees on boats participate in the river procession.",
       ticketsSold: 0, capacity: 10000, eco: true, local: true,
       vendors: ["Local Trinket Shops", "Traditional Food Stalls"],
@@ -1490,9 +1410,9 @@ const PampangaDB = {
       ]
     },
     {
-      id: 4, name: "Pampanga Summer Concert Series", category: "Concert",
-      date: "2025-04-15", time: "7:00 PM", location: "SM City Pampanga Open Grounds",
-      price: 500, image: "🎵", organizer: "PH Events Unlimited",
+      id: 4, name: "Lubao Hot Air Balloon and Music Festival ", category: "Concert",
+      date: "2026-03-7", time: "7:00 PM", location: " Pradera Verde, Prado Siongco, Lubao, Pampanga.",
+      price: 500, image: "https://aphrodite.gmanetwork.com/entertainment/articles/900_675_Main2026-04_0309_09-03-2026-1954_-20260309195410.jpg", organizer: "PH Events Unlimited",
       description: "The biggest summer concert series in Central Luzon featuring top OPM artists and local Pampanga bands. Three nights of music, food, and fun under the stars.",
       ticketsSold: 2100, capacity: 8000, eco: false, local: false,
       vendors: ["Festival Merch Booth", "Food Village"],
@@ -1506,7 +1426,7 @@ const PampangaDB = {
     {
       id: 5, name: "Kulinarya Pampanga Festival", category: "Food",
       date: "2025-08-10", time: "8:00 AM", location: "Angeles City Convention Center",
-      price: 120, image: "👨‍🍳", organizer: "Kulinarya Pampanga",
+      price: 120, image: "https://media.assettype.com/sunstar/2024-09-13/msruu9r5/FIESTA-PHOTO.jpg?w=1200&h=900&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Kulinarya Pampanga",
       description: "A grand celebration of Kapampangan cuisine featuring cooking demos, food competitions, and the largest gathering of Pampanga's finest chefs and food entrepreneurs.",
       ticketsSold: 560, capacity: 2000, eco: true, local: true,
       vendors: ["Kapampangan Chefs Association", "Local Food Producers"],
@@ -1520,7 +1440,7 @@ const PampangaDB = {
     {
       id: 6, name: "Sinukwan Folk Arts Festival", category: "Cultural",
       date: "2025-09-05", time: "2:00 PM", location: "San Fernando Heritage Park",
-      price: 75, image: "🎭", organizer: "Pampanga Arts Council",
+      price: 75, image: "https://palibut.com/wp-content/uploads/2023/12/SinukwanFestival2023-33.jpg", organizer: "Pampanga Arts Council",
       description: "Sinukwan celebrates the rich indigenous cultural heritage of Pampanga through traditional dances, music, crafts, and visual arts exhibitions.",
       ticketsSold: 310, capacity: 1500, eco: true, local: true,
       vendors: ["Kapampangan Artisans Guild", "Heritage Crafts"],
@@ -1534,14 +1454,14 @@ const PampangaDB = {
   ],
 
   products: [
-    { id: 1, name: "Tibok-Tibok", seller: "Kapampangan Sweets Co.", price: 180, image: "🍮", category: "Kakanin", description: "Traditional carabao milk pudding, a sweet delicacy of Pampanga." },
-    { id: 2, name: "Tocino Pampangueño", seller: "Aling Clara's Kitchen", price: 350, image: "🥩", category: "Meat Products", description: "Sweet marinated pork, the pride of Pampanga's culinary tradition." },
-    { id: 3, name: "Turrones de Casuy", seller: "Pampanga Sweets", price: 220, image: "🍬", category: "Sweets", description: "Cashew nougat wrapped in edible rice paper. A classic Pampanga pasalubong." },
-    { id: 4, name: "Parol (Giant Lantern)", seller: "San Fernando Crafts", price: 1500, image: "🏮", category: "Crafts", description: "Handcrafted Christmas lantern inspired by the Giant Lantern Festival." },
-    { id: 5, name: "Uraro Cookies", seller: "Heritage Bakers PH", price: 160, image: "🍪", category: "Baked Goods", description: "Delicate arrowroot cookies, a beloved Kapampangan treat since colonial times." },
-    { id: 6, name: "Ensaymada Especial", seller: "Aling Clara's Kitchen", price: 280, image: "🥐", category: "Baked Goods", description: "Rich, buttery ensaymada topped with cheese and sugar. Pampanga's finest." },
-    { id: 7, name: "Chicharon Bulaklak", seller: "Kapampangan Sweets Co.", price: 200, image: "🐷", category: "Snacks", description: "Crispy pork mesentery, a popular street food and pulutan from Pampanga." },
-    { id: 8, name: "Woven Banig (Mat)", seller: "San Fernando Crafts", price: 750, image: "🛏️", category: "Crafts", description: "Intricately woven traditional mat, a heritage craft of Pampanga artisans." }
+   { id: 1, name: "Tibok-Tibok", seller: "Kapampangan Sweets Co.", price: 180, image: "https://ingbayungcusinangcapampangan.wordpress.com/wp-content/uploads/2017/08/tibok-tibok.jpg", category: "Kakanin", preferred: true, description: "Traditional carabao milk pudding, a sweet delicacy of Pampanga." },
+    { id: 2, name: "Tocino Pampangueño", seller: "Aling Clara's Kitchen", price: 350, image: "https://kusinasecrets.com/wp-content/uploads/2024/12/u3317447599_httpss.mj_.runH-nEOSgTSp0_Homemade_caramelized_por_bfcb5c16-8b45-477e-9324-f86847257048_3.webp", category: "Meat Products", description: "Sweet marinated pork, the pride of Pampanga's culinary tradition." },
+    { id: 3, name: "Turrones de Casuy", seller: "Pampanga Sweets", price: 220, image: "https://santaritapampanga.gov.ph/wp-content/themes/yootheme/cache/c9/Turrones-de-Casoy-Wide-c9292230.webp", category: "Sweets", description: "Cashew nougat wrapped in edible rice paper. A classic Pampanga pasalubong." },
+    { id: 4, name: "Parol (Giant Lantern)", seller: "San Fernando Crafts", price: 1500, image: "https://themixedculture.com/wp-content/uploads/2013/12/parol.png?w=762", category: "Crafts", preferred: true, description: "Handcrafted Christmas lantern inspired by the Giant Lantern Festival." },
+    { id: 5, name: "Uraro Cookies", seller: "Heritage Bakers PH", price: 160, image: "https://kusinasecrets.com/wp-content/uploads/2025/02/u3317447599_Photography_of_traditional_Filipino_Uraro_cookies_afa2f991-c78c-43e3-bfd0-a9c6466e4d24_2.webp", category: "Baked Goods", description: "Delicate arrowroot cookies, a beloved Kapampangan treat since colonial times." },
+    { id: 6, name: "Ensaymada Especial", seller: "Aling Clara's Kitchen", price: 280, image: "https://www.world-grain.com/ext/resources/2023/09/01/ensaymada_pastry_ANTONIO-V.-OQUIAS---STOCK.ADOBE.COM_e.jpg?height=418&t=1693822695&width=800", category: "Baked Goods", description: "Rich, buttery ensaymada topped with cheese and sugar. Pampanga's finest." },
+    { id: 7, name: "Chicharon Bulaklak", seller: "Kapampangan Sweets Co.", price: 200, image: "https://images.yummy.ph/yummy/uploads/2023/02/ChicharonBulaklak-640.jpg", category: "Snacks", description: "Crispy pork mesentery, a popular street food and pulutan from Pampanga." },
+    { id: 8, name: "Woven Banig (Mat)", seller: "San Fernando Crafts", price: 750, image: "https://blogger.googleusercontent.com/img/a/AVvXsEjKLeLQ9wCqgjtJAzLIWQzGoqqi-ENZTP9YHqrRkgko8TABJfrwlKrS41M7f9LK1iP4yVOBQ1S9aE8Hs_GQTTHaYhfqmHRQY0-TG8WUMvA5XD9vwGH8LRVV0JTVC9oMubZ60Mo00sNMo-XSHzgcQQyfpcO2VW2jtGc162MJjR09mgQ2lYUhDK6x58JO=w640-h480", category: "Crafts", description: "Intricately woven traditional mat, a heritage craft of Pampanga artisans." }
   ],
 
   businesses: [
@@ -2446,6 +2366,18 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const isProductImageSource = (value) => typeof value === 'string' && /^(https?:\/\/|\.\/|\.\.\/|\/|images\/|assets\/|data:image\/)/i.test(value.trim());
+  const renderProductMedia = (image, name) => {
+    const fallbackLabel = name && String(name).trim() ? String(name).trim().charAt(0).toUpperCase() : '🛍️';
+    if (isProductImageSource(image)) {
+      return `
+        <img class="product-photo" src="${image}" alt="${name || 'Product'}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-photo-fallback" style="display:none">${fallbackLabel}</div>
+      `;
+    }
+    return `<div class="product-photo-fallback">${image || fallbackLabel}</div>`;
+  };
+
   // Floating lantern particles
   const hero = document.querySelector('.hero');
   if (hero) {
@@ -2459,15 +2391,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   // Hero event list — populate both the text-band list AND the overlay list
-  const eventsHTML = PampangaDB.events.slice(0,3).map(e => `
+  const eventsHTML = PampangaDB.events.slice(0,3).map(e => {
+      const media = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'))
+        ? `<img src="${e.image}" alt="${e.name} thumbnail" style="width:30px;height:30px;border-radius:6px;object-fit:cover;display:block">`
+        : `<span style="font-size:1.3rem">${e.image || '🎪'}</span>`;
+      return `
       <a href="event-details.html?id=${e.id}" style="display:flex;gap:0.65rem;align-items:center;padding:0.6rem 0.75rem;background:rgba(255,255,255,0.06);border:1px solid rgba(212,146,10,0.15);border-radius:8px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
-        <span style="font-size:1.3rem">${e.image}</span>
+        ${media}
         <div style="flex:1;min-width:0">
           <div style="font-size:0.78rem;font-weight:700;color:rgba(251,244,232,0.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.name}</div>
           <div style="font-size:0.65rem;color:rgba(200,221,208,0.45);margin-top:0.1rem">${new Date(e.date).toLocaleDateString('en-PH',{month:'short',day:'numeric'})} · ${e.location.split(',')[0]}</div>
         </div>
         <span style="font-size:0.7rem;font-weight:700;color:var(--amber);flex-shrink:0">${e.price===0?'FREE':'₱'+e.price}</span>
-      </a>`).join('');
+      </a>`;
+    }).join('');
   const heroList = document.getElementById('heroEventsList');
   if (heroList) heroList.innerHTML = eventsHTML;
   const heroListOverlay = document.getElementById('heroEventsListOverlay');
@@ -2479,9 +2416,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cm = {'Festival':'tag-fest','Food':'tag-food','Concert':'tag-cult','Cultural':'tag-cult'};
     homeGrid.innerHTML = PampangaDB.events.slice(0,3).map((e,i) => {
       const pct = Math.round(e.ticketsSold/e.capacity*100);
+      const usesPhoto = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'));
       return `<div class="event-card anim d${i+1}" style="opacity:0">
         <div class="card-banner" style="background:${gm[e.category]||gm.Festival}">
-          <span style="font-size:4rem;position:relative;z-index:1">${e.image}</span>
+          ${usesPhoto
+            ? `<img class="card-banner-photo" src="${e.image}" alt="${e.name} image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+            : `<div class="card-banner-fallback" style="display:flex">${e.image || 'Event'}</div>`}
+          <div class="card-banner-fallback" style="display:none;position:absolute;inset:0">Add Event Image</div>
           <div class="card-banner-shimmer"></div>
           <div class="card-ribbon">${e.category}</div>
           ${e.eco?'<div class="card-eco-flag">🌿 Eco</div>':''}
@@ -2511,7 +2452,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (homeProd) {
     homeProd.innerHTML = PampangaDB.products.slice(0,4).map(p => `
       <div class="product-card">
-        <div class="product-img">${p.image}<div class="origin-badge">🇵🇭 Local</div></div>
+        <div class="product-img">${renderProductMedia(p.image, p.name)}<div class="origin-badge">🇵🇭 Local</div></div>
         <div class="product-body">
           <div class="product-cat">${p.category}</div>
           <div class="product-name">${p.name}</div>
@@ -2526,15 +2467,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Calendar event list
   const calList = document.getElementById('calEventList');
   if (calList) {
-    calList.innerHTML = PampangaDB.events.slice(0,4).map(e => `
+    calList.innerHTML = PampangaDB.events.slice(0,4).map(e => {
+      const media = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'))
+        ? `<img src="${e.image}" alt="${e.name} thumbnail" style="width:100%;height:100%;object-fit:cover;display:block">`
+        : (e.image || '🎪');
+      return `
       <div style="display:flex;gap:0.75rem;align-items:center;background:white;border-radius:10px;padding:0.8rem 1rem;border:1px solid rgba(212,146,10,0.1);box-shadow:0 1px 6px rgba(18,8,8,0.04);transition:all 0.2s" onmouseover="this.style.borderColor='rgba(196,30,58,0.25)';this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.1)';this.style.transform='none'">
-        <div style="width:42px;height:42px;border-radius:9px;background:var(--g-fire);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0">${e.image}</div>
+        <div style="width:42px;height:42px;border-radius:9px;background:var(--g-fire);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;overflow:hidden">${media}</div>
         <div style="flex:1;min-width:0">
           <div style="font-weight:700;font-size:0.82rem;color:var(--ink)">${e.name}</div>
           <div style="font-size:0.68rem;color:var(--sage);margin-top:0.1rem">${new Date(e.date).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'})}</div>
         </div>
         ${e.eco?'<span class="tag tag-eco" style="flex-shrink:0">🌿</span>':''}
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
   initCalendar('homeCalendar');
   // Responsive cal grid
@@ -2670,7 +2616,7 @@ function renderWeatherBanner(containerId) {
         <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
           <span style="font-size:0.72rem;color:rgba(200,221,208,0.7)">🏠 ${indoorEvents.length} indoor ${indoorEvents.length===1?'event':'events'} available today:</span>
           <div style="display:flex;gap:0.35rem;flex-wrap:wrap">
-            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.image} ${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
+            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
           </div>
           <button onclick="this.closest('[style]').parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(200,221,208,0.6);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
         </div>
@@ -2968,7 +2914,75 @@ function removeItem(i) {
 
 document.addEventListener('DOMContentLoaded', updateBadge);
 window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); if(document.getElementById('cartOverlay').classList.contains('open')) renderCart(); }});
+</script>
 
+<!-- ═══════════════════════════════════════════════════════════
+     VIDEO TOGGLE — plays/pauses the full-screen hero video
+     ★ To change video: search "your-video.mp4" in this file
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var videoOn = false;
+
+  window.toggleHeroVideo = function() {
+    videoOn = !videoOn;
+    var wrap    = document.getElementById('heroVideoWrap');
+    var video   = document.getElementById('heroBgVideo');
+    var btn     = document.getElementById('videoToggleBtn');
+    var icon    = document.getElementById('vtIcon');
+    var label   = document.getElementById('vtLabel');
+    var gFire   = document.getElementById('heroGlowFire');
+    var gEco    = document.getElementById('heroGlowEco');
+    var lantern = document.getElementById('heroLanternDeco');
+    var bgGrad  = document.querySelector('.hero-bg-gradient');
+
+    var overlay = document.getElementById('heroOverlayContent');
+
+    if (videoOn) {
+      wrap.classList.add('active');
+      btn.classList.add('video-on');
+      icon.innerHTML = '&#9646;&#9646;';
+      label.textContent = 'Pause Video';
+      if (video) video.play();
+      // Fade OUT: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.add('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
+      });
+      if (bgGrad) { bgGrad.style.transition = 'opacity 1s'; bgGrad.style.opacity = '0'; }
+    } else {
+      wrap.classList.remove('active');
+      btn.classList.remove('video-on');
+      icon.innerHTML = '&#9654;';
+      label.textContent = 'Play Video';
+      if (video) video.pause();
+      // Fade IN: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.remove('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) el.style.opacity = '';
+      });
+      if (bgGrad) bgGrad.style.opacity = '';
+    }
+  };
+})();
+</script>
+
+<!-- ── LATEST ANNOUNCEMENTS ── -->
+<section style="background:var(--bone);padding:4rem 0">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:1.75rem">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.65rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:0.875rem;color:var(--crimson)"><span style="display:inline-block;width:20px;height:1.5px;background:currentColor;border-radius:2px"></span>🔔 Business Calls</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;line-height:1.1;color:var(--ink)">Latest <em style="font-style:italic;background:linear-gradient(135deg,#8B0000,#C41E3A,#D4920A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Announcements</em></h2>
+        <p style="font-size:0.88rem;color:var(--sage);margin-top:0.5rem">Open calls for food vendors, waste management teams, hotels &amp; sponsors</p>
+      </div>
+      <a href="announcements.html" style="background:var(--ink);color:var(--amber);border:1.5px solid rgba(212,146,10,0.3);padding:0.55rem 1.25rem;border-radius:8px;font-family:'Instrument Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s">View All →</a>
+    </div>
+    <div id="homeAnnGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem"></div>
+  </div>
+</section>
+
+<script>
 // ── HOME ANNOUNCEMENTS ──
 (function() {
   const SAMPLE_ANNS = [
@@ -2978,7 +2992,6 @@ window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); i
   ];
   function getAnns() { try { return JSON.parse(localStorage.getItem('pub_announcements')) || SAMPLE_ANNS; } catch { return SAMPLE_ANNS; } }
   function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}); } catch { return d; } }
-  function statusKey(s) { if(s==='Open for Applications') return 'open'; if(s==='Invitations Sent') return 'invitations'; return 'closed'; }
   function statusStyle(s) {
     if(s==='Open for Applications') return 'background:rgba(27,58,45,0.12);color:#2D5A3D;border:1px solid rgba(107,158,122,0.25)';
     if(s==='Invitations Sent') return 'background:rgba(212,146,10,0.15);color:#7A5500;border:1px solid rgba(212,146,10,0.3)';
@@ -3021,208 +3034,4 @@ window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); i
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════════════
-     VIDEO TOGGLE — plays/pauses the full-screen hero video
-     ★ To change video: search "your-video.mp4" in this file
-     ═══════════════════════════════════════════════════════════ -->
-<script>
-(function() {
-  // ── STATE ──────────────────────────────────────────────────────
-  var videoLocked = false;   // true = user clicked to lock video ON
-  var autoTimer   = null;    // auto-play countdown handle
-  var idleTimer   = null;    // idle-dim timer handle
-
-  // ★ Change AUTO_DELAY (ms) to adjust how long text shows before video plays
-  var AUTO_DELAY  = 6000;    // 6 seconds
-
-  // ── HELPERS ────────────────────────────────────────────────────
-  function getEls() {
-    return {
-      wrap    : document.getElementById('heroVideoWrap'),
-      video   : document.getElementById('heroBgVideo'),
-      btn     : document.getElementById('videoToggleBtn'),
-      icon    : document.getElementById('vtIcon'),
-      label   : document.getElementById('vtLabel'),
-      overlay : document.getElementById('heroOverlayContent'),
-      muteBtn : document.getElementById('muteToggleBtn'),
-      mtIcon  : document.getElementById('mtIcon'),
-      mtLabel : document.getElementById('mtLabel'),
-      gFire   : document.getElementById('heroGlowFire'),
-      gEco    : document.getElementById('heroGlowEco'),
-      lantern : document.getElementById('heroLanternDeco'),
-      bgGrad  : document.querySelector('.hero-bg-gradient'),
-      ringEl  : document.getElementById('vtCountdownRing')
-    };
-  }
-
-  function showVideo(els) {
-    if (!els.wrap) return;
-    els.wrap.classList.add('active');
-    if (els.video) { els.video.muted = true; els.video.play(); }
-    if (els.overlay) els.overlay.classList.add('hidden');
-    [els.gFire, els.gEco, els.lantern].forEach(function(el) {
-      if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
-    });
-    if (els.bgGrad) { els.bgGrad.style.transition = 'opacity 1s'; els.bgGrad.style.opacity = '0'; }
-    document.querySelectorAll('.hero .particle').forEach(function(p) {
-      p.style.transition = 'opacity 0.8s'; p.style.animationPlayState = 'paused'; p.style.opacity = '0';
-    });
-  }
-
-  function hideVideo(els) {
-    if (!els.wrap) return;
-    els.wrap.classList.remove('active');
-    if (els.video) { els.video.pause(); els.video.muted = true; }
-    if (els.overlay) els.overlay.classList.remove('hidden');
-    [els.gFire, els.gEco, els.lantern].forEach(function(el) {
-      if (el) el.style.opacity = '';
-    });
-    if (els.bgGrad) els.bgGrad.style.opacity = '';
-    document.querySelectorAll('.hero .particle').forEach(function(p) {
-      p.style.animationPlayState = ''; p.style.opacity = '';
-    });
-  }
-
-  // ── IDLE DIM: dim buttons 3s after video locks on ──────────────
-  function startIdleTimer() {
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(function() {
-      var btn     = document.getElementById('videoToggleBtn');
-      var muteBtn = document.getElementById('muteToggleBtn');
-      if (videoLocked) {
-        if (btn)     btn.classList.add('idle');
-        if (muteBtn) muteBtn.classList.add('idle');
-      }
-    }, 3000);
-  }
-
-  function resetIdleTimer() {
-    clearTimeout(idleTimer);
-    var btn     = document.getElementById('videoToggleBtn');
-    var muteBtn = document.getElementById('muteToggleBtn');
-    if (btn)     btn.classList.remove('idle');
-    if (muteBtn) muteBtn.classList.remove('idle');
-    if (videoLocked) startIdleTimer();
-  }
-
-  // ── LOCK ON/OFF ────────────────────────────────────────────────
-  function setLockedOn(els) {
-    videoLocked = true;
-    if (els.btn) {
-      els.btn.classList.add('video-on');
-      els.btn.classList.remove('idle');
-    }
-    if (els.icon)  els.icon.innerHTML    = '&#9646;&#9646;';
-    if (els.label) els.label.textContent = 'Stop Video';
-    if (els.muteBtn) {
-      els.muteBtn.classList.add('visible');
-      els.muteBtn.classList.remove('unmuted', 'idle');
-      if (els.mtIcon)  els.mtIcon.textContent  = '🔇';
-      if (els.mtLabel) els.mtLabel.textContent = 'Unmute';
-    }
-    if (els.ringEl) els.ringEl.classList.add('hidden');
-    showVideo(els);
-    startIdleTimer();
-  }
-
-  function setLockedOff(els) {
-    videoLocked = false;
-    clearTimeout(idleTimer);
-    if (els.btn) {
-      els.btn.classList.remove('video-on', 'idle');
-      els.icon.innerHTML    = '&#9654;';
-      els.label.textContent = 'Play Video';
-    }
-    if (els.muteBtn) els.muteBtn.classList.remove('visible', 'unmuted', 'idle');
-    hideVideo(els);
-  }
-
-  // ── AUTO-PLAY COUNTDOWN ────────────────────────────────────────
-  function startAutoPlay() {
-    var ring   = document.getElementById('vtRingCircle');
-    var ringEl = document.getElementById('vtCountdownRing');
-    if (ring) {
-      ring.style.transition = 'stroke-dashoffset ' + (AUTO_DELAY / 1000) + 's linear';
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() { ring.style.strokeDashoffset = '0'; });
-      });
-    }
-    autoTimer = setTimeout(function() {
-      if (!videoLocked) {
-        if (ringEl) ringEl.classList.add('hidden');
-        setLockedOn(getEls());
-      }
-    }, AUTO_DELAY);
-  }
-
-  function cancelAutoPlay() {
-    clearTimeout(autoTimer); autoTimer = null;
-    var ring   = document.getElementById('vtRingCircle');
-    var ringEl = document.getElementById('vtCountdownRing');
-    if (ring)   { ring.style.transition = 'none'; ring.style.strokeDashoffset = '145'; }
-    if (ringEl) ringEl.classList.add('hidden');
-  }
-
-  // Start auto-play after a short paint delay
-  setTimeout(startAutoPlay, 300);
-
-  // ── SCROLL: stop video when hero scrolls out of view ───────────
-  window.addEventListener('scroll', function() {
-    if (!videoLocked) return;
-    var hero = document.getElementById('heroSection');
-    if (hero && hero.getBoundingClientRect().bottom <= 0) {
-      setLockedOff(getEls());
-    }
-  }, { passive: true });
-
-  // ── HOVER on play button: preview video (only when not locked) ──
-  setTimeout(function() {
-    var btn = document.getElementById('videoToggleBtn');
-    if (!btn) return;
-    btn.addEventListener('mouseenter', function() {
-      resetIdleTimer(); // always reset idle on hover
-      if (videoLocked) return;
-      cancelAutoPlay();
-      showVideo(getEls());
-    });
-    btn.addEventListener('mouseleave', function() {
-      if (videoLocked) { startIdleTimer(); return; }
-      hideVideo(getEls());
-    });
-    // Mute button also resets idle
-    var muteBtn = document.getElementById('muteToggleBtn');
-    if (muteBtn) {
-      muteBtn.addEventListener('mouseenter', resetIdleTimer);
-      muteBtn.addEventListener('mouseleave', function() {
-        if (videoLocked) startIdleTimer();
-      });
-    }
-  }, 300);
-
-  // ── CLICK: toggle lock ─────────────────────────────────────────
-  window.toggleHeroVideo = function() {
-    cancelAutoPlay();
-    var els = getEls();
-    if (!videoLocked) setLockedOn(els);
-    else              setLockedOff(els);
-  };
-
-  // ── MUTE TOGGLE ────────────────────────────────────────────────
-  window.toggleMute = function() {
-    var els = getEls();
-    if (!els.video) return;
-    els.video.muted = !els.video.muted;
-    if (els.video.muted) {
-      if (els.muteBtn) els.muteBtn.classList.remove('unmuted');
-      if (els.mtIcon)  els.mtIcon.textContent  = '🔇';
-      if (els.mtLabel) els.mtLabel.textContent = 'Unmute';
-    } else {
-      if (els.muteBtn) els.muteBtn.classList.add('unmuted');
-      if (els.mtIcon)  els.mtIcon.textContent  = '🔊';
-      if (els.mtLabel) els.mtLabel.textContent = 'Mute';
-    }
-    resetIdleTimer();
-  };
-})();
-</script>
 </body></html>

@@ -385,6 +385,85 @@ body::before {
   transition: transform 0.8s ease;
 }
 .event-card:hover .card-banner-shimmer { transform: translateX(100%); }
+.card-img {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.08) 38%, rgba(0,0,0,0) 68%);
+  pointer-events: none;
+  z-index: 2;
+}
+.event-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.event-photo-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.card-category-label {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 94px;
+  padding: 0.34rem 0.75rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+  backdrop-filter: blur(3px) saturate(130%);
+  animation: category-chip-float 2.8s ease-in-out infinite;
+}
+.card-category-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  margin-right: 0.45rem;
+  box-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+.card-category-label.badge-festival {
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #38BDF8 100%);
+}
+.card-category-label.badge-food {
+  background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%);
+}
+.card-category-label.badge-concert {
+  background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #A855F7 100%);
+}
+.card-category-label.badge-cultural {
+  background: linear-gradient(135deg, #166534 0%, #15803D 50%, #22C55E 100%);
+}
+@keyframes category-chip-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
 .card-ribbon {
   position: absolute; top: 12px; left: 0;
   background: var(--g-fire); color: white;
@@ -815,7 +894,6 @@ body::before {
   </a>
   <div class="nav-links">
     <a href="events.html" class="nav-active">Events</a>
-    <a href="announcements.html">Announcements</a>
     <a href="marketplace.html">Marketplace</a>
     <a href="login.html" class="btn-nav-outline">Log In</a>
     <a href="register.html" class="btn-nav-primary">🏮 Sign Up</a>
@@ -825,7 +903,6 @@ body::before {
 <div class="mobile-menu">
   <a href="index.html">Home</a>
   <a href="events.html">Events</a>
-  <a href="announcements.html">Announcements</a>
   <a href="marketplace.html">Marketplace</a>
   <a href="login.html">Log In</a>
   <a href="register.html">Sign Up</a>
@@ -893,7 +970,7 @@ body::before {
         <ul class="footer-links">
           <li><a href="#">📍 San Fernando, Pampanga</a></li>
           <li><a href="#">📞 (045) 123-4567</a></li>
-          <li><a href="#">✉️ confest.pampanga@gmail.com</a></li>
+          <li><a href="#">✉️ <span class="__cf_email__" data-cfemail="6f0c0001090a1c1b411f0e021f0e01080e2f08020e0603410c0002">[email&#160;protected]</span></a></li>
         </ul>
         <div style="margin-top:1rem;background:rgba(27,58,45,0.2);border:1px solid rgba(75,124,95,0.15);border-radius:8px;padding:0.75rem">
           <div style="font-size:0.6rem;color:var(--fern);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem">🌿 Climate Pledge</div>
@@ -907,7 +984,7 @@ body::before {
     </div>
   </div>
 </footer>
-<script>// ===== PAMPANGA PLATFORM - CORE APP =====
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>// ===== PAMPANGA PLATFORM - CORE APP =====
 
 // ===== DATA STORE =====
 const PampangaDB = {
@@ -915,7 +992,7 @@ const PampangaDB = {
     {
       id: 1, name: "Ligligan Parul Sampernandu", category: "Festival",
       date: "2025-12-17", time: "6:00 PM", location: "Bacolor, Pampanga",
-      price: 150, image: "🏮", organizer: "Pampanga Tourism Office",
+      price: 150, image: "https://media.assettype.com/sunstar/import/uploads/images/2020/12/17/260559.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Pampanga Tourism Office",
       description: "The Giant Lantern Festival is one of the most spectacular events in the Philippines. Eleven barangays of San Fernando compete with their magnificent giant lanterns known as 'parols'.",
       ticketsSold: 1240, capacity: 5000, eco: true, local: true,
       vendors: ["Kapampangan Sweets", "Aling Clara's Kitchen", "Pampanga Crafts"],
@@ -929,7 +1006,7 @@ const PampangaDB = {
     {
       id: 2, name: "Sisig Food Festival", category: "Food",
       date: "2025-10-20", time: "9:00 AM", location: "Pampanga Capitol Grounds",
-      price: 100, image: "🍽️", organizer: "Kulinarya Pampanga",
+      price: 100, image: "https://cdn.coconuts.co/coconuts/wp-content/uploads/2016/11/giant_sisig.jpg", organizer: "Kulinarya Pampanga",
       description: "Celebrate Pampanga's famous culinary heritage with the Sisig Food Festival. Sample different variations of sisig from the best restaurants and street food vendors in the province.",
       ticketsSold: 890, capacity: 3000, eco: false, local: true,
       vendors: ["Aling Lucing's", "Sisig Central", "Modern Kapampangan Kitchen"],
@@ -943,7 +1020,7 @@ const PampangaDB = {
     {
       id: 3, name: "Apung Iru Fluvial Parade", category: "Cultural",
       date: "2025-06-23", time: "5:00 AM", location: "Candaba River, Pampanga",
-      price: 0, image: "⛵", organizer: "Diocese of San Fernando",
+      price: 0, image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOEvFk1bcDmFkX-tVIbgcgGBvc_tjXIGI5_e1ym_LEp-J3ibS-YYuyKtTveWvHoRLfMnnKxGO86tokJxGM970QWwYrDDVRs8MZumLUnonKRWnAvkoouTP0mjr6I6a5JE6r48MLNOcagGBy/s1600/582160_489558221069832_1084470689_n.jpg", organizer: "Diocese of San Fernando",
       description: "The Fluvial Parade of Apung Iru (St. Peter the Apostle) is a centuries-old religious tradition in Apalit. Devotees on boats participate in the river procession.",
       ticketsSold: 0, capacity: 10000, eco: true, local: true,
       vendors: ["Local Trinket Shops", "Traditional Food Stalls"],
@@ -955,9 +1032,9 @@ const PampangaDB = {
       ]
     },
     {
-      id: 4, name: "Pampanga Summer Concert Series", category: "Concert",
-      date: "2025-04-15", time: "7:00 PM", location: "SM City Pampanga Open Grounds",
-      price: 500, image: "🎵", organizer: "PH Events Unlimited",
+      id: 4, name: "Lubao Hot Air Balloon and Music Festival ", category: "Concert",
+      date: "2026-03-7", time: "7:00 PM", location: " Pradera Verde, Prado Siongco, Lubao, Pampanga.",
+      price: 500, image: "https://aphrodite.gmanetwork.com/entertainment/articles/900_675_Main2026-04_0309_09-03-2026-1954_-20260309195410.jpg", organizer: "PH Events Unlimited",
       description: "The biggest summer concert series in Central Luzon featuring top OPM artists and local Pampanga bands. Three nights of music, food, and fun under the stars.",
       ticketsSold: 2100, capacity: 8000, eco: false, local: false,
       vendors: ["Festival Merch Booth", "Food Village"],
@@ -971,7 +1048,7 @@ const PampangaDB = {
     {
       id: 5, name: "Kulinarya Pampanga Festival", category: "Food",
       date: "2025-08-10", time: "8:00 AM", location: "Angeles City Convention Center",
-      price: 120, image: "👨‍🍳", organizer: "Kulinarya Pampanga",
+      price: 120, image: "https://media.assettype.com/sunstar/2024-09-13/msruu9r5/FIESTA-PHOTO.jpg?w=1200&h=900&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Kulinarya Pampanga",
       description: "A grand celebration of Kapampangan cuisine featuring cooking demos, food competitions, and the largest gathering of Pampanga's finest chefs and food entrepreneurs.",
       ticketsSold: 560, capacity: 2000, eco: true, local: true,
       vendors: ["Kapampangan Chefs Association", "Local Food Producers"],
@@ -985,7 +1062,7 @@ const PampangaDB = {
     {
       id: 6, name: "Sinukwan Folk Arts Festival", category: "Cultural",
       date: "2025-09-05", time: "2:00 PM", location: "San Fernando Heritage Park",
-      price: 75, image: "🎭", organizer: "Pampanga Arts Council",
+      price: 75, image: "https://palibut.com/wp-content/uploads/2023/12/SinukwanFestival2023-33.jpg", organizer: "Pampanga Arts Council",
       description: "Sinukwan celebrates the rich indigenous cultural heritage of Pampanga through traditional dances, music, crafts, and visual arts exhibitions.",
       ticketsSold: 310, capacity: 1500, eco: true, local: true,
       vendors: ["Kapampangan Artisans Guild", "Heritage Crafts"],
@@ -1237,6 +1314,7 @@ function renderEventCards(events, containerId) {
 
   container.innerHTML = events.map(event => {
     const formatDate = new Date(event.date).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+    const imageAlt = `${event.name} event image`;
     const badges = [
       event.eco ? `<span class="badge badge-eco">🌿 Eco Friendly</span>` : '',
       event.local ? `<span class="badge badge-local">🏪 Local Business</span>` : '',
@@ -1248,9 +1326,9 @@ function renderEventCards(events, containerId) {
     return `
       <div class="card animate-in" style="opacity:0">
         <div class="card-img" style="background:linear-gradient(135deg,${getCategoryGradient(event.category)})">
-          <span style="font-size:3.5rem">${event.image}</span>
-          <span class="badge ${catColors[event.category]||'badge-festival'}" 
-            style="position:absolute;top:1rem;right:1rem">${event.category}</span>
+          <img class="event-photo" src="${event.image || ''}" alt="${imageAlt}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="event-photo-fallback" style="display:${event.image ? 'none' : 'flex'}">Add Event Image</div>
+          <div class="card-category-label badge ${catColors[event.category]||'badge-festival'}">${event.category}</div>
         </div>
         <div class="card-body">
           <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem">${badges}</div>
@@ -1337,7 +1415,16 @@ function initEventDetails() {
   // Fill in details
   document.querySelectorAll('[data-field]').forEach(el => {
     const field = el.dataset.field;
-    if (field === 'image') el.textContent = event.image;
+    if (field === 'image') {
+      if (el.tagName === 'IMG') {
+        el.src = event.image || '';
+        el.alt = `${event.name} event image`;
+      } else {
+        el.innerHTML = event.image
+          ? `<img src="${event.image}" alt="${event.name} event image" style="width:100%;height:100%;object-fit:cover;display:block">`
+          : '';
+      }
+    }
     else if (field === 'name') el.textContent = event.name;
     else if (field === 'category') el.textContent = event.category;
     else if (field === 'organizer') el.textContent = event.organizer;
@@ -2035,7 +2122,7 @@ function renderWeatherBanner(containerId) {
         <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
           <span style="font-size:0.72rem;color:rgba(200,221,208,0.7)">🏠 ${indoorEvents.length} indoor ${indoorEvents.length===1?'event':'events'} available today:</span>
           <div style="display:flex;gap:0.35rem;flex-wrap:wrap">
-            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.image} ${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
+            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
           </div>
           <button onclick="this.closest('[style]').parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(200,221,208,0.6);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
         </div>
@@ -2263,6 +2350,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-
 </body>
 </html>

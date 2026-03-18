@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pasalubong Marketplace | Pampanga Events</title>
+  <title>Discover Pampanga — Festive, Sustainable, Local | Pampanga Events</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏮</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@
   --mist:       #C8DDD0;
 
   /* Neutral */
-  --ink:        #120808;
+  --ink:        #1a1919;
   --charcoal:   #2A1515;
   --parchment:  #FBF4E8;
   --cream:      #FFF8EF;
@@ -148,6 +148,54 @@ body::before {
   box-shadow: 0 4px 16px rgba(196,30,58,0.35);
 }
 .btn-nav-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,30,58,0.5); }
+
+/* ── Cart button & drawer ─────────────────── */
+.nav-cart-btn {
+  position: relative;
+  background: rgba(212,146,10,0.1);
+  border: 1px solid rgba(212,146,10,0.3);
+  border-radius: 8px; width: 38px; height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.25s;
+  color: var(--bone); font-size: 1rem; text-decoration: none;
+  flex-shrink: 0;
+}
+.nav-cart-btn:hover { background: rgba(212,146,10,0.22); border-color: var(--gold); transform: translateY(-1px); }
+.cart-badge {
+  position: absolute; top: -6px; right: -6px;
+  background: linear-gradient(135deg,#C41E3A,#D4920A); color: white;
+  font-size: 0.52rem; font-weight: 900; min-width: 17px; height: 17px;
+  border-radius: 50%; display: none; align-items: center; justify-content: center;
+  padding: 0 3px; border: 1.5px solid #0d0505;
+}
+.cart-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  display: none; justify-content: flex-end; align-items: flex-start;
+  padding: 1rem;
+}
+.cart-overlay.open { display: flex; }
+.cart-drawer {
+  background: #FBF4E8; width: 100%; max-width: 390px;
+  border-radius: 16px; border: 1px solid rgba(212,146,10,0.2);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+  display: flex; flex-direction: column;
+  max-height: calc(100vh - 2rem); overflow: hidden; margin-top: 4rem;
+}
+.cart-dh {
+  background: linear-gradient(135deg,#1B3A2D,#0d1f18);
+  padding: 1rem 1.3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(212,146,10,0.15);
+}
+.cart-db { flex:1; overflow-y:auto; padding:1rem 1.25rem; display:flex; flex-direction:column; gap:0.65rem; }
+.cart-df { padding:1rem 1.25rem; border-top:1px solid rgba(212,146,10,0.12); background:white; }
+.cart-row {
+  display:flex; align-items:center; gap:0.75rem;
+  background:white; border:1px solid rgba(212,146,10,0.1);
+  border-radius:10px; padding:0.65rem;
+}
+.cart-img { width:42px; height:42px; border-radius:8px; background:rgba(212,146,10,0.08); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
 .nav-mobile-toggle {
   display: none; background: none; border: none;
   color: var(--bone); cursor: pointer; font-size: 1.35rem; padding: 4px;
@@ -168,20 +216,154 @@ body::before {
 }
 
 /* ─── HERO ─── */
+/* ── HERO: Full-screen video like Panagbenga ───────────────────
+   Video fills the entire viewport, NO text on top of it.
+   Text content lives in .hero-text-band below the video.       */
 .hero {
-  min-height: 92vh;
-  background: var(--g-split);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #0a0404;
 }
-/* Diagonal divider */
+/* Subtle bottom fade so video blends into the text band */
 .hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, rgba(8,3,3,0.7) 70%, #0f0808 100%);
+  z-index: 2; pointer-events: none;
+}
+
+/* ── HERO TEXT BAND ────────────────────────────────────────────
+   Dark banner that sits directly below the video.
+   Holds headline, description, CTAs, stats, eco tracker.       */
+.hero-text-band {
+  background: var(--g-split);
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 5rem;
+}
+.hero-text-band::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--lantern-pattern);
+  opacity: 0.4; pointer-events: none;
+}
+.hero-text-band::after {
   content: '';
   position: absolute; bottom: -1px; left: 0; right: 0;
   height: 100px;
   background: var(--parchment);
   clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
 }
+.hero-text-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── HERO OVERLAY CONTENT (shown on gradient, hides on video) ── */
+/* Wrapper fills the whole hero and centres its child */
+.hero-overlay-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  pointer-events: auto;
+}
+.hero-overlay-wrapper.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-overlay-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
+  align-items: center;
+  color: white;
+}
+
+
+/* Video toggle button — fixed bottom right, always visible */
+.video-toggle-btn {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  z-index: 1001;
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(10,4,4,0.75);
+  border: 1px solid rgba(212,146,10,0.35);
+  border-radius: 50px;
+  padding: 0.5rem 1rem 0.5rem 0.6rem;
+  cursor: pointer;
+  color: rgba(251,244,232,0.85);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.video-toggle-btn:hover {
+  border-color: var(--gold); color: var(--amber);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+}
+.video-toggle-btn .vt-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--crimson), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; flex-shrink: 0; transition: transform 0.3s;
+}
+.video-toggle-btn:hover .vt-icon { transform: scale(1.1); }
+.video-toggle-btn.video-on { border-color: rgba(75,124,95,0.5); color: var(--fern); }
+.video-toggle-btn.video-on .vt-icon { background: linear-gradient(135deg, var(--moss), var(--fern)); }
+.video-toggle-btn .vt-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--amber); margin-left: 2px;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.video-toggle-btn.video-on .vt-dot { background: var(--fern); }
+
+/* ── VIDEO BACKGROUND ─────────────────────────────────────────
+   To swap the video: see the <video> tag around line 892
+   ──────────────────────────────────────────────────────────── */
+.hero-video-wrap {
+  position: absolute; inset: 0; z-index: 1;
+  opacity: 0; pointer-events: none;
+  transition: opacity 1s ease;
+}
+.hero-video-wrap.active { opacity: 1; }
+.hero-video-wrap video {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 177.78vh; height: 100%;
+  min-width: 100%; min-height: 56.25vw;
+  object-fit: cover;
+  /* ★ No blur, no filter — clean full video like Panagbenga */
+  filter: none;
+  pointer-events: none;
+}
+/* Gradient fallback when video is off */
+.hero-bg-gradient {
+  position: absolute; inset: 0; z-index: 0;
+  background: var(--g-split);
+  transition: opacity 1s ease;
+}
+.hero-video-wrap.active ~ .hero-bg-gradient { opacity: 0.15; }
+
 /* Radial glows */
 .hero-glow-fire {
   position: absolute; width: 600px; height: 600px;
@@ -205,7 +387,7 @@ body::before {
   position: absolute; right: 8%; top: 15%;
   width: 220px; height: 280px; pointer-events: none; opacity: 0.12;
 }
-.hero-content {
+.hero-content, .hero-text-inner {
   position: relative; z-index: 2;
   max-width: 1200px; margin: 0 auto;
   padding: 4rem 2rem 7rem;
@@ -377,6 +559,24 @@ body::before {
 .card-banner {
   height: 195px; display: flex; align-items: center; justify-content: center;
   font-size: 4rem; position: relative; overflow: hidden;
+}
+.card-banner-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-banner-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .card-banner-shimmer {
   position: absolute; inset: 0;
@@ -741,13 +941,12 @@ body::before {
 .toast.error   { border-left-color: var(--crimson); }
 
 /* PAGE HEADER */
-.page-header { background: var(--g-split); padding: 4.5rem 0 5rem; position: relative; overflow: hidden; }
-.page-header::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px; background: var(--parchment); clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%); z-index: 0; }
-.page-header .container { position: relative; z-index: 1; }
+.page-header { background: var(--g-split); padding: 4.5rem 0 3rem; position: relative; overflow: hidden; }
+.page-header::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px; background: var(--parchment); clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%); }
 .page-header.bone::after { background: var(--bone); }
 .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.5rem); font-weight: 900; color: white; line-height: 1.1; position: relative; }
 .page-header h1 em { font-style: italic; background: linear-gradient(135deg,#FFD080,#FF8040); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.page-header p { color: rgba(200,221,208,0.85); margin-top: 0.7rem; position: relative; font-size: 0.92rem; }
+.page-header p { color: rgba(200,221,208,0.6); margin-top: 0.7rem; position: relative; font-size: 0.92rem; }
 .phdr-tag { display: inline-flex; align-items: center; gap: 0.45rem; background: rgba(27,58,45,0.4); border: 1px solid rgba(75,124,95,0.3); color: var(--fern); padding: 0.3rem 0.85rem; border-radius: 4px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.875rem; }
 
 /* FOOTER */
@@ -784,7 +983,7 @@ body::before {
 @media(max-width:768px) {
   .nav-links{display:none} .nav-mobile-toggle{display:block}
   .grid-3,.grid-2{grid-template-columns:1fr} .grid-4{grid-template-columns:repeat(2,1fr)}
-  .hero h1{font-size:2.5rem} .hero-content{grid-template-columns:1fr!important}
+  .hero h1{font-size:2.5rem} .hero-content{grid-template-columns:1fr!important} .hero-text-inner{grid-template-columns:1fr!important}
   .hero-right{display:none}
   .sidebar{transform:translateX(-100%);transition:transform 0.3s} .sidebar.open{transform:translateX(0)}
   .dashboard-main{margin-left:0} .section{padding:3rem 0}
@@ -794,30 +993,41 @@ body::before {
 </style>
 </head>
 <body>
+<div id="weatherBanner"></div>
+
 <nav class="navbar">
-  <a href="index.html" class="nav-logo" style="text-decoration:none">
-    <svg width="148" height="32" viewBox="0 0 148 32" xmlns="http://www.w3.org/2000/svg">
+  <a href="index.html" class="nav-logo" style="text-decoration:none;display:flex;align-items:center;">
+    <svg width="180" height="38" viewBox="0 0 180 38" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="nl-fire" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#E8453A"/><stop offset="100%" style="stop-color:#F0B429"/></linearGradient>
-        <linearGradient id="nl-eco" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6B9E7A"/><stop offset="100%" style="stop-color:#A8D5B8"/></linearGradient>
-        <linearGradient id="nl-gold" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#F0B429"/><stop offset="100%" style="stop-color:#FFD080"/></linearGradient>
+        <linearGradient id="nl-fire" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#E8453A"/>
+          <stop offset="100%" style="stop-color:#F0B429"/>
+        </linearGradient>
+        <linearGradient id="nl-eco" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#6B9E7A"/>
+          <stop offset="100%" style="stop-color:#A8D5B8"/>
+        </linearGradient>
+        <linearGradient id="nl-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#F0B429"/>
+          <stop offset="100%" style="stop-color:#FFD080"/>
+        </linearGradient>
       </defs>
       <g transform="translate(2,1)">
-        <ellipse cx="13" cy="15" rx="7" ry="9.5" fill="url(#nl-fire)" opacity="0.1"/>
-        <ellipse cx="13" cy="15" rx="6.5" ry="9" fill="none" stroke="url(#nl-fire)" stroke-width="1.4"/>
-        <rect x="10" y="5" width="7" height="3" rx="1.2" fill="url(#nl-gold)"/>
-        <path d="M13 5 L13 2 Q13 0.5 15.5 0.5" fill="none" stroke="url(#nl-gold)" stroke-width="0.9" stroke-linecap="round"/>
-        <line x1="13" y1="24" x2="13" y2="29" stroke="url(#nl-gold)" stroke-width="1" stroke-linecap="round"/>
-        <path d="M20 21 Q24 18 23 13 Q22 16 19 19 Z" fill="url(#nl-eco)" opacity="0.5"/>
+        <ellipse cx="15" cy="19" rx="8" ry="11" fill="url(#nl-fire)" opacity="0.1"/>
+        <ellipse cx="15" cy="19" rx="7" ry="10" fill="none" stroke="url(#nl-fire)" stroke-width="1.5"/>
+        <rect x="11" y="7" width="8" height="3.5" rx="1.5" fill="url(#nl-gold)"/>
+        <path d="M15 7 L15 3 Q15 1 18 1" fill="none" stroke="url(#nl-gold)" stroke-width="1" stroke-linecap="round"/>
+        <line x1="15" y1="29" x2="15" y2="34" stroke="url(#nl-gold)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M23 26 Q27 23 26 18 Q25 21 22 24 Z" fill="url(#nl-eco)" opacity="0.5"/>
       </g>
-      <text x="30" y="21" font-family="'Cinzel Decorative', serif" font-size="15" font-weight="900" fill="url(#nl-fire)" letter-spacing="1">CON</text>
-      <text x="76" y="21" font-family="'Cinzel Decorative', serif" font-size="15" font-weight="900" fill="url(#nl-eco)" letter-spacing="1">FEST</text>
+      <text x="36" y="26" font-family="'Cinzel Decorative', serif" font-size="18" font-weight="900" fill="url(#nl-fire)" letter-spacing="1">CON</text>
+      <text x="89" y="26" font-family="'Cinzel Decorative', serif" font-size="18" font-weight="900" fill="url(#nl-eco)" letter-spacing="1">FEST</text>
     </svg>
   </a>
   <div class="nav-links">
     <a href="events.html">Events</a>
-    <a href="marketplace.html" class="nav-active">Marketplace</a>
-    <button onclick="openModal('cartModal')" style="position:relative;background:rgba(212,146,10,0.1);border:1px solid rgba(212,146,10,0.25);border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s" onmouseover="this.style.background='rgba(212,146,10,0.2)'" onmouseout="this.style.background='rgba(212,146,10,0.1)'">🛒<span id="cartBadge" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--crimson);color:white;font-size:0.55rem;font-weight:800;min-width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-family:'Instrument Sans',sans-serif">0</span></button>
+    <a href="marketplace.html">Marketplace</a>
+    <button onclick="toggleCart()" title="View Cart" style="position:relative;background:rgba(212,146,10,0.1);border:1px solid rgba(212,146,10,0.25);border-radius:8px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s" onmouseover="this.style.background='rgba(212,146,10,0.2)'" onmouseout="this.style.background='rgba(212,146,10,0.1)'">🛒<span id="cartBadge1" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--crimson);color:white;font-size:0.55rem;font-weight:800;min-width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-family:'Instrument Sans',sans-serif">0</span></button>
     <a href="login.html" class="btn-nav-outline">Log In</a>
     <a href="register.html" class="btn-nav-primary">🏮 Sign Up</a>
   </div>
@@ -830,70 +1040,283 @@ body::before {
   <a href="login.html">Log In</a>
   <a href="register.html">Sign Up</a>
 </div>
-<div class="page-header bone">
-  <div class="container" style="position:relative">
-    <div class="phdr-tag">🛍️ Authentic Kapampangan Products</div>
-    <h1>Pampanga <em>Marketplace</em></h1>
-    <p>Every peso spent supports local farmers, artisans, and climate-resilient businesses.</p>
+<!-- ═══════════════════════════════════════════════════
+     HERO — Full-screen video (Panagbenga style)
+     Video fills 100vh, NO text on top of it.
+     ═══════════════════════════════════════════════════ -->
+<section class="hero" id="heroSection">
+
+  <!-- Gradient fallback shown when video is off -->
+  <div class="hero-bg-gradient"></div>
+
+  <!-- ★★★ VIDEO: change src to your local file path ★★★ -->
+  <div class="hero-video-wrap" id="heroVideoWrap">
+    <video id="heroBgVideo" autoplay muted loop playsinline>
+      <source src="videos/your-video.mp4" type="video/mp4">
+    </video>
   </div>
-</div>
-<section class="section" style="background:var(--bone);padding-top:2.5rem">
-  <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:1.75rem">
-      <div>
-        <div class="section-label eco">🍮 Pasalubong Corner</div>
-        <h2 class="section-title">Featured <span class="fire italic">Local Products</span></h2>
+
+  <!-- Glows (visible only on gradient mode) -->
+  <div class="hero-glow-fire" id="heroGlowFire"></div>
+  <div class="hero-glow-eco"  id="heroGlowEco"></div>
+  <svg class="hero-lantern-deco" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg" id="heroLanternDeco">
+    <ellipse cx="110" cy="155" rx="70" ry="90" fill="rgba(196,30,58,1)" opacity="0.9"/>
+    <rect x="95" y="40" width="30" height="40" rx="6" fill="rgba(212,146,10,1)"/>
+    <line x1="110" y1="245" x2="110" y2="275" stroke="rgba(212,146,10,1)" stroke-width="4"/>
+    <line x1="90" y1="275" x2="130" y2="275" stroke="rgba(212,146,10,1)" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="110" cy="155" rx="50" ry="70" fill="rgba(255,120,40,0.6)"/>
+    <line x1="40" y1="100" x2="180" y2="100" stroke="rgba(212,146,10,0.7)" stroke-width="1.5"/>
+    <line x1="40" y1="155" x2="180" y2="155" stroke="rgba(212,146,10,0.5)" stroke-width="1"/>
+    <line x1="40" y1="200" x2="180" y2="200" stroke="rgba(212,146,10,0.5)" stroke-width="1"/>
+  </svg>
+
+  <!-- ── OVERLAY TEXT: visible on gradient, fades out when video plays ── -->
+  <div class="hero-overlay-wrapper" id="heroOverlayContent">
+  <div class="hero-overlay-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="pulse"></span> Heart of Luzon · Sustainable Tourism</div>
+      <h1>
+        <span class="fire-text">Celebrate</span>
+        <span style="display:block">Pampanga</span>
+        <span class="eco-text">sustainably.</span>
+      </h1>
+      <p class="hero-desc">Explore vibrant festivals, buy <strong>digital eco-tickets</strong>, discover authentic pasalubong, and support <strong>local Kapampangan businesses</strong> that protect our planet.</p>
+      <div class="hero-ctas">
+        <a href="events.html" class="btn-fire">🎪 Browse Events</a>
+        <a href="marketplace.html" class="btn-eco">🌿 Eco Marketplace</a>
       </div>
-      <div class="search-bar" style="max-width:270px"><span style="color:var(--sage)">🔍</span><input type="text" id="productSearch" placeholder="Search products..." autocomplete="off"></div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Events</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">200+</div><div class="hero-stat-l">Businesses</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">5K+</div><div class="hero-stat-l">Tourists</div></div>
+        <div class="hero-stat"><div class="hero-stat-n" style="font-size:1.1rem;font-family:'Instrument Sans',sans-serif;letter-spacing:-0.01em">0 kg</div><div class="hero-stat-l">Paper Waste</div></div>
+      </div>
     </div>
-    <div class="filter-tabs" style="margin-bottom:1.75rem">
-      <button class="filter-tab active" data-cat="All">All Products</button>
-      <button class="filter-tab" data-cat="Kakanin">🍮 Kakanin</button>
-      <button class="filter-tab" data-cat="Meat Products">🥩 Meat</button>
-      <button class="filter-tab" data-cat="Baked Goods">🥐 Baked</button>
-      <button class="filter-tab" data-cat="Sweets">🍬 Sweets</button>
-      <button class="filter-tab" data-cat="Crafts">🏮 Crafts</button>
+    <div class="hero-right">
+      <div class="hero-right-title">🌿 Live Eco Impact Tracker</div>
+      <div class="eco-ticker">
+        <span class="eco-ticker-label">LIVE</span>
+        <div class="eco-ticker-scroll">
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+        </div>
+      </div>
+      <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);margin-bottom:0.75rem">🎪 This Week's Events</div>
+      <div id="heroEventsListOverlay" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+      <a href="events.html" style="display:flex;align-items:center;justify-content:center;margin-top:1rem;gap:0.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--fern)'">View All Events →</a>
     </div>
-    <div class="grid-4" id="productsGrid"></div>
+  </div>
+  </div><!-- /hero-overlay-wrapper -->
+
+  <!-- Video toggle button — bottom right -->
+  <button class="video-toggle-btn" id="videoToggleBtn" onclick="toggleHeroVideo()" title="Toggle video background">
+    <span class="vt-icon" id="vtIcon">&#9654;</span>
+    <span id="vtLabel">Play Video</span>
+    <span class="vt-dot"></span>
+  </button>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO TEXT BAND — Headline, CTAs, Stats, Eco Tracker
+     Sits below the full-screen video, no clash.
+     ═══════════════════════════════════════════════════ -->
+<section class="hero-text-band" style="display:none" aria-hidden="true">
+  <div class="hero-glow-fire" style="top:-200px;right:-50px;opacity:0.5"></div>
+  <div class="hero-text-inner" style="color:white">
+    <div class="hero-left">
+      <div class="hero-eyebrow anim d1"><span class="pulse"></span> Heart of Luzon · Sustainable Tourism</div>
+      <h1>
+        <span class="fire-text anim d2">Celebrate</span>
+        <span style="display:block" class="anim d3">Pampanga</span>
+        <span class="eco-text anim d4">sustainably.</span>
+      </h1>
+      <p class="hero-desc anim d4">Explore vibrant festivals, buy <strong>digital eco-tickets</strong>, discover authentic pasalubong, and support <strong>local Kapampangan businesses</strong> that protect our planet.</p>
+      <div class="hero-ctas anim d5">
+        <a href="events.html" class="btn-fire">🎪 Browse Events</a>
+        <a href="marketplace.html" class="btn-eco">🌿 Eco Marketplace</a>
+      </div>
+      <div class="hero-stats anim d5">
+        <div class="hero-stat"><div class="hero-stat-n">50+</div><div class="hero-stat-l">Events</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">200+</div><div class="hero-stat-l">Businesses</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">5K+</div><div class="hero-stat-l">Tourists</div></div>
+        <div class="hero-stat"><div class="hero-stat-n" style="font-size:1.1rem;font-family:'Instrument Sans',sans-serif;letter-spacing:-0.01em">0 kg</div><div class="hero-stat-l">Paper Waste</div></div>
+      </div>
+    </div>
+    <div class="hero-right anim d3">
+      <div class="hero-right-title">🌿 Live Eco Impact Tracker</div>
+      <div class="eco-ticker">
+        <span class="eco-ticker-label">LIVE</span>
+        <div class="eco-ticker-scroll" id="ecoTicker">
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+          <span class="eco-ticker-item">🌱 12,400 Trees Planted</span>
+          <span class="eco-ticker-item">♻️ Zero Paper Tickets</span>
+          <span class="eco-ticker-item">☀️ Solar-Powered Venues</span>
+          <span class="eco-ticker-item">🐟 3 Rivers Restored</span>
+          <span class="eco-ticker-item">💚 ₱2.4M Local Economy</span>
+        </div>
+      </div>
+      <div style="font-size:0.68rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);margin-bottom:0.75rem">🎪 This Week's Events</div>
+      <div id="heroEventsList" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+      <a href="events.html" style="display:flex;align-items:center;justify-content:center;margin-top:1rem;gap:0.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--fern)'">View All Events →</a>
+    </div>
   </div>
 </section>
-<section class="section section-eco leaf-pattern" id="businesses" style="padding:3.5rem 0">
-  <div class="container" style="position:relative;z-index:1">
-    <div style="text-align:center;margin-bottom:2.5rem">
-      <div class="section-label eco" style="justify-content:center;display:flex">🏪 Local Businesses</div>
-      <h2 class="section-title light" style="text-align:center">Kapampangan <span class="fire italic">Business Listings</span></h2>
-      <p class="section-sub light" style="text-align:center;margin-left:auto;margin-right:auto">Verified local entrepreneurs — verified for quality, ethics, and sustainability.</p>
+
+<!-- UPCOMING EVENTS -->
+<section class="section section-warm">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
+      <div>
+        <div class="section-label">📅 What's On</div>
+        <h2 class="section-title">Upcoming <span class="fire italic">Events</span></h2>
+        <p class="section-sub">From giant lantern festivals to culinary fiestas — Pampanga always celebrates.</p>
+      </div>
+      <a href="events.html" class="btn-outline">See All Events →</a>
     </div>
-    <div class="grid-2" id="businessesGrid"></div>
+    <div class="grid-3" id="homeEventsGrid"></div>
   </div>
 </section>
-<div class="modal-overlay" id="sellerModal">
-  <div class="modal" style="max-width:500px">
-    <div class="modal-header"><h2 class="modal-title" id="sellerModalTitle">Business Profile</h2><button class="modal-close" onclick="closeModal('sellerModal')">✕</button></div>
-    <div id="sellerModalContent"></div>
+
+<!-- DIAGONAL SPLIT: ECO CONTEXT -->
+<section class="section section-eco leaf-pattern">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(27,58,45,0.0) 0%,rgba(18,8,8,0.5) 100%);pointer-events:none"></div>
+  <div class="container" style="position:relative">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div>
+        <div class="section-label eco">🌏 Climate & Economy</div>
+        <h2 class="section-title light">Festivals That <span class="fire italic">Heal</span> the Planet</h2>
+        <p class="section-sub light" style="margin-bottom:2rem">Pampanga's tourism economy faces real threats from climate change — flooding, drought, extreme heat. Our platform channels festival spending directly into local green initiatives.</p>
+        <div style="display:flex;flex-direction:column;gap:0.875rem">
+          <div style="display:flex;gap:0.875rem;align-items:flex-start">
+            <div style="width:36px;height:36px;background:rgba(27,58,45,0.6);border:1px solid rgba(75,124,95,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌊</div>
+            <div><div style="font-weight:700;color:white;font-size:0.85rem;margin-bottom:0.15rem">Flood Resilience Fund</div><div style="font-size:0.78rem;color:rgba(200,221,208,0.55);line-height:1.5">Every ticket sold contributes to flood mitigation infrastructure in low-lying barangays.</div></div>
+          </div>
+          <div style="display:flex;gap:0.875rem;align-items:flex-start">
+            <div style="width:36px;height:36px;background:rgba(27,58,45,0.6);border:1px solid rgba(75,124,95,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌱</div>
+            <div><div style="font-weight:700;color:white;font-size:0.85rem;margin-bottom:0.15rem">Plant-a-Parol Program</div><div style="font-size:0.78rem;color:rgba(200,221,208,0.55);line-height:1.5">For every lantern sold, we plant one native tree species in the reforestation belt of Mt. Arayat.</div></div>
+          </div>
+          <div style="display:flex;gap:0.875rem;align-items:flex-start">
+            <div style="width:36px;height:36px;background:rgba(27,58,45,0.6);border:1px solid rgba(75,124,95,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏪</div>
+            <div><div style="font-weight:700;color:white;font-size:0.85rem;margin-bottom:0.15rem">Local First Economy</div><div style="font-size:0.78rem;color:rgba(200,221,208,0.55);line-height:1.5">95% of vendor fees stay within the province, strengthening climate-vulnerable local livelihoods.</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem">
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(75,124,95,0.2);border-radius:12px;padding:1.25rem;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#7EC8A0;line-height:1">12,400</div>
+            <div style="font-size:0.62rem;color:rgba(107,158,122,0.6);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem">Trees Planted</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(75,124,95,0.2);border-radius:12px;padding:1.25rem;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#7EC8A0;line-height:1">0 kg</div>
+            <div style="font-size:0.62rem;color:rgba(107,158,122,0.6);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem">Ticket Paper Waste</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(75,124,95,0.2);border-radius:12px;padding:1.25rem;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#7EC8A0;line-height:1">₱2.4M</div>
+            <div style="font-size:0.62rem;color:rgba(107,158,122,0.6);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem">Local Economy Boost</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(75,124,95,0.2);border-radius:12px;padding:1.25rem;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#7EC8A0;line-height:1">67%</div>
+            <div style="font-size:0.62rem;color:rgba(107,158,122,0.6);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem">Eco-Certified Events</div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;padding:1rem;background:rgba(27,58,45,0.4);border:1px solid rgba(75,124,95,0.2);border-radius:10px">
+          <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--fern);margin-bottom:0.4rem">🌡️ Pampanga Climate Alert</div>
+          <div style="font-size:0.78rem;color:rgba(200,221,208,0.6);line-height:1.55">Average temp +1.8°C above 1990 baseline. Flooding risk in 38% of festival venues. Our eco-fund helps adapt.</div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section section-bone">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
+      <div>
+        <div class="section-label eco">🛍️ Pasalubong Corner</div>
+        <h2 class="section-title">Local <span class="fire italic">Products</span></h2>
+        <p class="section-sub">Every purchase keeps money local. Authentic Kapampangan flavors & crafts.</p>
+      </div>
+      <a href="marketplace.html" class="btn-eco" style="font-size:0.75rem">Visit Marketplace →</a>
+    </div>
+    <div class="grid-4" id="homeProductsGrid"></div>
+  </div>
+</section>
+
+<!-- WHY US DARK -->
+<section class="section section-dark lantern-pattern">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:3rem">
+      <div class="section-label" style="color:var(--amber);justify-content:center;display:flex">✨ Platform Benefits</div>
+      <h2 class="section-title light" style="text-align:center">Why <span class="fire italic">Confest Platform?</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon fi-fire">🏮</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:white;margin-bottom:0.65rem">Discover Festivals</h3>
+        <p style="color:rgba(200,221,208,0.5);font-size:0.83rem;line-height:1.7">World-famous Kapampangan festivals — from Ligligan Parul to Sisig Food Fest — all in one place.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-eco">📱</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:white;margin-bottom:0.65rem">Green Digital Tickets</h3>
+        <p style="color:rgba(200,221,208,0.5);font-size:0.83rem;line-height:1.7">100% paperless QR e-tickets. Zero printing, zero waste. Every ticket plants a native tree in Pampanga.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-gold">🌱</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:white;margin-bottom:0.65rem">Support Local Economy</h3>
+        <p style="color:rgba(200,221,208,0.5);font-size:0.83rem;line-height:1.7">95% of revenue stays in-province. Climate-resilient local businesses get priority listings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR SECTION -->
+<section class="section section-warm">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start" id="calGrid">
+      <div>
+        <div class="section-label">📆 Plan Your Visit</div>
+        <h2 class="section-title">Event <span class="fire italic">Calendar</span></h2>
+        <p class="section-sub" style="margin-bottom:2rem">Gold dots mark eco-certified events. Click any date to discover what's on.</p>
+        <div style="display:flex;flex-direction:column;gap:0.6rem" id="calEventList"></div>
+      </div>
+      <div><div id="homeCalendar"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section style="background:var(--g-ember);padding:5rem 0;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;opacity:0.07" class="lantern-pattern"></div>
+  <div class="container" style="text-align:center;position:relative">
+    <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,220,140,0.75);margin-bottom:1rem">🌿 Join the Movement</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);color:white;margin-bottom:1rem;font-weight:900;line-height:1.1">Celebrate Pampanga.<br><em>Protect the Planet.</em></h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;margin-bottom:2.25rem;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.7">Every event you attend, every pasalubong you buy strengthens the local economy and funds climate adaptation programs.</p>
+    <div style="display:flex;gap:0.875rem;justify-content:center;flex-wrap:wrap">
+      <a href="register.html" style="background:white;color:var(--ember);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s;box-shadow:0 4px 20px rgba(18,8,8,0.2)" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🏮 Create Free Account</a>
+      <a href="events.html" style="background:rgba(255,255,255,0.12);color:white;border:1.5px solid rgba(255,255,255,0.3);padding:0.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:0.45rem;font-family:'Instrument Sans',sans-serif;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">Browse Events →</a>
+    </div>
+  </div>
+</section>
 <footer class="footer">
   <div class="container">
     <div class="grid-4">
       <div>
-        <div class="footer-logo">
-  <svg width="120" height="26" viewBox="0 0 120 26" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="fl-fire" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#E8453A"/><stop offset="100%" style="stop-color:#F0B429"/></linearGradient>
-      <linearGradient id="fl-eco" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6B9E7A"/><stop offset="100%" style="stop-color:#A8D5B8"/></linearGradient>
-      <linearGradient id="fl-gold2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#F0B429"/><stop offset="100%" style="stop-color:#FFD080"/></linearGradient>
-    </defs>
-    <g transform="translate(1,1) scale(0.76)">
-      <ellipse cx="13" cy="15" rx="7" ry="9.5" fill="url(#fl-fire)" opacity="0.1"/>
-      <ellipse cx="13" cy="15" rx="6.5" ry="9" fill="none" stroke="url(#fl-fire)" stroke-width="1.4"/>
-      <rect x="10" y="5" width="7" height="3" rx="1.2" fill="url(#fl-gold2)"/>
-      <line x1="13" y1="24" x2="13" y2="29" stroke="url(#fl-gold2)" stroke-width="1" stroke-linecap="round"/>
-    </g>
-    <text x="24" y="18" font-family="'Cinzel Decorative', serif" font-size="12" font-weight="900" fill="url(#fl-fire)" letter-spacing="1">CON</text>
-    <text x="63" y="18" font-family="'Cinzel Decorative', serif" font-size="12" font-weight="900" fill="url(#fl-eco)" letter-spacing="1">FEST</text>
-  </svg>
-</div>
+        <div class="footer-logo"><svg width="160" height="34" viewBox="0 0 160 34" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="fl-fire" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#E8453A"/><stop offset="100%" style="stop-color:#F0B429"/></linearGradient><linearGradient id="fl-eco" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6B9E7A"/><stop offset="100%" style="stop-color:#A8D5B8"/></linearGradient><linearGradient id="fl-gold" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#F0B429"/><stop offset="100%" style="stop-color:#FFD080"/></linearGradient></defs><g transform="translate(2,1)"><ellipse cx="13" cy="17" rx="7" ry="9.5" fill="none" stroke="url(#fl-fire)" stroke-width="1.4"/><rect x="10" y="6" width="7" height="3" rx="1.2" fill="url(#fl-gold)"/><line x1="13" y1="26.5" x2="13" y2="31" stroke="url(#fl-gold)" stroke-width="1" stroke-linecap="round"/><path d="M20 23 Q24 20 23 15 Q22 18 19 21 Z" fill="url(#fl-eco)" opacity="0.5"/></g><text x="32" y="23" font-family="'Cinzel Decorative', serif" font-size="16" font-weight="900" fill="url(#fl-fire)" letter-spacing="1">CON</text><text x="81" y="23" font-family="'Cinzel Decorative', serif" font-size="16" font-weight="900" fill="url(#fl-eco)" letter-spacing="1">FEST</text></svg></div>
         <p style="font-size:0.8rem;color:rgba(200,221,208,0.4);line-height:1.7;max-width:200px;margin-bottom:1.1rem">Your gateway to Kapampangan culture, festivals, and sustainable local businesses.</p>
         <div style="display:flex;gap:0.4rem">
           <a href="#" class="social-btn">f</a><a href="#" class="social-btn">✦</a>
@@ -913,6 +1336,8 @@ body::before {
         <ul class="footer-links">
           <li><a href="dashboard/user-dashboard.html">Tourist Dashboard</a></li>
           <li><a href="dashboard/business-dashboard.html">Business Dashboard</a></li>
+          <li><a href="dashboard/sponsor-dashboard.html">Sponsor Portal</a></li>
+          <li><a href="dashboard/organizer-dashboard.html">Organizer Dashboard</a></li>
           <li><a href="dashboard/admin-dashboard.html">Admin Dashboard</a></li>
         </ul>
       </div>
@@ -921,7 +1346,7 @@ body::before {
         <ul class="footer-links">
           <li><a href="#">📍 San Fernando, Pampanga</a></li>
           <li><a href="#">📞 (045) 123-4567</a></li>
-          <li><a href="#">✉️ <span class="__cf_email__" data-cfemail="79111c151516390918140918171e18571c0f1c170d0a">[email&#160;protected]</span></a></li>
+          <li><a href="#">✉️ <span class="__cf_email__" data-cfemail="debdb1b0b8bbadaaf0aebfb3aebfb0b9bf9eb9b3bfb7b2f0bdb1b3">[email&#160;protected]</span></a></li>
         </ul>
         <div style="margin-top:1rem;background:rgba(27,58,45,0.2);border:1px solid rgba(75,124,95,0.15);border-radius:8px;padding:0.75rem">
           <div style="font-size:0.6rem;color:var(--fern);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem">🌿 Climate Pledge</div>
@@ -930,7 +1355,7 @@ body::before {
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 Confest — Pampanga Events & Marketplace</span>
+      <span>© 2026 Pampanga Events & Marketplace Platform</span>
       <div class="eco-note">🌱 Paperless · Carbon-neutral · Supporting Local Since 2025</div>
     </div>
   </div>
@@ -943,7 +1368,7 @@ const PampangaDB = {
     {
       id: 1, name: "Ligligan Parul Sampernandu", category: "Festival",
       date: "2025-12-17", time: "6:00 PM", location: "Bacolor, Pampanga",
-      price: 150, image: "🏮", organizer: "Pampanga Tourism Office",
+      price: 150, image: "https://media.assettype.com/sunstar/import/uploads/images/2020/12/17/260559.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Pampanga Tourism Office",
       description: "The Giant Lantern Festival is one of the most spectacular events in the Philippines. Eleven barangays of San Fernando compete with their magnificent giant lanterns known as 'parols'.",
       ticketsSold: 1240, capacity: 5000, eco: true, local: true,
       vendors: ["Kapampangan Sweets", "Aling Clara's Kitchen", "Pampanga Crafts"],
@@ -957,7 +1382,7 @@ const PampangaDB = {
     {
       id: 2, name: "Sisig Food Festival", category: "Food",
       date: "2025-10-20", time: "9:00 AM", location: "Pampanga Capitol Grounds",
-      price: 100, image: "🍽️", organizer: "Kulinarya Pampanga",
+      price: 100, image: "https://cdn.coconuts.co/coconuts/wp-content/uploads/2016/11/giant_sisig.jpg", organizer: "Kulinarya Pampanga",
       description: "Celebrate Pampanga's famous culinary heritage with the Sisig Food Festival. Sample different variations of sisig from the best restaurants and street food vendors in the province.",
       ticketsSold: 890, capacity: 3000, eco: false, local: true,
       vendors: ["Aling Lucing's", "Sisig Central", "Modern Kapampangan Kitchen"],
@@ -971,7 +1396,7 @@ const PampangaDB = {
     {
       id: 3, name: "Apung Iru Fluvial Parade", category: "Cultural",
       date: "2025-06-23", time: "5:00 AM", location: "Candaba River, Pampanga",
-      price: 0, image: "⛵", organizer: "Diocese of San Fernando",
+      price: 0, image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOEvFk1bcDmFkX-tVIbgcgGBvc_tjXIGI5_e1ym_LEp-J3ibS-YYuyKtTveWvHoRLfMnnKxGO86tokJxGM970QWwYrDDVRs8MZumLUnonKRWnAvkoouTP0mjr6I6a5JE6r48MLNOcagGBy/s1600/582160_489558221069832_1084470689_n.jpg", organizer: "Diocese of San Fernando",
       description: "The Fluvial Parade of Apung Iru (St. Peter the Apostle) is a centuries-old religious tradition in Apalit. Devotees on boats participate in the river procession.",
       ticketsSold: 0, capacity: 10000, eco: true, local: true,
       vendors: ["Local Trinket Shops", "Traditional Food Stalls"],
@@ -983,9 +1408,9 @@ const PampangaDB = {
       ]
     },
     {
-      id: 4, name: "Pampanga Summer Concert Series", category: "Concert",
-      date: "2025-04-15", time: "7:00 PM", location: "SM City Pampanga Open Grounds",
-      price: 500, image: "🎵", organizer: "PH Events Unlimited",
+      id: 4, name: "Lubao Hot Air Balloon and Music Festival ", category: "Concert",
+      date: "2026-03-7", time: "7:00 PM", location: " Pradera Verde, Prado Siongco, Lubao, Pampanga.",
+      price: 500, image: "https://aphrodite.gmanetwork.com/entertainment/articles/900_675_Main2026-04_0309_09-03-2026-1954_-20260309195410.jpg", organizer: "PH Events Unlimited",
       description: "The biggest summer concert series in Central Luzon featuring top OPM artists and local Pampanga bands. Three nights of music, food, and fun under the stars.",
       ticketsSold: 2100, capacity: 8000, eco: false, local: false,
       vendors: ["Festival Merch Booth", "Food Village"],
@@ -999,7 +1424,7 @@ const PampangaDB = {
     {
       id: 5, name: "Kulinarya Pampanga Festival", category: "Food",
       date: "2025-08-10", time: "8:00 AM", location: "Angeles City Convention Center",
-      price: 120, image: "👨‍🍳", organizer: "Kulinarya Pampanga",
+      price: 120, image: "https://media.assettype.com/sunstar/2024-09-13/msruu9r5/FIESTA-PHOTO.jpg?w=1200&h=900&auto=format%2Ccompress&fit=max&enlarge=true", organizer: "Kulinarya Pampanga",
       description: "A grand celebration of Kapampangan cuisine featuring cooking demos, food competitions, and the largest gathering of Pampanga's finest chefs and food entrepreneurs.",
       ticketsSold: 560, capacity: 2000, eco: true, local: true,
       vendors: ["Kapampangan Chefs Association", "Local Food Producers"],
@@ -1013,7 +1438,7 @@ const PampangaDB = {
     {
       id: 6, name: "Sinukwan Folk Arts Festival", category: "Cultural",
       date: "2025-09-05", time: "2:00 PM", location: "San Fernando Heritage Park",
-      price: 75, image: "🎭", organizer: "Pampanga Arts Council",
+      price: 75, image: "https://palibut.com/wp-content/uploads/2023/12/SinukwanFestival2023-33.jpg", organizer: "Pampanga Arts Council",
       description: "Sinukwan celebrates the rich indigenous cultural heritage of Pampanga through traditional dances, music, crafts, and visual arts exhibitions.",
       ticketsSold: 310, capacity: 1500, eco: true, local: true,
       vendors: ["Kapampangan Artisans Guild", "Heritage Crafts"],
@@ -1027,7 +1452,7 @@ const PampangaDB = {
   ],
 
   products: [
-    { id: 1, name: "Tibok-Tibok", seller: "Kapampangan Sweets Co.", price: 180, image: "https://ingbayungcusinangcapampangan.wordpress.com/wp-content/uploads/2017/08/tibok-tibok.jpg", category: "Kakanin", preferred: true, description: "Traditional carabao milk pudding, a sweet delicacy of Pampanga." },
+   { id: 1, name: "Tibok-Tibok", seller: "Kapampangan Sweets Co.", price: 180, image: "https://ingbayungcusinangcapampangan.wordpress.com/wp-content/uploads/2017/08/tibok-tibok.jpg", category: "Kakanin", preferred: true, description: "Traditional carabao milk pudding, a sweet delicacy of Pampanga." },
     { id: 2, name: "Tocino Pampangueño", seller: "Aling Clara's Kitchen", price: 350, image: "https://kusinasecrets.com/wp-content/uploads/2024/12/u3317447599_httpss.mj_.runH-nEOSgTSp0_Homemade_caramelized_por_bfcb5c16-8b45-477e-9324-f86847257048_3.webp", category: "Meat Products", description: "Sweet marinated pork, the pride of Pampanga's culinary tradition." },
     { id: 3, name: "Turrones de Casuy", seller: "Pampanga Sweets", price: 220, image: "https://santaritapampanga.gov.ph/wp-content/themes/yootheme/cache/c9/Turrones-de-Casoy-Wide-c9292230.webp", category: "Sweets", description: "Cashew nougat wrapped in edible rice paper. A classic Pampanga pasalubong." },
     { id: 4, name: "Parol (Giant Lantern)", seller: "San Fernando Crafts", price: 1500, image: "https://themixedculture.com/wp-content/uploads/2013/12/parol.png?w=762", category: "Crafts", preferred: true, description: "Handcrafted Christmas lantern inspired by the Giant Lantern Festival." },
@@ -1763,7 +2188,7 @@ function renderBizProducts() {
       <tbody>
         ${bizProducts.map(p => `
           <tr>
-            <td><span style="display:inline-flex;vertical-align:middle;margin-right:0.5rem">${renderProductThumb(p.image, p.name, 28)}</span><strong>${p.name}</strong></td>
+            <td><span style="font-size:1.3rem;margin-right:0.5rem">${p.image}</span><strong>${p.name}</strong></td>
             <td>${p.category}</td>
             <td style="font-weight:600;color:var(--crimson)">₱${p.price}</td>
             <td><button class="btn-outline btn-sm" onclick="editBizProduct(${p.id})">Edit</button>
@@ -1937,329 +2362,131 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('adminDashboard')) initAdminDashboard();
 });
 </script>
-<!-- CART MODAL -->
-<div id="cartModal" class="modal-overlay" style="z-index:9000">
-  <div class="modal" style="max-width:460px;padding:0;overflow:hidden">
-    <div style="background:var(--g-split);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
-      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:white">🛒 Your Cart</div>
-      <button onclick="closeModal('cartModal')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;width:32px;height:32px;cursor:pointer;color:rgba(200,221,208,0.7);font-size:0.9rem">✕</button>
-    </div>
-    <div style="padding:1.25rem 1.5rem;max-height:280px;overflow-y:auto" id="cartItems">
-      <div style="text-align:center;padding:2rem;color:var(--sage);font-size:0.82rem">Your cart is empty</div>
-    </div>
-    <div style="padding:1rem 1.5rem;border-top:1px solid rgba(212,146,10,0.1);background:rgba(212,146,10,0.02)">
-      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--sage);margin-bottom:0.4rem"><span>Subtotal</span><span id="cartTotal">₱0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--crimson);margin-bottom:0.4rem"><span>Platform Commission (deducted from seller)</span><span id="cartCommission">₱0 (10% B2C)</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--sage);margin-bottom:0.75rem"><span>🌿 Eco/Admin Fee</span><span id="cartEcoFee">₱0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.9rem;font-weight:800;color:var(--ink);padding-top:0.65rem;border-top:1px solid rgba(212,146,10,0.12);margin-bottom:0.875rem"><span>Total You Pay</span><span id="cartGrand">₱0</span></div>
-      <div style="font-size:0.65rem;color:var(--sage);margin-bottom:0.875rem;display:flex;align-items:flex-start;gap:0.4rem"><span>ℹ️</span><span>10% commission is deducted from seller payout. ₱10 eco fee per item funds local waste management projects.</span></div>
-      <button onclick="openCheckout()" class="btn-fire" style="width:100%;justify-content:center;padding:0.8rem;font-size:0.88rem">🛒 Proceed to Checkout →</button>
-    </div>
-  </div>
-</div>
 <script>
-function isProductImageSource(value) {
-  if (typeof value !== 'string') return false;
-  const v = value.trim();
-  return /^(https?:\/\/|\.\/|\.\.\/|\/|images\/|assets\/|data:image\/)/i.test(v);
-}
-
-function renderProductMedia(image, name) {
-  const fallbackLabel = (name && String(name).trim() ? String(name).trim().charAt(0).toUpperCase() : '🛍️');
-  if (isProductImageSource(image)) {
-    return `
-      <img src="${image}" alt="${name || 'Product'}" class="product-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="product-photo-fallback" style="display:none">${fallbackLabel}</div>
-    `;
-  }
-  return `<div class="product-photo-fallback">${image || fallbackLabel}</div>`;
-}
-
-function renderProductThumb(image, name, size = 40) {
-  const fallbackLabel = (name && String(name).trim() ? String(name).trim().charAt(0).toUpperCase() : '🛍️');
-  if (isProductImageSource(image)) {
-    return `
-      <div style="width:${size}px;height:${size}px;background:rgba(212,146,10,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
-        <img src="${image}" alt="${name || 'Product'}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:0.95rem;font-weight:700;color:var(--ink)">${fallbackLabel}</span>
-      </div>
-    `;
-  }
-  return `<div style="font-size:1.15rem;width:${size}px;height:${size}px;background:rgba(212,146,10,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${image || fallbackLabel}</div>`;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  let activeCat='All', searchTerm='';
-  function renderProducts() {
-    const g=document.getElementById('productsGrid');
-    const data=PampangaDB.products.filter(p=>{
-      const mc=activeCat==='All'||p.category===activeCat;
-      const ms=p.name.toLowerCase().includes(searchTerm.toLowerCase())||p.seller.toLowerCase().includes(searchTerm.toLowerCase());
-      return mc&&ms;
-    });
-    if(!data.length){g.innerHTML=`<div style="text-align:center;padding:4rem;color:var(--sage);grid-column:1/-1"><div style="font-size:3rem;margin-bottom:1rem">🛍️</div><p style="font-size:0.9rem">No products found.</p></div>`;return;}
-    g.innerHTML=data.map(p=>`
-      <div class="product-card">
-        <div class="product-img">${renderProductMedia(p.image, p.name)}
-          <div class="origin-badge">🇵🇭 Pampanga</div>
-          ${p.preferred ? '<div style="position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#D4920A,#F0B429);color:white;font-size:0.55rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:4px;box-shadow:0 2px 8px rgba(212,146,10,0.4)">⭐ Preferred Seller</div>' : ''}
+  const isProductImageSource = (value) => typeof value === 'string' && /^(https?:\/\/|\.\/|\.\.\/|\/|images\/|assets\/|data:image\/)/i.test(value.trim());
+  const renderProductMedia = (image, name) => {
+    const fallbackLabel = name && String(name).trim() ? String(name).trim().charAt(0).toUpperCase() : '🛍️';
+    if (isProductImageSource(image)) {
+      return `
+        <img class="product-photo" src="${image}" alt="${name || 'Product'}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="product-photo-fallback" style="display:none">${fallbackLabel}</div>
+      `;
+    }
+    return `<div class="product-photo-fallback">${image || fallbackLabel}</div>`;
+  };
+
+  // Floating lantern particles
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const cols = ['rgba(196,30,58,0.65)','rgba(212,146,10,0.65)','rgba(240,180,41,0.5)','rgba(155,27,48,0.55)','rgba(255,107,26,0.45)'];
+    for (let i = 0; i < 16; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const sz = 6 + Math.random() * 8;
+      p.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz*1.4}px;background:${cols[i%cols.length]};animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*12}s;box-shadow:0 0 ${sz*2}px currentColor;`;
+      hero.insertBefore(p, hero.firstChild);
+    }
+  }
+  // Hero event list — populate both the text-band list AND the overlay list
+  const eventsHTML = PampangaDB.events.slice(0,3).map(e => {
+      const media = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'))
+        ? `<img src="${e.image}" alt="${e.name} thumbnail" style="width:30px;height:30px;border-radius:6px;object-fit:cover;display:block">`
+        : `<span style="font-size:1.3rem">${e.image || '🎪'}</span>`;
+      return `
+      <a href="event-details.html?id=${e.id}" style="display:flex;gap:0.65rem;align-items:center;padding:0.6rem 0.75rem;background:rgba(255,255,255,0.06);border:1px solid rgba(212,146,10,0.15);border-radius:8px;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+        ${media}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:0.78rem;font-weight:700;color:rgba(251,244,232,0.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.name}</div>
+          <div style="font-size:0.65rem;color:rgba(200,221,208,0.45);margin-top:0.1rem">${new Date(e.date).toLocaleDateString('en-PH',{month:'short',day:'numeric'})} · ${e.location.split(',')[0]}</div>
         </div>
+        <span style="font-size:0.7rem;font-weight:700;color:var(--amber);flex-shrink:0">${e.price===0?'FREE':'₱'+e.price}</span>
+      </a>`;
+    }).join('');
+  const heroList = document.getElementById('heroEventsList');
+  if (heroList) heroList.innerHTML = eventsHTML;
+  const heroListOverlay = document.getElementById('heroEventsListOverlay');
+  if (heroListOverlay) heroListOverlay.innerHTML = eventsHTML;
+  // Main events grid
+  const homeGrid = document.getElementById('homeEventsGrid');
+  if (homeGrid) {
+    const gm = {'Festival':'linear-gradient(135deg,#5C0010,#C41E3A,#8B0000)','Food':'linear-gradient(135deg,#4A2000,#A0420A,#D4920A)','Concert':'linear-gradient(135deg,#0D001A,#3A006A,#6B21B6)','Cultural':'linear-gradient(135deg,#0A1E0A,#1B4A2D,#2D6040)'};
+    const cm = {'Festival':'tag-fest','Food':'tag-food','Concert':'tag-cult','Cultural':'tag-cult'};
+    homeGrid.innerHTML = PampangaDB.events.slice(0,3).map((e,i) => {
+      const pct = Math.round(e.ticketsSold/e.capacity*100);
+      const usesPhoto = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'));
+      return `<div class="event-card anim d${i+1}" style="opacity:0">
+        <div class="card-banner" style="background:${gm[e.category]||gm.Festival}">
+          ${usesPhoto
+            ? `<img class="card-banner-photo" src="${e.image}" alt="${e.name} image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+            : `<div class="card-banner-fallback" style="display:flex">${e.image || 'Event'}</div>`}
+          <div class="card-banner-fallback" style="display:none;position:absolute;inset:0">Add Event Image</div>
+          <div class="card-banner-shimmer"></div>
+          <div class="card-ribbon">${e.category}</div>
+          ${e.eco?'<div class="card-eco-flag">🌿 Eco</div>':''}
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag ${cm[e.category]||'tag-fest'}">${e.category}</span>
+            ${e.eco?'<span class="tag tag-eco">🌿 Eco</span>':''}
+            ${e.local?'<span class="tag tag-local">🏪 Local</span>':''}
+            ${e.price===0?'<span class="tag tag-free">Free Entry</span>':''}
+          </div>
+          <h3 class="card-title">${e.name}</h3>
+          <div class="card-meta">📅 ${new Date(e.date).toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'})}</div>
+          <div class="card-meta">📍 ${e.location}</div>
+          <div class="capacity-bar"><div class="capacity-fill" style="width:${pct}%"></div></div>
+          <div style="font-size:0.62rem;color:var(--sage);margin-bottom:0">${pct}% capacity filled · ${e.capacity-e.ticketsSold} spots left</div>
+          <div class="card-footer">
+            <span class="card-price ${e.price===0?'free':''}">${e.price===0?'🌿 FREE':'₱'+e.price}</span>
+            <a href="event-details.html?id=${e.id}" class="btn-gold btn-sm">Get Ticket →</a>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  // Products
+  const homeProd = document.getElementById('homeProductsGrid');
+  if (homeProd) {
+    homeProd.innerHTML = PampangaDB.products.slice(0,4).map(p => `
+      <div class="product-card">
+        <div class="product-img">${renderProductMedia(p.image, p.name)}<div class="origin-badge">🇵🇭 Local</div></div>
         <div class="product-body">
           <div class="product-cat">${p.category}</div>
           <div class="product-name">${p.name}</div>
           <div class="product-seller">by ${p.seller}</div>
-          <p style="font-size:0.75rem;color:var(--sage);line-height:1.5;margin-bottom:0.75rem">${p.description}</p>
           <div class="product-footer">
-            <div>
-              <span class="product-price">₱${p.price}</span>
-              <div style="font-size:0.6rem;color:var(--sage);margin-top:0.1rem">+₱10 eco fee at checkout</div>
-            </div>
-            <div style="display:flex;gap:0.4rem">
-              <button class="btn-ghost btn-sm" onclick="addToCart(${p.id})">🛒 Add</button>
-              <button class="btn-ghost btn-sm" onclick="viewSeller(${p.id})">View →</button>
-            </div>
+            <span class="product-price">₱${p.price}</span>
+            <a href="marketplace.html" class="btn-ghost btn-sm">View →</a>
           </div>
         </div>
       </div>`).join('');
   }
-  document.getElementById('productSearch').addEventListener('input',e=>{searchTerm=e.target.value;renderProducts();});
-  document.querySelectorAll('.filter-tab[data-cat]').forEach(t=>{
-    t.addEventListener('click',()=>{document.querySelectorAll('.filter-tab[data-cat]').forEach(x=>x.classList.remove('active'));t.classList.add('active');activeCat=t.dataset.cat;renderProducts();});
-  });
-  renderProducts();
-  document.getElementById('businessesGrid').innerHTML=PampangaDB.businesses.map(b=>`
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(75,124,95,0.2);border-radius:14px;padding:1.75rem;transition:all 0.3s" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
-      <div style="display:flex;gap:0.875rem;align-items:flex-start;margin-bottom:1.1rem">
-        <div style="width:52px;height:52px;border-radius:12px;background:var(--g-fire);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🏪</div>
-        <div style="flex:1">
-          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
-            <h3 style="font-weight:700;font-size:0.95rem;color:white">${b.name}</h3>
-            ${b.verified?'<span style="background:rgba(27,58,45,0.5);color:#7EC8A0;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.6rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">✓ Verified</span>':'<span style="background:rgba(212,146,10,0.2);color:var(--amber);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.6rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">⏳ Pending</span>'}
-          </div>
-          <div style="font-size:0.75rem;color:rgba(200,221,208,0.5);margin-top:0.15rem">${b.type} · ${b.location}</div>
+  // Calendar event list
+  const calList = document.getElementById('calEventList');
+  if (calList) {
+    calList.innerHTML = PampangaDB.events.slice(0,4).map(e => {
+      const media = e.image && (e.image.startsWith('http') || e.image.startsWith('images/'))
+        ? `<img src="${e.image}" alt="${e.name} thumbnail" style="width:100%;height:100%;object-fit:cover;display:block">`
+        : (e.image || '🎪');
+      return `
+      <div style="display:flex;gap:0.75rem;align-items:center;background:white;border-radius:10px;padding:0.8rem 1rem;border:1px solid rgba(212,146,10,0.1);box-shadow:0 1px 6px rgba(18,8,8,0.04);transition:all 0.2s" onmouseover="this.style.borderColor='rgba(196,30,58,0.25)';this.style.transform='translateX(4px)'" onmouseout="this.style.borderColor='rgba(212,146,10,0.1)';this.style.transform='none'">
+        <div style="width:42px;height:42px;border-radius:9px;background:var(--g-fire);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;overflow:hidden">${media}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:0.82rem;color:var(--ink)">${e.name}</div>
+          <div style="font-size:0.68rem;color:var(--sage);margin-top:0.1rem">${new Date(e.date).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'})}</div>
         </div>
-      </div>
-      <div style="padding-top:0.875rem;border-top:1px solid rgba(75,124,95,0.15)">
-        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(107,158,122,0.6);font-weight:800;margin-bottom:0.5rem">Products</div>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.875rem">
-          ${b.products.map(pid=>{const p=PampangaDB.products.find(x=>x.id===pid);return p?`<span style="background:rgba(27,58,45,0.4);border:1px solid rgba(75,124,95,0.2);padding:0.2rem 0.55rem;border-radius:4px;font-size:0.7rem;color:rgba(200,221,208,0.7)">${p.name}</span>`:''}).join('')}
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
-          <div style="font-size:0.72rem;color:rgba(200,221,208,0.4)">📞 ${b.contact}</div>
-          <button class="btn-eco" style="font-size:0.7rem;padding:0.4rem 0.875rem" onclick="viewBusiness(${b.id})">View Profile →</button>
-        </div>
-      </div>
-    </div>`).join('');
-});
-function viewSeller(pid) {
-  const biz=PampangaDB.businesses.find(b=>b.products.includes(pid));
-  if(!biz){showToast('Business not found','info');return;}
-  showBizModal(biz);
-}
-function viewBusiness(id) {
-  const biz=PampangaDB.businesses.find(b=>b.id===id);
-  if(biz) showBizModal(biz);
-}
-function showBizModal(biz) {
-  document.getElementById('sellerModalTitle').textContent=biz.name;
-  const prods=biz.products.map(id=>PampangaDB.products.find(p=>p.id===id)).filter(Boolean);
-  document.getElementById('sellerModalContent').innerHTML=`
-    <div style="display:flex;gap:0.875rem;align-items:center;padding:1.1rem;background:rgba(212,146,10,0.05);border-radius:10px;margin-bottom:1.25rem;border:1px solid rgba(212,146,10,0.1)">
-      <div style="width:48px;height:48px;background:var(--g-fire);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🏪</div>
-      <div><div style="font-weight:700">${biz.name} ${biz.verified?'<span style="background:rgba(27,58,45,0.12);color:var(--moss);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.62rem;font-weight:800">✓</span>':''}</div><div style="font-size:0.78rem;color:var(--sage)">${biz.type} · ${biz.location}</div><div style="font-size:0.75rem;color:var(--sage)">📞 ${biz.contact}</div></div>
-    </div>
-    <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.875rem">Products (${prods.length})</h3>
-    <div style="display:flex;flex-direction:column;gap:0.6rem">
-      ${prods.map(p=>`<div style="display:flex;gap:0.75rem;align-items:center;padding:0.8rem;background:var(--bone);border-radius:10px;border:1px solid rgba(212,146,10,0.1)">
-        ${renderProductThumb(p.image, p.name, 44)}
-        <div style="flex:1"><div style="font-weight:700;font-size:0.85rem">${p.name}</div><div style="font-size:0.72rem;color:var(--sage);font-style:italic">${p.description.substring(0,55)}...</div></div>
-        <span style="font-weight:700;color:var(--ember);font-family:'Playfair Display',serif">₱${p.price}</span>
-      </div>`).join('')}
-    </div>`;
-  openModal('sellerModal');
-}
-
-// ===== CART & CHECKOUT =====
-let cart = [];
-
-function addToCart(pid) {
-  const p = PampangaDB.products.find(x => x.id === pid);
-  if (!p) return;
-  const existing = cart.find(x => x.id === pid);
-  if (existing) { existing.qty++; } else { cart.push({...p, qty: 1}); }
-  renderCart();
-  showToast(`🛒 ${p.name} added to cart`, 'success');
-}
-
-function removeFromCart(pid) {
-  cart = cart.filter(x => x.id !== pid);
-  renderCart();
-}
-
-function renderCart() {
-  const badge = document.getElementById('cartBadge');
-  const list  = document.getElementById('cartItems');
-  const totalEl = document.getElementById('cartTotal');
-  const commissionEl = document.getElementById('cartCommission');
-  const ecoEl = document.getElementById('cartEcoFee');
-  const grandEl = document.getElementById('cartGrand');
-
-  const totalQty  = cart.reduce((a, x) => a + x.qty, 0);
-  const subtotal  = cart.reduce((a, x) => a + x.price * x.qty, 0);
-  const commission = Math.round(subtotal * 0.10);
-  const ecoFee    = cart.length > 0 ? cart.length * 10 : 0;
-  const grand     = subtotal + ecoFee;
-
-  if (badge) badge.textContent = totalQty > 0 ? totalQty : '';
-  if (badge) badge.style.display = totalQty > 0 ? 'flex' : 'none';
-
-  if (list) {
-    list.innerHTML = cart.length === 0
-      ? '<div style="text-align:center;padding:2rem;color:var(--sage);font-size:0.82rem">Your cart is empty</div>'
-      : cart.map(x => `
-        <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid rgba(212,146,10,0.08)">
-          ${renderProductThumb(x.image, x.name, 40)}
-          <div style="flex:1;min-width:0">
-            <div style="font-size:0.8rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.name}</div>
-            <div style="font-size:0.7rem;color:var(--sage)">₱${x.price} × ${x.qty}</div>
-          </div>
-          <div style="font-size:0.82rem;font-weight:700;color:var(--ink)">₱${x.price * x.qty}</div>
-          <button onclick="removeFromCart(${x.id})" style="background:none;border:none;cursor:pointer;color:var(--sage);font-size:0.9rem;padding:0 0.25rem">✕</button>
-        </div>`).join('');
-  }
-  if (totalEl)      totalEl.textContent      = '₱' + subtotal.toLocaleString();
-  if (commissionEl) commissionEl.textContent = '₱' + commission.toLocaleString() + ' (10% B2C)';
-  if (ecoEl)        ecoEl.textContent        = '₱' + ecoFee.toLocaleString() + ' (₱10 × ' + (cart.length || 0) + ' items)';
-  if (grandEl)      grandEl.textContent      = '₱' + grand.toLocaleString();
-}
-
-function checkout() {
-  openCheckout();
-}
-
-let currentPayMethod = 'gcash';
-
-function openCheckout() {
-  if (cart.length === 0) { showToast('Your cart is empty!', 'warning'); return; }
-  closeModal('cartModal');
-  populateCheckout();
-  goToStep(1);
-  openModal('checkoutModal');
-}
-
-function populateCheckout() {
-  const subtotal = cart.reduce((a, x) => a + x.price * x.qty, 0);
-  const ecoFee   = cart.length * 10;
-  const grand    = subtotal + ecoFee;
-  // Summary
-  const summaryEl = document.getElementById('checkoutSummary');
-  if (summaryEl) {
-    summaryEl.innerHTML = cart.map(x => `
-      <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.65rem;background:rgba(212,146,10,0.04);border-radius:8px;border:1px solid rgba(212,146,10,0.08)">
-        ${renderProductThumb(x.image, x.name, 36)}
-        <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:0.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x.name}</div><div style="font-size:0.68rem;color:var(--sage)">Qty: ${x.qty} × ₱${x.price.toLocaleString()}</div></div>
-        <span style="font-weight:700;font-size:0.82rem;color:var(--ember);flex-shrink:0">₱${(x.price * x.qty).toLocaleString()}</span>
-      </div>`).join('');
-  }
-  ['co-subtotal','co-total'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = id === 'co-subtotal' ? '₱' + subtotal.toLocaleString() : '₱' + grand.toLocaleString(); });
-  const ecoEl = document.getElementById('co-ecofee'); if(ecoEl) ecoEl.textContent = '₱' + ecoFee.toLocaleString() + ' (₱10 × ' + cart.length + ')';
-  const total2 = document.getElementById('co-total2'); if(total2) total2.textContent = '₱' + grand.toLocaleString();
-  const codAmt = document.getElementById('cod-amount'); if(codAmt) codAmt.textContent = '₱' + grand.toLocaleString();
-  const itemCount = document.getElementById('co-itemcount'); if(itemCount) itemCount.textContent = cart.reduce((a,x)=>a+x.qty,0) + ' item(s)';
-}
-
-function goToStep(n) {
-  document.getElementById('checkoutStep').textContent = n;
-  document.getElementById('checkoutPage1').style.display = n === 1 ? 'block' : 'none';
-  document.getElementById('checkoutPage2').style.display = n === 2 ? 'block' : 'none';
-  document.getElementById('stepTab1').style.color = n === 1 ? 'var(--amber)' : 'rgba(200,221,208,0.3)';
-  document.getElementById('stepTab1').style.borderBottomColor = n === 1 ? 'var(--amber)' : 'transparent';
-  document.getElementById('stepTab2').style.color = n === 2 ? 'var(--amber)' : 'rgba(200,221,208,0.3)';
-  document.getElementById('stepTab2').style.borderBottomColor = n === 2 ? 'var(--amber)' : 'transparent';
-}
-
-function goToPayment() {
-  const fname = document.getElementById('co-fname').value.trim();
-  const address = document.getElementById('co-address').value.trim();
-  const phone = document.getElementById('co-phone').value.trim();
-  if (!fname || !address || !phone) { showToast('Please fill in all delivery details!', 'warning'); return; }
-  goToStep(2);
-}
-
-function backToDetails() { goToStep(1); }
-
-function selectPayMethod(btn) {
-  document.querySelectorAll('#payMethodGroup .filter-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentPayMethod = btn.dataset.method;
-  ['gcash','maya','card','cod'].forEach(m => {
-    const el = document.getElementById('pay-' + m);
-    if (el) el.style.display = m === currentPayMethod ? 'block' : 'none';
-  });
-}
-
-function formatCardNum(input) {
-  let v = input.value.replace(/\D/g,'').substring(0,16);
-  input.value = v.replace(/(\d{4})(?=\d)/g,'$1 ');
-}
-
-function formatExpiry(input) {
-  let v = input.value.replace(/\D/g,'').substring(0,4);
-  if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2);
-  input.value = v;
-}
-
-function confirmOrder() {
-  // Validate payment method fields
-  if (currentPayMethod === 'gcash') {
-    const ref = document.getElementById('pay-gcash-ref').value.trim();
-    if (!ref) { showToast('Please enter your GCash reference number!', 'warning'); return; }
-  } else if (currentPayMethod === 'maya') {
-    const ref = document.getElementById('pay-maya-ref').value.trim();
-    if (!ref) { showToast('Please enter your Maya reference number!', 'warning'); return; }
-  } else if (currentPayMethod === 'card') {
-    const num = document.getElementById('pay-card-num').value.replace(/\s/g,'');
-    const exp = document.getElementById('pay-card-exp').value;
-    const cvv = document.getElementById('pay-card-cvv').value;
-    if (num.length < 16 || !exp.includes('/') || cvv.length < 3) { showToast('Please enter valid card details!', 'warning'); return; }
-  }
-  const subtotal = cart.reduce((a, x) => a + x.price * x.qty, 0);
-  const ecoFee   = cart.length * 10;
-  const grand    = subtotal + ecoFee;
-  const orderId  = 'ORD-' + Date.now().toString(36).toUpperCase();
-  const fname    = document.getElementById('co-fname').value.trim();
-  const methods  = { gcash: '📱 GCash', maya: '💜 Maya', card: '💳 Card', cod: '💵 COD' };
-  // Show confirmed modal
-  const details = document.getElementById('orderConfirmDetails');
-  if (details) {
-    details.innerHTML = `
-      <div style="display:flex;flex-direction:column;gap:0.5rem">
-        <div style="display:flex;justify-content:space-between;font-size:0.8rem"><span style="color:var(--sage)">Order ID</span><span style="font-weight:700">${orderId}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:0.8rem"><span style="color:var(--sage)">Customer</span><span style="font-weight:700">${fname || 'Guest'}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:0.8rem"><span style="color:var(--sage)">Items</span><span style="font-weight:700">${cart.reduce((a,x)=>a+x.qty,0)} item(s)</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:0.8rem"><span style="color:var(--sage)">Payment</span><span style="font-weight:700">${methods[currentPayMethod]}</span></div>
-        <div style="border-top:1px solid rgba(212,146,10,0.12);padding-top:0.5rem;display:flex;justify-content:space-between;font-size:0.88rem"><span style="font-weight:700">Total Paid</span><span style="font-weight:900;color:var(--ember);font-family:'Playfair Display',serif">₱${grand.toLocaleString()}</span></div>
+        ${e.eco?'<span class="tag tag-eco" style="flex-shrink:0">🌿</span>':''}
       </div>`;
+    }).join('');
   }
-  closeModal('checkoutModal');
-  openModal('orderConfirmedModal');
-  cart = [];
-  renderCart();
-}
-
-window.openCheckout = openCheckout;
-window.goToPayment = goToPayment;
-window.backToDetails = backToDetails;
-window.selectPayMethod = selectPayMethod;
-window.confirmOrder = confirmOrder;
-window.formatCardNum = formatCardNum;
-window.formatExpiry = formatExpiry;
-
-window.addToCart = addToCart;
-window.removeFromCart = removeFromCart;
-window.checkout = checkout;
-
-window.viewSeller=viewSeller; window.viewBusiness=viewBusiness;
+  initCalendar('homeCalendar');
+  // Responsive cal grid
+  if (window.innerWidth <= 768) {
+    const cg = document.getElementById('calGrid');
+    if (cg) cg.style.gridTemplateColumns = '1fr';
+  }
+});
 
 
 // ═══════════════════════════════════════════════════════
@@ -2387,7 +2614,7 @@ function renderWeatherBanner(containerId) {
         <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
           <span style="font-size:0.72rem;color:rgba(200,221,208,0.7)">🏠 ${indoorEvents.length} indoor ${indoorEvents.length===1?'event':'events'} available today:</span>
           <div style="display:flex;gap:0.35rem;flex-wrap:wrap">
-            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.image} ${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
+            ${indoorEvents.slice(0,3).map(e=>`<a href="event-details.html?id=${e.id}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(75,124,95,0.35);color:rgba(200,221,208,0.9);padding:0.2rem 0.65rem;border-radius:4px;font-size:0.68rem;font-weight:700;text-decoration:none;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">${e.name.split(' ').slice(0,3).join(' ')}</a>`).join('')}
           </div>
           <button onclick="this.closest('[style]').parentElement.parentElement.remove()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(200,221,208,0.6);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
         </div>
@@ -2585,197 +2812,156 @@ function calcCarbon(eventId) {
       <div style="height:100%;width:${barW}%;background:${barCol};border-radius:50px;transition:width 0.6s ease"></div>
     </div>
     <div style="margin-top:0.6rem;font-size:0.7rem;color:var(--sage);text-align:center">
-      ${r.greenScore >= 70 ? '🌿 Great choice! Your travel is eco-friendly.' : r.greenScore >= 40 ? '🚐 Try jeepney or bike to improve your score.' : '🚶 Consider walking or cycling if possible!'}
-    </div>`;
+      ${r.greenScore >= 70 ? '🌿 Great choice! Your travel is eco-friendly.' : r.greenScore >= 40 ? '🚐 Try jeepney or bike to improve your score.' : '🚶 Consider walking or cycling for short distances.'}
+    </div>
+  `;
 }
-window.calcCarbon = calcCarbon;
-
-// Override business rendering to include eco badge
-document.addEventListener('DOMContentLoaded', () => {
-  // Patch the businesses grid to show eco badges
-  setTimeout(() => {
-    const grid = document.getElementById('businessesGrid');
-    if (!grid) return;
-    grid.innerHTML = PampangaDB.businesses.map(b => `
-      <div style="background:rgba(255,255,255,0.06);border:1px solid ${b.isEcoFriendly ? 'rgba(75,124,95,0.35)' : 'rgba(75,124,95,0.2)'};border-radius:14px;padding:1.75rem;transition:all 0.3s;position:relative;overflow:hidden" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
-        ${b.isEcoFriendly ? '<div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--g-eco)"></div>' : ''}
-        <div style="display:flex;gap:0.875rem;align-items:flex-start;margin-bottom:1.1rem">
-          <div style="width:52px;height:52px;border-radius:12px;background:${b.isEcoFriendly ? 'var(--g-eco)' : 'var(--g-fire)'};display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🏪</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.2rem">
-              <h3 style="font-weight:700;font-size:0.95rem;color:white">${b.name}</h3>
-              ${b.verified ? '<span style="background:rgba(27,58,45,0.5);color:#7EC8A0;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.6rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">✓ Verified</span>' : '<span style="background:rgba(212,146,10,0.2);color:var(--amber);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.6rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase">⏳ Pending</span>'}
-              ${b.isEcoFriendly ? '<span style="background:rgba(75,124,95,0.3);color:#A8DFA0;padding:0.15rem 0.55rem;border-radius:4px;font-size:0.6rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;border:1px solid rgba(75,124,95,0.4)">🍃 Plastic-Free</span>' : ''}
-            </div>
-            <div style="font-size:0.75rem;color:rgba(200,221,208,0.5);margin-top:0.15rem">${b.type} · ${b.location}</div>
-            ${b.isEcoFriendly && b.ecoReason ? `<div style="font-size:0.68rem;color:rgba(107,158,122,0.7);margin-top:0.2rem;font-style:italic">🌿 ${b.ecoReason}</div>` : ''}
-          </div>
-        </div>
-        <div style="padding:0.6rem;background:${b.isEcoFriendly ? 'rgba(27,58,45,0.35)' : 'rgba(212,146,10,0.1)'};border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
-          <div style="font-size:0.68rem;color:${b.isEcoFriendly ? 'rgba(168,223,160,0.8)' : 'rgba(200,221,208,0.5)'};font-weight:700">
-            💰 Platform Fee: <span style="font-size:0.85rem;color:${b.isEcoFriendly ? '#7EC8A0' : 'var(--amber)'}">₱${b.platformFee}/txn</span>
-          </div>
-          ${b.isEcoFriendly ? '<span style="font-size:0.62rem;color:rgba(168,223,160,0.7);font-weight:700">🏷️ Eco discount applied!</span>' : '<span style="font-size:0.62rem;color:rgba(200,221,208,0.4)">Go plastic-free for ₱5 rate</span>'}
-        </div>
-        <div style="padding-top:0.875rem;border-top:1px solid rgba(75,124,95,0.15)">
-          <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(107,158,122,0.6);font-weight:800;margin-bottom:0.5rem">Products</div>
-          <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.875rem">
-            ${b.products.map(pid => { const p = PampangaDB.products.find(x => x.id === pid); return p ? `<span style="background:rgba(27,58,45,0.4);border:1px solid rgba(75,124,95,0.2);padding:0.2rem 0.55rem;border-radius:4px;font-size:0.7rem;color:rgba(200,221,208,0.7)">${p.name}</span>` : ''; }).join('')}
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
-            <div style="font-size:0.72rem;color:rgba(200,221,208,0.4)">📞 ${b.contact}</div>
-            <button class="btn-eco" style="font-size:0.7rem;padding:0.4rem 0.875rem" onclick="viewBusiness(${b.id})">View Profile →</button>
-          </div>
-        </div>
-      </div>`).join('');
-  }, 200);
-});
-
 </script>
 
-<!-- CHECKOUT MODAL -->
-<div id="checkoutModal" class="modal-overlay" style="z-index:9100">
-  <div class="modal" style="max-width:520px;padding:0;overflow:hidden;border-radius:20px">
-    <!-- Header -->
-    <div style="background:var(--g-split);padding:1.4rem 1.6rem;display:flex;align-items:center;justify-content:space-between">
+<!-- ── CART DRAWER ──────────────────────────────────── -->
+<div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this)toggleCart()">
+  <div class="cart-drawer">
+    <div class="cart-dh">
       <div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:900;color:white">💳 Secure Checkout</div>
-        <div style="font-size:0.68rem;color:rgba(200,221,208,0.5);margin-top:0.15rem;letter-spacing:0.08em;text-transform:uppercase">Step <span id="checkoutStep">1</span> of 2</div>
+        <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:900;color:white">🛒 Your Cart</div>
+        <div style="font-size:0.6rem;color:rgba(200,221,208,0.4);margin-top:0.1rem;letter-spacing:0.08em;text-transform:uppercase">Kapampangan Pasalubong</div>
       </div>
-      <button onclick="closeModal('checkoutModal')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;width:32px;height:32px;cursor:pointer;color:rgba(200,221,208,0.7);font-size:0.9rem">✕</button>
+      <button onclick="toggleCart()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:8px;width:30px;height:30px;cursor:pointer;color:rgba(200,221,208,0.6);font-size:0.82rem">✕</button>
     </div>
 
-    <!-- Step indicators -->
-    <div style="display:flex;background:rgba(18,8,8,0.4);border-bottom:1px solid rgba(212,146,10,0.12)">
-      <div id="stepTab1" style="flex:1;padding:0.65rem;text-align:center;font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);border-bottom:2px solid var(--amber);transition:all 0.2s">📋 Details</div>
-      <div id="stepTab2" style="flex:1;padding:0.65rem;text-align:center;font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(200,221,208,0.3);border-bottom:2px solid transparent;transition:all 0.2s">💳 Payment</div>
+    <div class="cart-db" id="cartBody">
+      <div id="cartEmpty" style="text-align:center;padding:2.5rem 1rem;color:#8a7a6a">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem">🛍️</div>
+        <div style="font-weight:700;font-size:0.88rem;color:#4a3728;margin-bottom:0.4rem">Your cart is empty</div>
+        <div style="font-size:0.74rem;line-height:1.55;margin-bottom:1rem">Browse authentic Kapampangan products in our marketplace.</div>
+        <a href="marketplace.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:linear-gradient(135deg,#C41E3A,#D4920A);color:white;padding:0.55rem 1.1rem;border-radius:7px;font-size:0.75rem;font-weight:800;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase">Shop Now →</a>
+      </div>
+      <div id="cartItems" style="display:none;flex-direction:column;gap:0.6rem"></div>
     </div>
 
-    <!-- Step 1: Order Summary + Delivery -->
-    <div id="checkoutPage1" style="padding:1.4rem 1.6rem">
-      <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">Order Summary</div>
-      <div id="checkoutSummary" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.1rem;max-height:160px;overflow-y:auto"></div>
-      <div style="border-top:1px solid rgba(212,146,10,0.12);padding-top:0.875rem;margin-bottom:1.25rem">
-        <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--sage);margin-bottom:0.3rem"><span>Subtotal</span><span id="co-subtotal">₱0</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--sage);margin-bottom:0.3rem"><span>🌿 Eco/Admin Fee</span><span id="co-ecofee">₱0</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:800;color:var(--ink);padding-top:0.5rem;border-top:1px solid rgba(212,146,10,0.12)"><span>Total</span><span id="co-total" style="color:var(--ember)">₱0</span></div>
+    <div class="cart-df" id="cartFooter" style="display:none">
+      <div style="display:flex;gap:0.4rem;align-items:flex-start;background:rgba(27,58,45,0.06);border:1px solid rgba(75,124,95,0.15);border-radius:8px;padding:0.55rem 0.7rem;margin-bottom:0.75rem">
+        <span style="font-size:0.85rem;flex-shrink:0">♻️</span>
+        <div style="font-size:0.63rem;color:#5a6e5a;line-height:1.5"><strong>₱10 Eco/Admin Fee per item</strong> — ₱5 platform maintenance + ₱5 local waste management.</div>
       </div>
-
-      <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">Delivery Details</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.65rem">
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">First Name</label><input type="text" id="co-fname" class="form-input" placeholder="Juan" style="font-size:0.82rem;padding:0.55rem 0.75rem"></div>
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">Last Name</label><input type="text" id="co-lname" class="form-input" placeholder="dela Cruz" style="font-size:0.82rem;padding:0.55rem 0.75rem"></div>
-      </div>
-      <div style="margin-bottom:0.65rem"><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">📍 Delivery Address</label><input type="text" id="co-address" class="form-input" placeholder="e.g. 123 Pampanga St, San Fernando" style="font-size:0.82rem;padding:0.55rem 0.75rem"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:1.1rem">
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">📞 Phone</label><input type="tel" id="co-phone" class="form-input" placeholder="09XX-XXX-XXXX" style="font-size:0.82rem;padding:0.55rem 0.75rem"></div>
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">✉️ Email</label><input type="email" id="co-email" class="form-input" placeholder="you@email.com" style="font-size:0.82rem;padding:0.55rem 0.75rem"></div>
-      </div>
-      <button onclick="goToPayment()" class="btn-fire" style="width:100%;justify-content:center;padding:0.8rem;font-size:0.85rem">Continue to Payment →</button>
-    </div>
-
-    <!-- Step 2: Payment -->
-    <div id="checkoutPage2" style="padding:1.4rem 1.6rem;display:none">
-      <div style="font-size:0.62rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.875rem">Payment Method</div>
-
-      <!-- Method tabs -->
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem" id="payMethodGroup">
-        <button type="button" class="filter-tab active" data-method="gcash" onclick="selectPayMethod(this)">📱 GCash</button>
-        <button type="button" class="filter-tab" data-method="maya" onclick="selectPayMethod(this)">💜 Maya</button>
-        <button type="button" class="filter-tab" data-method="card" onclick="selectPayMethod(this)">💳 Card</button>
-        <button type="button" class="filter-tab" data-method="cod" onclick="selectPayMethod(this)">💵 COD</button>
-      </div>
-
-      <!-- GCash -->
-      <div id="pay-gcash" style="display:block">
-        <div style="background:linear-gradient(135deg,rgba(0,119,255,0.08),rgba(0,119,255,0.04));border:1px solid rgba(0,119,255,0.2);border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem">
-          <div style="font-size:2.2rem;margin-bottom:0.4rem">📱</div>
-          <div style="font-weight:800;font-size:0.92rem;color:#1d4ed8;margin-bottom:0.2rem">GCash Payment</div>
-          <div style="font-size:0.75rem;color:var(--sage);margin-bottom:0.875rem">Send to the GCash number below, then enter your reference number.</div>
-          <div style="background:white;border:1px solid rgba(0,119,255,0.18);border-radius:10px;padding:0.875rem;display:inline-block;min-width:200px">
-            <div style="font-size:0.6rem;color:var(--sage);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem">GCash Number</div>
-            <div style="font-size:1.25rem;font-weight:900;color:#1d4ed8;letter-spacing:0.05em">0917-CONFEST</div>
-            <div style="font-size:0.68rem;color:var(--sage);margin-top:0.15rem">Maria Santos · Confest</div>
-          </div>
-        </div>
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">GCash Reference Number</label><input type="text" id="pay-gcash-ref" class="form-input" placeholder="e.g. 1234567890" style="font-size:0.85rem;padding:0.6rem 0.875rem"></div>
-      </div>
-
-      <!-- Maya -->
-      <div id="pay-maya" style="display:none">
-        <div style="background:linear-gradient(135deg,rgba(93,0,190,0.08),rgba(93,0,190,0.04));border:1px solid rgba(93,0,190,0.2);border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem">
-          <div style="font-size:2.2rem;margin-bottom:0.4rem">💜</div>
-          <div style="font-weight:800;font-size:0.92rem;color:#5d00be;margin-bottom:0.2rem">Maya Payment</div>
-          <div style="font-size:0.75rem;color:var(--sage);margin-bottom:0.875rem">Send to the Maya account below, then enter your reference number.</div>
-          <div style="background:white;border:1px solid rgba(93,0,190,0.18);border-radius:10px;padding:0.875rem;display:inline-block;min-width:200px">
-            <div style="font-size:0.6rem;color:var(--sage);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem">Maya Account</div>
-            <div style="font-size:1.25rem;font-weight:900;color:#5d00be;letter-spacing:0.05em">0915-CONFEST</div>
-            <div style="font-size:0.68rem;color:var(--sage);margin-top:0.15rem">Maria Santos · Confest</div>
-          </div>
-        </div>
-        <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">Maya Reference Number</label><input type="text" id="pay-maya-ref" class="form-input" placeholder="e.g. MYA-1234567" style="font-size:0.85rem;padding:0.6rem 0.875rem"></div>
-      </div>
-
-      <!-- Card -->
-      <div id="pay-card" style="display:none">
-        <div style="margin-bottom:0.75rem"><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">Cardholder Name</label><input type="text" id="pay-card-name" class="form-input" placeholder="JUAN DELA CRUZ" style="font-size:0.85rem;padding:0.6rem 0.875rem;text-transform:uppercase"></div>
-        <div style="margin-bottom:0.75rem"><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">Card Number</label>
-          <div style="position:relative"><input type="text" id="pay-card-num" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNum(this)" style="font-size:0.9rem;padding:0.6rem 2.5rem 0.6rem 0.875rem;letter-spacing:0.08em"><span style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);font-size:1rem">💳</span></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.75rem">
-          <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">Expiry Date</label><input type="text" id="pay-card-exp" class="form-input" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" style="font-size:0.85rem;padding:0.6rem 0.875rem"></div>
-          <div><label style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:0.28rem">CVV</label><input type="password" id="pay-card-cvv" class="form-input" placeholder="•••" maxlength="4" style="font-size:0.85rem;padding:0.6rem 0.875rem"></div>
-        </div>
-        <div style="background:rgba(27,58,45,0.07);border-radius:8px;padding:0.65rem;display:flex;align-items:center;gap:0.5rem;border:1px solid rgba(75,124,95,0.15)">
-          <span style="font-size:0.9rem">🔒</span><span style="font-size:0.68rem;color:var(--sage)">Your card details are secured with 256-bit SSL encryption. We never store full card numbers.</span>
-        </div>
-      </div>
-
-      <!-- COD -->
-      <div id="pay-cod" style="display:none">
-        <div style="background:linear-gradient(135deg,rgba(27,58,45,0.08),rgba(75,124,95,0.05));border:1px solid rgba(75,124,95,0.2);border-radius:14px;padding:1.5rem;text-align:center">
-          <div style="font-size:2.5rem;margin-bottom:0.75rem">💵</div>
-          <div style="font-weight:800;font-size:1rem;color:var(--moss);margin-bottom:0.5rem">Cash on Delivery</div>
-          <div style="font-size:0.78rem;color:var(--sage);line-height:1.6;margin-bottom:0.875rem">Pay in cash when your order arrives. Available within Pampanga only.</div>
-          <div style="display:flex;justify-content:space-between;background:white;border-radius:10px;padding:0.875rem 1.1rem;border:1px solid rgba(75,124,95,0.15)">
-            <span style="font-size:0.8rem;font-weight:700">Amount to prepare:</span>
-            <span id="cod-amount" style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ember)">₱0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Total recap -->
-      <div style="margin-top:1.1rem;padding:0.875rem 1rem;background:rgba(212,146,10,0.05);border:1px solid rgba(212,146,10,0.15);border-radius:10px;display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-        <div>
-          <div style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage)">Amount Due</div>
-          <div id="co-total2" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ember)">₱0</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage)">Items</div>
-          <div id="co-itemcount" style="font-weight:700;font-size:0.9rem;color:var(--ink)">0 items</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:0.65rem">
-        <button onclick="backToDetails()" class="btn-ghost" style="flex:0 0 auto;padding:0.75rem 1rem;font-size:0.78rem">← Back</button>
-        <button onclick="confirmOrder()" class="btn-fire" style="flex:1;justify-content:center;padding:0.8rem;font-size:0.88rem">✅ Confirm & Pay</button>
-      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:#8a7a6a;margin-bottom:0.25rem"><span>Subtotal</span><span id="cSubtotal">₱0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:#8a7a6a;margin-bottom:0.25rem"><span>🌿 Eco/Admin Fee</span><span id="cEco">₱0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:0.95rem;font-weight:800;color:#1B3A2D;padding-top:0.55rem;margin-bottom:0.875rem;border-top:1px solid rgba(212,146,10,0.12)"><span>Total</span><span id="cTotal" style="color:#C41E3A;font-family:'Playfair Display',serif">₱0</span></div>
+      <a href="marketplace.html" style="display:flex;align-items:center;justify-content:center;width:100%;background:linear-gradient(135deg,#C41E3A,#D4920A);color:white;padding:0.75rem;border-radius:9px;font-size:0.82rem;font-weight:800;text-decoration:none;letter-spacing:0.05em;text-transform:uppercase;box-sizing:border-box">🛒 Checkout in Marketplace</a>
+      <button onclick="clearCart()" style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:0.55rem;background:none;border:1px solid rgba(196,30,58,0.2);border-radius:7px;color:#C41E3A;font-size:0.7rem;font-weight:700;padding:0.5rem;cursor:pointer;font-family:'Instrument Sans',sans-serif;letter-spacing:0.05em;text-transform:uppercase">🗑️ Clear Cart</button>
     </div>
   </div>
 </div>
 
-<!-- ORDER CONFIRMED MODAL -->
-<div id="orderConfirmedModal" class="modal-overlay" style="z-index:9200">
-  <div class="modal" style="max-width:420px;text-align:center;padding:2.5rem 2rem">
-    <div style="width:72px;height:72px;background:var(--g-eco);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:2rem;box-shadow:0 0 30px rgba(27,58,45,0.3)">✅</div>
-    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--ink);margin-bottom:0.5rem">Order Confirmed!</h2>
-    <p style="font-size:0.82rem;color:var(--sage);line-height:1.6;margin-bottom:1.5rem">Thank you for supporting local Kapampangan businesses. Your order is being processed and you will receive a confirmation via email shortly.</p>
-    <div id="orderConfirmDetails" style="background:rgba(212,146,10,0.05);border:1px solid rgba(212,146,10,0.15);border-radius:12px;padding:1rem;text-align:left;margin-bottom:1.5rem"></div>
-    <div style="display:flex;gap:0.65rem;justify-content:center">
-      <button onclick="closeModal('orderConfirmedModal')" class="btn-fire" style="flex:1;justify-content:center">🛍️ Continue Shopping</button>
-    </div>
-  </div>
-</div>
+<script>
+const CART_KEY = 'confest_cart';
+const getCart  = () => { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } };
+const saveCart = c  => localStorage.setItem(CART_KEY, JSON.stringify(c));
 
-</body>
-</html>
+function toggleCart() {
+  const ov = document.getElementById('cartOverlay');
+  ov.classList.contains('open') ? ov.classList.remove('open') : (renderCart(), ov.classList.add('open'));
+}
+
+function clearCart() { saveCart([]); renderCart(); updateBadge(); }
+
+function updateBadge() {
+  const n = getCart().reduce((a,x)=>a+x.qty,0);
+  const el = document.getElementById('cartBadge1'); if(!el) return;
+  el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none';
+}
+
+function renderCart() {
+  const cart = getCart();
+  const empty  = document.getElementById('cartEmpty');
+  const items  = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if (!items) return;
+  if (cart.length === 0) {
+    empty.style.display='block'; items.style.display='none'; footer.style.display='none'; return;
+  }
+  empty.style.display='none'; items.style.display='flex'; footer.style.display='block';
+  const sub = cart.reduce((a,x)=>a+x.price*x.qty,0);
+  const eco = cart.reduce((a,x)=>a+10*x.qty,0);
+  items.innerHTML = cart.map((it,i)=>`
+    <div class="cart-row">
+      <div class="cart-img">${it.image||'🛍️'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:0.8rem;color:#1a1008;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${it.name}</div>
+        <div style="font-size:0.66rem;color:#8a7a6a">₱${it.price.toLocaleString()} + ₱10 eco fee</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.35rem;flex-shrink:0">
+        <button onclick="qtyChange(${i},-1)" style="width:22px;height:22px;border:1px solid rgba(212,146,10,0.25);border-radius:4px;background:none;cursor:pointer;font-weight:700;color:#4a3728;font-size:0.85rem;display:flex;align-items:center;justify-content:center">−</button>
+        <span style="font-size:0.8rem;font-weight:800;color:#1a1008;min-width:14px;text-align:center">${it.qty}</span>
+        <button onclick="qtyChange(${i},1)"  style="width:22px;height:22px;border:1px solid rgba(212,146,10,0.25);border-radius:4px;background:none;cursor:pointer;font-weight:700;color:#4a3728;font-size:0.85rem;display:flex;align-items:center;justify-content:center">+</button>
+        <button onclick="removeItem(${i})"   style="width:22px;height:22px;border:1px solid rgba(196,30,58,0.2);border-radius:4px;background:none;cursor:pointer;color:#C41E3A;font-size:0.7rem;display:flex;align-items:center;justify-content:center;margin-left:2px">✕</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('cSubtotal').textContent = '₱'+sub.toLocaleString();
+  document.getElementById('cEco').textContent = '₱'+eco.toLocaleString()+' (₱10 × '+cart.reduce((a,x)=>a+x.qty,0)+')';
+  document.getElementById('cTotal').textContent = '₱'+(sub+eco).toLocaleString();
+  updateBadge();
+}
+
+function qtyChange(i,d) {
+  const c=getCart(); c[i].qty=Math.max(1,c[i].qty+d); saveCart(c); renderCart(); updateBadge();
+}
+function removeItem(i) {
+  const c=getCart(); c.splice(i,1); saveCart(c); renderCart(); updateBadge();
+}
+
+document.addEventListener('DOMContentLoaded', updateBadge);
+window.addEventListener('storage', e => { if(e.key===CART_KEY){ updateBadge(); if(document.getElementById('cartOverlay').classList.contains('open')) renderCart(); }});
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIDEO TOGGLE — plays/pauses the full-screen hero video
+     ★ To change video: search "your-video.mp4" in this file
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var videoOn = false;
+
+  window.toggleHeroVideo = function() {
+    videoOn = !videoOn;
+    var wrap    = document.getElementById('heroVideoWrap');
+    var video   = document.getElementById('heroBgVideo');
+    var btn     = document.getElementById('videoToggleBtn');
+    var icon    = document.getElementById('vtIcon');
+    var label   = document.getElementById('vtLabel');
+    var gFire   = document.getElementById('heroGlowFire');
+    var gEco    = document.getElementById('heroGlowEco');
+    var lantern = document.getElementById('heroLanternDeco');
+    var bgGrad  = document.querySelector('.hero-bg-gradient');
+
+    var overlay = document.getElementById('heroOverlayContent');
+
+    if (videoOn) {
+      wrap.classList.add('active');
+      btn.classList.add('video-on');
+      icon.innerHTML = '&#9646;&#9646;';
+      label.textContent = 'Pause Video';
+      if (video) video.play();
+      // Fade OUT: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.add('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) { el.style.transition = 'opacity 0.8s'; el.style.opacity = '0'; }
+      });
+      if (bgGrad) { bgGrad.style.transition = 'opacity 1s'; bgGrad.style.opacity = '0'; }
+    } else {
+      wrap.classList.remove('active');
+      btn.classList.remove('video-on');
+      icon.innerHTML = '&#9654;';
+      label.textContent = 'Play Video';
+      if (video) video.pause();
+      // Fade IN: text overlay, glows, lantern, gradient
+      if (overlay) overlay.classList.remove('hidden');
+      [gFire, gEco, lantern].forEach(function(el) {
+        if (el) el.style.opacity = '';
+      });
+      if (bgGrad) bgGrad.style.opacity = '';
+    }
+  };
+})();
+</script>
+</body></html>
