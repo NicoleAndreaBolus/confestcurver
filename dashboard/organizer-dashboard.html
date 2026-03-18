@@ -59,9 +59,11 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .sidebar-eco { margin: auto 1.2rem 1.2rem; background: rgba(27,58,45,0.3); border: 1px solid rgba(75,124,95,0.2); border-radius: 10px; padding: 0.875rem; }
 .sidebar-eco p { font-size: 0.68rem; color: rgba(200,221,208,0.6); line-height: 1.55; }
 .dashboard-main { margin-left: 252px; flex: 1; background: var(--bone); min-height: 100vh; }
-.dashboard-topbar { background: var(--cream); padding: 0.875rem 2rem; border-bottom: 1px solid rgba(212,146,10,0.1); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(18,8,8,0.05); }
+.dashboard-topbar { background: var(--cream); padding: 0.875rem 2rem; border-bottom: 1px solid rgba(212,146,10,0.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px rgba(18,8,8,0.05); }
 .topbar-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
-.dashboard-content { padding: 1.75rem; }
+.topbar-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.dashboard-content { padding: clamp(1rem, 2.4vw, 2rem); }
+.dashboard-main > .dashboard-page { padding: clamp(1rem, 2.4vw, 2rem); }
 .dashboard-page { display: none; }
 .dashboard-page.active { display: block; }
 
@@ -96,6 +98,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 .btn-danger:hover { background: var(--crimson); color: white; }
 .btn-success { background: rgba(27,58,45,0.1); color: var(--moss); border: 1px solid rgba(27,58,45,0.2); padding: 0.4rem 0.875rem; border-radius: 6px; font-family: 'Instrument Sans', sans-serif; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-success:hover { background: var(--moss); color: white; }
+.inline-empty-cta { margin-left: 0.6rem; }
 
 /* ── FORMS ── */
 .form-group { margin-bottom: 1.1rem; }
@@ -170,6 +173,10 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%);transition:transform 0.3s}.sidebar.open{transform:translateX(0)}
   .dashboard-main{margin-left:0}
+  .dashboard-topbar{padding:0.875rem 1rem}
+  .topbar-actions{width:100%;justify-content:flex-start}
+  .dashboard-content,.dashboard-main > .dashboard-page{padding:1rem}
+  .inline-empty-cta{display:block;width:max-content;margin:0.55rem auto 0}
   .form-row{grid-template-columns:1fr}
   #sidebarToggle{display:flex!important}
 }
@@ -241,7 +248,7 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
       <button id="sidebarToggle" style="display:none;background:none;border:none;cursor:pointer;font-size:1.2rem" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
       <h2 class="topbar-title" id="pageTitle">Overview</h2>
     </div>
-    <div style="display:flex;gap:0.6rem">
+    <div class="topbar-actions">
       <button class="btn-fire btn-sm" onclick="openModal('createEventModal')">＋ New Event</button>
       <button class="btn-eco btn-sm" onclick="openModal('postAnnouncementModal')">📢 Announce</button>
     </div>
@@ -816,7 +823,7 @@ function renderOverview() {
 
   // recent events
   const evList = document.getElementById('overviewEventsList');
-  if (!orgEvts.length) { evList.innerHTML = '<p style="font-size:0.8rem;color:var(--sage)">No events yet. <button class="btn-ghost btn-sm" onclick="openModal(\'createEventModal\')">Create one →</button></p>'; }
+  if (!orgEvts.length) { evList.innerHTML = '<p style="font-size:0.8rem;color:var(--sage)">No events yet. <button class="btn-ghost btn-sm inline-empty-cta" onclick="openModal(\'createEventModal\')">Create one →</button></p>'; }
   else {
     evList.innerHTML = orgEvts.slice(-3).reverse().map(e => `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid rgba(212,146,10,0.08)">
@@ -857,7 +864,7 @@ function renderEventsTable() {
   const events = getOrgEvents();
   const tbody = document.getElementById('eventsTableBody');
   if (!events.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--sage)">No events yet. <button class="btn-fire btn-sm" onclick="openModal('createEventModal')">Create your first event →</button></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--sage)">No events yet. <button class="btn-fire btn-sm inline-empty-cta" onclick="openModal('createEventModal')">Create your first event →</button></td></tr>`;
     return;
   }
   tbody.innerHTML = events.map(e => {
@@ -1026,7 +1033,7 @@ function renderInvitationsTable(filterType) {
   if (filterType !== 'all') invites = invites.filter(i => i.bizType === filterType);
   const tbody = document.getElementById('invitationsTableBody');
   if (!invites.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--sage)">No invitations ${filterType!=='all'?'of this type ':'' }yet. <button class="btn-gold btn-sm" onclick="openModal('sendInviteModal')">Send one →</button></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--sage)">No invitations ${filterType!=='all'?'of this type ':'' }yet. <button class="btn-gold btn-sm inline-empty-cta" onclick="openModal('sendInviteModal')">Send one →</button></td></tr>`;
     return;
   }
   tbody.innerHTML = invites.slice().reverse().map(inv => `<tr>
@@ -1294,7 +1301,7 @@ function renderSponsorInvites(status) {
   const tbody = document.getElementById('sponsorInvTableBody');
   if (!tbody) return;
   if (!invites.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--sage)">No sponsor invitations${status!=='all'?' with this status':''} yet. <button class="btn-gold btn-sm" onclick="openModal('sendSponsorInviteModal')">Invite a Sponsor →</button></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--sage)">No sponsor invitations${status!=='all'?' with this status':''} yet. <button class="btn-gold btn-sm inline-empty-cta" onclick="openModal('sendSponsorInviteModal')">Invite a Sponsor →</button></td></tr>`;
   } else {
     tbody.innerHTML = invites.slice().reverse().map(inv => `<tr>
       <td>
